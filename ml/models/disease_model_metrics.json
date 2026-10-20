@@ -1,0 +1,12 @@
+{
+  "diseaseClassifierAccuracy": 1.0,
+  "totalDiseases": 6,
+  "classes": [
+    "Early Blight (Alternaria solani)",
+    "Late Blight (Phytophthora infestans)",
+    "Rice Blast (Magnaporthe oryzae)",
+    "Yellow / Stripe Rust (Puccinia striiformis)",
+    "Potato Black Scurf / Rhizoctonia",
+    "White Rust (Albugo candida)"
+  ]
+}

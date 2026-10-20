@@ -1,0 +1,39 @@
+{
+  "modelName": "RandomForest-CropRecommender-v1",
+  "accuracy": 0.9952,
+  "f1Score": 0.9952,
+  "cvAccuracyMean": 0.9923,
+  "crops": {
+    "rice": 0,
+    "wheat": 1,
+    "maize": 2,
+    "chickpea": 3,
+    "kidneybeans": 4,
+    "pigeonpeas": 5,
+    "mothbeans": 6,
+    "mungbean": 7,
+    "blackgram": 8,
+    "lentil": 9,
+    "mustard": 10,
+    "cotton": 11,
+    "jute": 12
+  },
+  "featureOrder": [
+    "N",
+    "P",
+    "K",
+    "temperature",
+    "humidity",
+    "ph",
+    "rainfall"
+  ],
+  "featureImportances": {
+    "N": 0.16,
+    "P": 0.0893,
+    "K": 0.1441,
+    "temperature": 0.098,
+    "humidity": 0.24,
+    "ph": 0.0643,
+    "rainfall": 0.2043
+  }
+}
