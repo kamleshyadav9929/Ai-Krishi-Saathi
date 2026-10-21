@@ -566,9 +566,6 @@ class _SoilCardScreenState extends State<SoilCardScreen> {
                         decoration: BoxDecoration(
                           color: const Color(0xFFFFFBEB),
                           borderRadius: BorderRadius.circular(12),
-                          border: const Border(
-                            left: BorderSide(color: Color(0xFFF59E0B), width: 3),
-                          ),
                         ),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,

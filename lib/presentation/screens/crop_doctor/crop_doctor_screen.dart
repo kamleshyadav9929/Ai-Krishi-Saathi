@@ -124,95 +124,6 @@ class _CropDoctorScreenState extends State<CropDoctorScreen> with SingleTickerPr
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // 3-Step Farmer Visual Workflow Banner
-            Container(
-              margin: const EdgeInsets.only(bottom: 14),
-              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 11),
-              decoration: BoxDecoration(
-                color: const Color(0xFFF0FDF4),
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: const Color(0xFFBBF7D0), width: 1),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.02),
-                    blurRadius: 6,
-                    offset: const Offset(0, 2),
-                  ),
-                ],
-              ),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Row(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(5),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFDCFCE7),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: const Icon(LucideIcons.camera, size: 13, color: Color(0xFF15803D)),
-                        ),
-                        const SizedBox(width: 5),
-                        Expanded(
-                          child: Text(
-                            lang.isHindi ? '1. फोटो लें' : '1. Take photo',
-                            style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: Color(0xFF166534)),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const Text('→', style: TextStyle(color: Color(0xFF22C55E), fontWeight: FontWeight.bold)),
-                  Expanded(
-                    child: Row(
-                      children: [
-                        const SizedBox(width: 4),
-                        Container(
-                          padding: const EdgeInsets.all(5),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFDCFCE7),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: const Icon(LucideIcons.sparkles, size: 13, color: Color(0xFF15803D)),
-                        ),
-                        const SizedBox(width: 5),
-                        Expanded(
-                          child: Text(
-                            lang.isHindi ? '2. AI जांच' : '2. AI Scan',
-                            style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: Color(0xFF166534)),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const Text('→', style: TextStyle(color: Color(0xFF22C55E), fontWeight: FontWeight.bold)),
-                  Expanded(
-                    child: Row(
-                      children: [
-                        const SizedBox(width: 4),
-                        Container(
-                          padding: const EdgeInsets.all(5),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFDCFCE7),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: const Icon(LucideIcons.pill, size: 13, color: Color(0xFF15803D)),
-                        ),
-                        const SizedBox(width: 5),
-                        Expanded(
-                          child: Text(
-                            lang.isHindi ? '3. इलाज पाएं' : '3. Get Cure',
-                            style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: Color(0xFF166534)),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
             // 1. Next-Gen Kiwi-Style AI Viewfinder Studio
             _buildViewfinderStudio(lang),
             const SizedBox(height: 20),
@@ -525,28 +436,14 @@ class _CropDoctorScreenState extends State<CropDoctorScreen> with SingleTickerPr
                       ],
                     )
                   else
-                    Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(16),
-                          child: SvgPicture.asset(
-                            'assets/vectors/crop_leaf_scan.svg',
-                            width: 100,
-                            height: 100,
-                            fit: BoxFit.contain,
-                          ),
-                        ),
-                        const SizedBox(height: 6),
-                        Text(
-                          lang.isHindi ? 'पत्ती को फ्रेम में रखें' : 'Align leaf in frame',
-                          style: AppTypography.bodySmall(isHindi: lang.isHindi).copyWith(
-                            color: AppColors.textPrimary,
-                            fontSize: 11.5,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ],
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(16),
+                      child: SvgPicture.asset(
+                        'assets/vectors/crop_leaf_scan.svg',
+                        width: 100,
+                        height: 100,
+                        fit: BoxFit.contain,
+                      ),
                     ),
                 ],
               ),
@@ -586,7 +483,7 @@ class _CropDoctorScreenState extends State<CropDoctorScreen> with SingleTickerPr
                       onTap: () => _handleImagePick(ImageSource.camera),
                       scaleDown: 0.96,
                       child: Container(
-                        padding: const EdgeInsets.symmetric(vertical: 13),
+                        padding: const EdgeInsets.symmetric(vertical: 13, horizontal: 8),
                         decoration: BoxDecoration(
                           color: const Color(0xFF15803D),
                           borderRadius: BorderRadius.circular(16),
@@ -598,20 +495,23 @@ class _CropDoctorScreenState extends State<CropDoctorScreen> with SingleTickerPr
                             ),
                           ],
                         ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Icon(LucideIcons.camera, color: Colors.white, size: 20),
-                            const SizedBox(width: 8),
-                            Text(
-                              lang.tr('takePhoto'),
-                              style: AppTypography.labelLarge(isHindi: lang.isHindi).copyWith(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w800,
-                                fontSize: 14,
+                        child: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Icon(LucideIcons.camera, color: Colors.white, size: 20),
+                              const SizedBox(width: 8),
+                              Text(
+                                lang.tr('takePhoto'),
+                                style: AppTypography.labelLarge(isHindi: lang.isHindi).copyWith(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w800,
+                                  fontSize: 14,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),

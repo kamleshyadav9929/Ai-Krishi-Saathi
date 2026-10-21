@@ -47,8 +47,11 @@ class _GovtSchemesScreenState extends State<GovtSchemesScreen> {
         titleKey: lang.isHindi ? 'सरकारी योजनाएं व सब्सिडी' : 'Govt Schemes & Subsidies',
         showLanguageToggle: false,
       ),
-      body: Column(
-        children: [
+      body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
           // Visual Hero Banner (Lush Farmer & Govt Schemes Illustration)
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
@@ -140,91 +143,6 @@ class _GovtSchemesScreenState extends State<GovtSchemesScreen> {
             ),
           ),
 
-          // 3-Step Scheme Application Visual Guide
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Container(
-              margin: const EdgeInsets.only(bottom: 8),
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-              decoration: BoxDecoration(
-                color: const Color(0xFFF0FDF4),
-                borderRadius: BorderRadius.circular(14),
-                border: Border.all(color: const Color(0xFFBBF7D0), width: 0.8),
-              ),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Row(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(5),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFDCFCE7),
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                          child: const Icon(LucideIcons.circle_check, size: 13, color: Color(0xFF15803D)),
-                        ),
-                        const SizedBox(width: 5),
-                        Expanded(
-                          child: Text(
-                            lang.isHindi ? '1. पात्रता' : '1. Eligibility',
-                            style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: Color(0xFF166534)),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const Text('•', style: TextStyle(color: Color(0xFF22C55E))),
-                  Expanded(
-                    child: Row(
-                      children: [
-                        const SizedBox(width: 4),
-                        Container(
-                          padding: const EdgeInsets.all(5),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFDCFCE7),
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                          child: const Icon(LucideIcons.file_text, size: 13, color: Color(0xFF15803D)),
-                        ),
-                        const SizedBox(width: 5),
-                        Expanded(
-                          child: Text(
-                            lang.isHindi ? '2. कागज़ात' : '2. Documents',
-                            style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: Color(0xFF166534)),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const Text('•', style: TextStyle(color: Color(0xFF22C55E))),
-                  Expanded(
-                    child: Row(
-                      children: [
-                        const SizedBox(width: 4),
-                        Container(
-                          padding: const EdgeInsets.all(5),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFDCFCE7),
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                          child: const Icon(LucideIcons.external_link, size: 13, color: Color(0xFF15803D)),
-                        ),
-                        const SizedBox(width: 5),
-                        Expanded(
-                          child: Text(
-                            lang.isHindi ? '3. आवेदन' : '3. Apply',
-                            style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: Color(0xFF166534)),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-
           // Search & Filter Header
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
@@ -308,7 +226,8 @@ class _GovtSchemesScreenState extends State<GovtSchemesScreen> {
           const Divider(height: 1, color: Color(0xFFE2E8F0)),
 
           // Schemes List
-          Expanded(
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
             child: schemes.isEmpty
                 ? Center(
                     child: Padding(
@@ -331,19 +250,15 @@ class _GovtSchemesScreenState extends State<GovtSchemesScreen> {
                       ),
                     ),
                   )
-                : ListView.builder(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-                    physics: const BouncingScrollPhysics(),
-                    itemCount: schemes.length,
-                    itemBuilder: (context, index) {
-                      return _buildSchemeCard(context, schemes[index]);
-                    },
+                : Column(
+                    children: schemes.map((scheme) => _buildSchemeCard(context, scheme)).toList(),
                   ),
           ),
         ],
       ),
-    );
-  }
+    ),
+  );
+}
 
   Widget _buildSchemeCard(BuildContext context, GovtSchemeModel scheme) {
     final lang = Provider.of<LanguageProvider>(context, listen: false);
@@ -434,9 +349,6 @@ class _GovtSchemesScreenState extends State<GovtSchemesScreen> {
             decoration: BoxDecoration(
               color: const Color(0xFFFFFBEB),
               borderRadius: BorderRadius.circular(12),
-              border: const Border(
-                left: BorderSide(color: Color(0xFFF59E0B), width: 3.5),
-              ),
             ),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
