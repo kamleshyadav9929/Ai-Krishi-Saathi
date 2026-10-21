@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_lucide/flutter_lucide.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/localization/language_provider.dart';
@@ -561,11 +562,11 @@ class HomeScreen extends StatelessWidget {
                         children: [
                           ClipRRect(
                             borderRadius: BorderRadius.circular(14),
-                            child: Image.asset(
-                              'assets/images/crop_doctor_scan.png',
-                              height: 74,
-                              width: 74,
-                              fit: BoxFit.cover,
+                            child: SvgPicture.asset(
+                              'assets/vectors/crop_leaf_scan.svg',
+                              height: 72,
+                              width: 72,
+                              fit: BoxFit.contain,
                             ),
                           ),
                           const SizedBox(height: 8),
@@ -617,11 +618,11 @@ class HomeScreen extends StatelessWidget {
                         children: [
                           ClipRRect(
                             borderRadius: BorderRadius.circular(14),
-                            child: Image.asset(
-                              'assets/images/mandi_market_hero.png',
-                              height: 74,
-                              width: 74,
-                              fit: BoxFit.cover,
+                            child: SvgPicture.asset(
+                              'assets/vectors/mandi_trade.svg',
+                              height: 72,
+                              width: 72,
+                              fit: BoxFit.contain,
                             ),
                           ),
                           const SizedBox(height: 8),
@@ -676,11 +677,11 @@ class HomeScreen extends StatelessWidget {
                         children: [
                           ClipRRect(
                             borderRadius: BorderRadius.circular(14),
-                            child: Image.asset(
-                              'assets/images/voice_assistant_hero.png',
-                              height: 74,
-                              width: 74,
-                              fit: BoxFit.cover,
+                            child: SvgPicture.asset(
+                              'assets/vectors/voice_farmer.svg',
+                              height: 72,
+                              width: 72,
+                              fit: BoxFit.contain,
                             ),
                           ),
                           const SizedBox(height: 8),

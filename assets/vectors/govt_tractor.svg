@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <rect width="200" height="200" rx="32" fill="#FEF2F2"/>
+  <!-- Modern Tractor Silhouette Vector -->
+  <!-- Large Rear Wheel -->
+  <circle cx="65" cy="140" r="26" fill="#1E293B"/>
+  <circle cx="65" cy="140" r="14" fill="#CBD5E1" stroke="#64748B" stroke-width="3"/>
+  <!-- Small Front Wheel -->
+  <circle cx="145" cy="150" r="16" fill="#1E293B"/>
+  <circle cx="145" cy="150" r="8" fill="#CBD5E1" stroke="#64748B" stroke-width="2"/>
+  <!-- Red Body & Hood -->
+  <path d="M 65 130 L 65 110 L 95 110 L 105 120 L 155 120 L 155 145 L 130 145 L 125 135 L 90 135 Z" fill="#DC2626"/>
+  <!-- Cabin frame -->
+  <path d="M 60 110 L 80 75 L 110 75 L 105 110 Z" fill="none" stroke="#475569" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M 75 75 L 75 110" stroke="#475569" stroke-width="3"/>
+  <!-- Exhaust Pipe -->
+  <path d="M 135 120 L 135 90 L 138 90" fill="none" stroke="#334155" stroke-width="3" stroke-linecap="round"/>
+  <!-- Subsidy Gold Medal Badge -->
+  <circle cx="150" cy="55" r="22" fill="#F59E0B" stroke="#B45309" stroke-width="3"/>
+  <polygon points="150,40 154,48 163,49 157,55 159,64 150,59 141,64 143,55 137,49 146,48" fill="#FFFFFF"/>
+</svg>

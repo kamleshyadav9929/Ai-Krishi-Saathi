@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <rect width="200" height="200" rx="32" fill="#F0FDF4"/>
+  <!-- Viewfinder reticle corners -->
+  <path d="M 30 55 L 30 35 L 55 35" fill="none" stroke="#15803D" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 170 55 L 170 35 L 145 35" fill="none" stroke="#15803D" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 30 145 L 30 165 L 55 165" fill="none" stroke="#15803D" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 170 145 L 170 165 L 145 165" fill="none" stroke="#15803D" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Scanning laser line -->
+  <line x1="35" y1="100" x2="165" y2="100" stroke="#22C55E" stroke-width="2.5" stroke-dasharray="4,3"/>
+  <!-- Leaf Stem & Body -->
+  <path d="M 70 150 Q 95 125 100 85 Q 105 125 130 150 C 145 110 140 60 100 45 C 60 60 55 110 70 150 Z" fill="#22C55E"/>
+  <path d="M 100 45 Q 100 100 100 155" fill="none" stroke="#15803D" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M 100 85 Q 118 75 125 70" fill="none" stroke="#15803D" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M 100 105 Q 82 95 75 90" fill="none" stroke="#15803D" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M 100 120 Q 118 112 124 108" fill="none" stroke="#15803D" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- AI Check badge -->
+  <circle cx="150" cy="150" r="20" fill="#15803D"/>
+  <path d="M 141 150 L 147 156 L 160 143" fill="none" stroke="#FFFFFF" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

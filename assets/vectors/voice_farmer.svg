@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <rect width="200" height="200" rx="32" fill="#F0F9FF"/>
+  <!-- Expanding Soundwave concentric arcs -->
+  <circle cx="100" cy="100" r="75" fill="none" stroke="#BAE6FD" stroke-width="3" stroke-dasharray="6,6"/>
+  <circle cx="100" cy="100" r="58" fill="none" stroke="#7DD3FC" stroke-width="3"/>
+  <circle cx="100" cy="100" r="42" fill="#0284C7"/>
+  <!-- Microphone Vector -->
+  <rect x="92" y="80" width="16" height="26" rx="8" fill="#FFFFFF"/>
+  <path d="M 85 96 C 85 110 115 110 115 96" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round"/>
+  <line x1="100" y1="110" x2="100" y2="120" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round"/>
+  <line x1="90" y1="120" x2="110" y2="120" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round"/>
+  <!-- Floating Smart Pills -->
+  <g transform="translate(35, 45)">
+    <circle cx="0" cy="0" r="16" fill="#22C55E"/>
+    <path d="M -6 4 Q 0 -6 6 0 C 6 6 0 8 -6 4 Z" fill="#FFFFFF"/>
+  </g>
+  <g transform="translate(165, 55)">
+    <circle cx="0" cy="0" r="16" fill="#F59E0B"/>
+    <text x="0" y="6" font-family="sans-serif" font-size="16" font-weight="bold" fill="#FFFFFF" text-anchor="middle">₹</text>
+  </g>
+  <g transform="translate(155, 150)">
+    <circle cx="0" cy="0" r="16" fill="#38BDF8"/>
+    <path d="M -8 2 Q -8 -4 -2 -4 Q 0 -8 6 -6 Q 10 -4 10 2 Z" fill="#FFFFFF"/>
+  </g>
+</svg>

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_lucide/flutter_lucide.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
@@ -529,11 +530,11 @@ class _CropDoctorScreenState extends State<CropDoctorScreen> with SingleTickerPr
                       children: [
                         ClipRRect(
                           borderRadius: BorderRadius.circular(16),
-                          child: Image.asset(
-                            'assets/images/crop_doctor_guide.png',
+                          child: SvgPicture.asset(
+                            'assets/vectors/crop_leaf_scan.svg',
                             width: 100,
                             height: 100,
-                            fit: BoxFit.cover,
+                            fit: BoxFit.contain,
                           ),
                         ),
                         const SizedBox(height: 6),

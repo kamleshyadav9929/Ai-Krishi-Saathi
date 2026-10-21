@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <rect width="200" height="200" rx="32" fill="#F0FDF4"/>
+  <!-- Outer Season Cycle Ring -->
+  <circle cx="100" cy="100" r="70" fill="none" stroke="#86EFAC" stroke-width="6"/>
+  <!-- 3 Sector Separator Dots -->
+  <circle cx="100" cy="30" r="6" fill="#15803D"/>
+  <circle cx="160" cy="135" r="6" fill="#D97706"/>
+  <circle cx="40" cy="135" r="6" fill="#0284C7"/>
+  <!-- Kharif (Rain & Sprout) -->
+  <g transform="translate(55, 75)">
+    <path d="M -10 0 C -10 -8 0 -8 2 -4 C 4 -6 12 -4 12 0 Z" fill="#38BDF8"/>
+    <path d="M -2 4 L -6 12" stroke="#0284C7" stroke-width="2" stroke-linecap="round"/>
+    <path d="M 6 4 L 2 12" stroke="#0284C7" stroke-width="2" stroke-linecap="round"/>
+  </g>
+  <!-- Rabi (Golden Sun & Wheat) -->
+  <g transform="translate(140, 75)">
+    <circle cx="0" cy="0" r="12" fill="#F59E0B"/>
+    <path d="M 0 -18 L 0 -14 M 0 14 L 0 18 M -18 0 L -14 0 M 14 0 L 18 0" stroke="#F59E0B" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+  <!-- Zaid (Melon / Summer fruit) -->
+  <g transform="translate(100, 145)">
+    <path d="M -15 0 C -15 12 15 12 15 0 Z" fill="#15803D"/>
+    <path d="M -13 0 C -13 9 13 9 13 0 Z" fill="#EF4444"/>
+    <circle cx="-5" cy="3" r="1.5" fill="#000000"/>
+    <circle cx="0" cy="5" r="1.5" fill="#000000"/>
+    <circle cx="5" cy="3" r="1.5" fill="#000000"/>
+  </g>
+  <text x="100" y="105" font-family="sans-serif" font-size="13" font-weight="bold" fill="#15803D" text-anchor="middle">3 ऋतुएं</text>
+</svg>
