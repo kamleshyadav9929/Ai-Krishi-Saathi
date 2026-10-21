@@ -9,8 +9,9 @@ class AppTranslations {
       'navHome': 'होम',
       'navCropDoctor': 'फसल डॉक्टर',
       'navMandi': 'मंडी भाव',
-      'navSowing': 'बुवाई सलाह',
+      'navSchemes': 'सरकारी योजना',
       'navFarmRecords': 'फार्म खाता',
+      'navSowing': 'बुवाई सलाह',
       'navSettings': 'सेटिंग्स',
       
       // Home Screen
@@ -121,8 +122,9 @@ class AppTranslations {
       'navHome': 'Home',
       'navCropDoctor': 'Crop Doctor',
       'navMandi': 'Mandi Prices',
-      'navSowing': 'Sowing Guide',
+      'navSchemes': 'Govt Schemes',
       'navFarmRecords': 'Farm Ledger',
+      'navSowing': 'Sowing Guide',
       'navSettings': 'Settings',
 
       // Home Screen

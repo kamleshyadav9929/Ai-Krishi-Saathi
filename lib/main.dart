@@ -4,16 +4,17 @@ import 'package:flutter_lucide/flutter_lucide.dart';
 import 'package:provider/provider.dart';
 
 import 'core/localization/language_provider.dart';
+import 'core/location/location_provider.dart';
 import 'core/theme/app_theme.dart';
 import 'core/utils/haptic_helper.dart';
+import 'data/services/supabase_service.dart';
 import 'presentation/screens/crop_doctor/crop_doctor_screen.dart';
 import 'presentation/screens/farm_manager/farm_manager_screen.dart';
 import 'presentation/screens/home/home_screen.dart';
 import 'presentation/screens/mandi/mandi_screen.dart';
+import 'presentation/screens/schemes/govt_schemes_screen.dart';
 import 'presentation/screens/settings/settings_screen.dart';
 import 'presentation/screens/sowing/sowing_advisor_screen.dart';
-import 'data/services/supabase_service.dart';
-import 'core/location/location_provider.dart';
 import 'presentation/widgets/kiwi_bottom_nav.dart';
 
 void main() async {
@@ -79,8 +80,9 @@ class _MainNavigationShellState extends State<MainNavigationShell> {
       HomeScreen(onNavigateTab: _navigateToTab),
       const CropDoctorScreen(),
       const MandiScreen(),
-      const SowingAdvisorScreen(),
+      const GovtSchemesScreen(),
       const FarmManagerScreen(),
+      const SowingAdvisorScreen(),
       const SettingsScreen(),
     ];
 
@@ -89,24 +91,34 @@ class _MainNavigationShellState extends State<MainNavigationShell> {
         index: _currentIndex,
         children: screens,
       ),
-      bottomNavigationBar: KiwiBottomNav(
-        currentIndex: _currentIndex >= 3 ? -1 : _currentIndex,
+      bottomNavigationBar: GoogleBottomNav(
+        currentIndex: (_currentIndex >= 0 && _currentIndex < 5) ? _currentIndex : -1,
         onTap: (index) => _navigateToTab(index),
         items: [
-          KiwiNavItem(
+          GoogleNavItem(
             icon: LucideIcons.house,
             activeIcon: LucideIcons.house,
             label: lang.tr('navHome'),
           ),
-          KiwiNavItem(
+          GoogleNavItem(
             icon: LucideIcons.scan_line,
             activeIcon: LucideIcons.scan_line,
             label: lang.tr('navCropDoctor'),
           ),
-          KiwiNavItem(
+          GoogleNavItem(
             icon: LucideIcons.trending_up,
             activeIcon: LucideIcons.trending_up,
             label: lang.tr('navMandi'),
+          ),
+          GoogleNavItem(
+            icon: LucideIcons.landmark,
+            activeIcon: LucideIcons.landmark,
+            label: lang.tr('navSchemes'),
+          ),
+          GoogleNavItem(
+            icon: LucideIcons.wallet,
+            activeIcon: LucideIcons.wallet,
+            label: lang.tr('navFarmRecords'),
           ),
         ],
       ),

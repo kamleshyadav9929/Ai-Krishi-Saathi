@@ -18,6 +18,7 @@ import '../calendar/crop_calendar_screen.dart';
 import '../crop_profile/crop_profile_screen.dart';
 import '../schemes/govt_schemes_screen.dart';
 import '../soil_card/soil_card_screen.dart';
+import '../sowing/sowing_advisor_screen.dart';
 import '../voice_assistant/voice_assistant_sheet.dart';
 import '../weather_alert/weather_alert_screen.dart';
 
@@ -298,7 +299,12 @@ class HomeScreen extends StatelessWidget {
                     iconColor: const Color(0xFF0369A1),
                     title: lang.tr('sowingAdvisorTitle'),
                     isHindi: lang.isHindi,
-                    onTap: () => onNavigateTab(3),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const SowingAdvisorScreen()),
+                      );
+                    },
                     index: 2,
                   ),
                 ),
@@ -367,12 +373,7 @@ class HomeScreen extends StatelessWidget {
                     iconColor: AppColors.accent,
                     title: lang.isHindi ? 'सरकारी योजना' : 'Govt Schemes',
                     isHindi: lang.isHindi,
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const GovtSchemesScreen()),
-                      );
-                    },
+                    onTap: () => onNavigateTab(3),
                     index: 6,
                   ),
                 ),
