@@ -1,6 +1,21 @@
+import 'dart:convert';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart' show rootBundle;
+import 'package:shared_preferences/shared_preferences.dart';
+
 import '../models/govt_scheme_model.dart';
 
 class GovtSchemesService {
+  static const String _cacheKey = 'crawled_govt_schemes_cache';
+  static const String _cacheTimestampKey = 'crawled_govt_schemes_timestamp';
+
+  String? _lastCrawledTimestamp;
+  List<Map<String, dynamic>> _liveAnnouncements = [];
+  bool _isLoaded = false;
+
+  String? get lastCrawledTimestamp => _lastCrawledTimestamp;
+  List<Map<String, dynamic>> get liveAnnouncements => _liveAnnouncements;
+  bool get isLoaded => _isLoaded;
   final List<GovtSchemeModel> _schemes = [
     GovtSchemeModel(
       id: 'pm-kisan',
@@ -300,7 +315,76 @@ class GovtSchemesService {
     ),
   ];
 
-  List<GovtSchemeModel> getAllSchemes() => _schemes;
+  List<GovtSchemeModel> getAllSchemes() => List.unmodifiable(_schemes);
+
+  /// Load crawled schemes from local persistent storage or bundle assets
+  Future<void> loadCrawledSchemes({String assetPath = 'assets/data/latest_govt_schemes.json'}) async {
+    try {
+      String? jsonString;
+      
+      // 1. Try reading from SharedPreferences if an updated sync happened
+      try {
+        final prefs = await SharedPreferences.getInstance();
+        jsonString = prefs.getString(_cacheKey);
+        _lastCrawledTimestamp = prefs.getString(_cacheTimestampKey);
+      } catch (e) {
+        debugPrint('SharedPreferences read fallback: $e');
+      }
+
+      // 2. If no prefs cache, load bundled asset
+      if (jsonString == null || jsonString.isEmpty) {
+        try {
+          jsonString = await rootBundle.loadString(assetPath);
+        } catch (e) {
+          debugPrint('Bundle asset load fallback: $e');
+        }
+      }
+
+      if (jsonString != null && jsonString.isNotEmpty) {
+        final decoded = json.decode(jsonString) as Map<String, dynamic>;
+        
+        if (decoded.containsKey('lastCrawled') && decoded['lastCrawled'] != null) {
+          _lastCrawledTimestamp = decoded['lastCrawled'].toString();
+        }
+
+        if (decoded.containsKey('liveAnnouncements') && decoded['liveAnnouncements'] is List) {
+          _liveAnnouncements = (decoded['liveAnnouncements'] as List)
+              .map((e) => Map<String, dynamic>.from(e as Map))
+              .toList();
+        }
+
+        if (decoded.containsKey('schemes') && decoded['schemes'] is List) {
+          final loadedSchemes = (decoded['schemes'] as List)
+              .map((item) => GovtSchemeModel.fromJson(Map<String, dynamic>.from(item as Map)))
+              .toList();
+
+          if (loadedSchemes.isNotEmpty) {
+            _schemes.clear();
+            _schemes.addAll(loadedSchemes);
+            _isLoaded = true;
+          }
+        }
+      }
+    } catch (e) {
+      debugPrint('Error loading crawled schemes: $e');
+    }
+  }
+
+  /// Manually refresh schemes (re-reads crawled data and updates timestamp)
+  Future<bool> refreshSchemes() async {
+    try {
+      await loadCrawledSchemes();
+      _lastCrawledTimestamp = DateTime.now().toIso8601String();
+      try {
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setString(_cacheTimestampKey, _lastCrawledTimestamp!);
+      } catch (_) {}
+      return true;
+    } catch (e) {
+      debugPrint('Error refreshing schemes: $e');
+      return false;
+    }
+  }
 
   List<String> getCategories({bool isHindi = true}) {
     return isHindi

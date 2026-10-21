@@ -1,0 +1,347 @@
+{
+  "version": "1.0.0",
+  "source": "Ministry of Agriculture & Farmers Welfare / Government of India",
+  "lastCrawled": "2026-10-21T19:46:50.220124",
+  "schemesCount": 10,
+  "portalsCrawled": 5,
+  "liveAnnouncements": [
+    {
+      "portalId": "pm-kisan",
+      "portalName": "PM-Kisan Official Portal",
+      "url": "https://pmkisan.gov.in/",
+      "announcement": "The Hon’ble Prime Minister has released the 23rd installment of the PM-Kisan on 20th June 2026 from  Tarakeswar, Hooghly , West Bengal.",
+      "status": "ONLINE",
+      "crawledAt": "2026-10-21T19:46:49.364562"
+    },
+    {
+      "portalId": "pmfby",
+      "portalName": "PMFBY Crop Insurance Portal",
+      "url": "https://pmfby.gov.in/",
+      "announcement": "Comprehensive crop insurance against droughts, unseasonal rain and pests.",
+      "status": "ONLINE",
+      "crawledAt": "2026-10-21T19:46:49.506467"
+    },
+    {
+      "portalId": "pm-kusum",
+      "portalName": "PM-KUSUM Solar Scheme Portal",
+      "url": "https://pmkusum.mnre.gov.in/",
+      "announcement": "Up to 90% subsidy on solar agriculture pumps (3HP, 5HP, 7.5HP).",
+      "status": "ONLINE",
+      "crawledAt": "2026-10-21T19:46:49.880608"
+    },
+    {
+      "portalId": "kcc",
+      "portalName": "Kisan Rin Portal (KCC)",
+      "url": "https://fasalrin.gov.in/",
+      "announcement": "Kisan Credit Card short-term credit up to ₹3,00,000 at 4% effective interest rate.",
+      "status": "ONLINE",
+      "crawledAt": "2026-10-21T19:46:50.054453"
+    },
+    {
+      "portalId": "agri-dept",
+      "portalName": "Department of Agriculture & Farmers Welfare",
+      "url": "https://agriwelfare.gov.in/",
+      "announcement": "Central schemes for farm mechanization, micro irrigation, organic clusters.",
+      "status": "ONLINE",
+      "crawledAt": "2026-10-21T19:46:50.220107"
+    }
+  ],
+  "schemes": [
+    {
+      "id": "pm-kisan",
+      "title": "PM-Kisan Samman Nidhi Yojana",
+      "titleHindi": "प्रधानमंत्री किसान सम्मान निधि योजना",
+      "category": "Income Support",
+      "categoryHindi": "आय सहायता (Direct Benefit)",
+      "benefit": "₹6,000 per year directly credited in 3 equal installments of ₹2,000 every 4 months via DBT.",
+      "benefitHindi": "₹6,000 प्रति वर्ष, ₹2,000 की 3 समान किश्तों में सीधे बैंक खाते में DBT के माध्यम से।",
+      "eligibility": "All landholding farmer families with cultivable land in their names. Excludes institutional holders and tax payers.",
+      "eligibilityHindi": "सभी भूमिधारक किसान परिवार जिनके नाम पर खेती योग्य जमीन है। सरकारी कर्मचारी व आयकर दाता अपात्र हैं।",
+      "requiredDocuments": [
+        "Aadhaar Card linked to Mobile",
+        "Land Ownership Record (Khatauni / Khasra / RoR)",
+        "Active Bank Account linked to Aadhaar (NPCI enabled)"
+      ],
+      "requiredDocumentsHindi": [
+        "आधार कार्ड (मोबाइल से लिंक)",
+        "जमीन की खतौनी / खसरा नकल",
+        "आधार लिंक बैंक पासबुक (DBT सक्रिय)"
+      ],
+      "portalUrl": "https://pmkisan.gov.in",
+      "nodalMinistry": "Ministry of Agriculture & Farmers Welfare",
+      "helpline": "155261 / 1800-115-526",
+      "latestAnnouncement": "The Hon’ble Prime Minister has released the 23rd installment of the PM-Kisan on 20th June 2026 from  Tarakeswar, Hooghly , West Bengal.",
+      "portalStatus": "ONLINE",
+      "lastUpdated": "2026-10-21T19:46:50.220124",
+      "isLiveUpdated": true
+    },
+    {
+      "id": "pm-kusum",
+      "title": "PM-KUSUM (Solar Agricultural Pump Scheme)",
+      "titleHindi": "पीएम कुसुम योजना (सोलर सिंचाई पंप सब्सिडी)",
+      "category": "Solar & Irrigation",
+      "categoryHindi": "सौर ऊर्जा व सिंचाई",
+      "benefit": "Up to 90% subsidy on stand-alone solar agricultural water pumps (3 HP, 5 HP, 7.5 HP) and grid connection.",
+      "benefitHindi": "सोलर पंप (3 HP, 5 HP, 7.5 HP) लगाने पर केंद्र व राज्य सरकार द्वारा 90% तक की भारी सब्सिडी।",
+      "eligibility": "Individual farmers, farmer groups, cooperatives, and water user associations with farmland.",
+      "eligibilityHindi": "व्यक्तिगत किसान, कृषक समूह या सहकारी समितियां जिनके पास सिंचाई हेतु कृषि भूमि उपलब्ध है।",
+      "requiredDocuments": [
+        "Aadhaar Card",
+        "Land Revenue Record / Khasra",
+        "Bank Account Details",
+        "Certificate of No Electrical Connection on tube well"
+      ],
+      "requiredDocumentsHindi": [
+        "आधार कार्ड",
+        "जमीन की फर्द / खसरा-खतौनी",
+        "बैंक खाता विवरण",
+        "खेत में बिजली कनेक्शन न होने का शपथ पत्र"
+      ],
+      "portalUrl": "https://pmkusum.mnre.gov.in",
+      "nodalMinistry": "Ministry of New & Renewable Energy (MNRE)",
+      "helpline": "1800-180-3333",
+      "latestAnnouncement": "Up to 90% subsidy on solar agriculture pumps (3HP, 5HP, 7.5HP).",
+      "portalStatus": "ONLINE",
+      "lastUpdated": "2026-10-21T19:46:50.220124",
+      "isLiveUpdated": true
+    },
+    {
+      "id": "pmfby",
+      "title": "Pradhan Mantri Fasal Bima Yojana (PMFBY)",
+      "titleHindi": "प्रधानमंत्री फसल बीमा योजना (PMFBY)",
+      "category": "Crop Insurance",
+      "categoryHindi": "फसल बीमा व सुरक्षा",
+      "benefit": "Comprehensive crop insurance against droughts, floods, pests. Premium: 1.5% Rabi, 2% Kharif, 5% Horticulture.",
+      "benefitHindi": "बाढ़, सूखा, कीट और ओलावृष्टि से नुकसान पर पूर्ण मुआवजा। किसान प्रीमियम मात्र: रबी 1.5%, खरीफ 2%, बागवानी 5%।",
+      "eligibility": "All farmers growing notified crops in notified areas, including sharecroppers and tenant farmers.",
+      "eligibilityHindi": "अधिसूचित क्षेत्रों में अधिसूचित फसल उगाने वाले सभी किसान, जिसमें बटाईदार और काश्तकार भी शामिल हैं।",
+      "requiredDocuments": [
+        "Aadhaar Card",
+        "Land Possession Certificate (LPC) / Rent Agreement",
+        "Sowing Certificate / Self-Declaration",
+        "Bank Passbook with IFSC"
+      ],
+      "requiredDocumentsHindi": [
+        "आधार कार्ड",
+        "भूमि स्वामित्व प्रमाण पत्र (LPC) / बटाईदारी अनुबंध",
+        "बुवाई प्रमाण पत्र / स्व-घोषणा",
+        "बैंक पासबुक की प्रति"
+      ],
+      "portalUrl": "https://pmfby.gov.in",
+      "nodalMinistry": "Ministry of Agriculture & Farmers Welfare",
+      "helpline": "14447",
+      "latestAnnouncement": "Comprehensive crop insurance against droughts, unseasonal rain and pests.",
+      "portalStatus": "ONLINE",
+      "lastUpdated": "2026-10-21T19:46:50.220124",
+      "isLiveUpdated": true
+    },
+    {
+      "id": "kcc",
+      "title": "Kisan Credit Card (KCC) Scheme",
+      "titleHindi": "किसान क्रेडिट कार्ड (KCC) रियायती कृषि ऋण",
+      "category": "Credit & Loans",
+      "categoryHindi": "सस्ता कृषि ऋण",
+      "benefit": "Short-term credit up to ₹3,00,000 at effective 4% p.a. interest rate. Collateral-free limit up to ₹1.60 Lakh.",
+      "benefitHindi": "समय पर भुगतान करने पर मात्र 4% वार्षिक ब्याज दर पर ₹3 लाख तक का सस्ता कृषि ऋण (बिना गारंटी ₹1.6 लाख)।",
+      "eligibility": "All farmers, tenants, sharecroppers, SHGs, and allied sectors (dairy, poultry, fisheries).",
+      "eligibilityHindi": "सभी किसान, बटाईदार, पट्टाधारक व स्वयं सहायता समूह। अब पशुपालन व मछली पालक किसानों के लिए भी उपलब्ध।",
+      "requiredDocuments": [
+        "Duly filled Application Form",
+        "Identity Proof (Aadhaar / Voter ID)",
+        "Land Revenue Records / Land Title",
+        "Crop Sowing Declaration"
+      ],
+      "requiredDocumentsHindi": [
+        "विधिवत भरा हुआ आवेदन पत्र",
+        "पहचान पत्र (आधार / वोटर आईडी)",
+        "जमीन के कागजात (खतौनी नकल)",
+        "फसल बुवाई का ब्योरा"
+      ],
+      "portalUrl": "https://fasalrin.gov.in",
+      "nodalMinistry": "Ministry of Agriculture & Farmers Welfare & MoF",
+      "helpline": "1800-180-1551",
+      "latestAnnouncement": "Kisan Credit Card short-term credit up to ₹3,00,000 at 4% effective interest rate.",
+      "portalStatus": "ONLINE",
+      "lastUpdated": "2026-10-21T19:46:50.220124",
+      "isLiveUpdated": true
+    },
+    {
+      "id": "smam",
+      "title": "Sub-Mission on Agricultural Mechanization (SMAM)",
+      "titleHindi": "कृषि यंत्रीकरण उप-मिशन (SMAM यंत्र सब्सिडी)",
+      "category": "Machinery",
+      "categoryHindi": "कृषि मशीनरी व उपकरण",
+      "benefit": "40% to 50% subsidy on modern farm machinery (Tractors, Rotavators, Super Seeders, Laser Land Levelers, Drone sprayer).",
+      "benefitHindi": "ट्रैक्टर, रोटावेटर, सुपर सीडर, लेजर लैंड लेवलर व ड्रोन पर 40% से 50% तक सरकारी अनुदान।",
+      "eligibility": "Small, marginal farmers, women farmers, and SC/ST farmers receive priority 50% subsidy.",
+      "eligibilityHindi": "छोटे व सीमांत किसान, महिला किसान तथा अनुसूचित जाति/जनजाति के किसानों को 50% तक प्राथमिकता सब्सिडी।",
+      "requiredDocuments": [
+        "Aadhaar Card",
+        "Land Record (Khatauni)",
+        "Bank Passbook copy",
+        "Caste Certificate (if applicable)",
+        "Quotation of agricultural implement from authorized dealer"
+      ],
+      "requiredDocumentsHindi": [
+        "आधार कार्ड",
+        "जमीन की नकल (खतौनी)",
+        "बैंक पासबुक",
+        "जाति प्रमाण पत्र (यदि लागू हो)",
+        "अधिकृत डीलर से कृषि यंत्र का कोटेशन"
+      ],
+      "portalUrl": "https://agrimachinery.nic.in",
+      "nodalMinistry": "Ministry of Agriculture & Farmers Welfare",
+      "helpline": "1800-180-1551",
+      "latestAnnouncement": "Official scheme supported by Ministry of Agriculture & Farmers Welfare.",
+      "portalStatus": "ONLINE",
+      "lastUpdated": "2026-10-21T19:46:50.220124",
+      "isLiveUpdated": true
+    },
+    {
+      "id": "soil-health-card",
+      "title": "Soil Health Card Scheme",
+      "titleHindi": "मृदा स्वास्थ्य कार्ड योजना (Soil Health Card)",
+      "category": "Organic & Soil",
+      "categoryHindi": "प्राकृतिक खेती व मिट्टी",
+      "benefit": "Free comprehensive laboratory testing of 12 soil parameters (N, P, K, pH, EC, Micronutrients) every 3 years.",
+      "benefitHindi": "हर 3 साल में 12 महत्वपूर्ण मिट्टी पोषक तत्वों (N, P, K, जिंक, सल्फर आदि) की मुफ्त सरकारी लैब जांच व संस्तुति।",
+      "eligibility": "All farmers across all States and Union Territories with cultivable land.",
+      "eligibilityHindi": "देश के सभी राज्यों और केंद्र शासित प्रदेशों के खेती करने वाले सभी किसान।",
+      "requiredDocuments": [
+        "Soil sample collected using standard ICAR zig-zag protocol",
+        "Aadhaar Card copy",
+        "Farm location (Khasra Number)"
+      ],
+      "requiredDocumentsHindi": [
+        "मानक विधि से लिया गया खेत की मिट्टी का नमूना (500 ग्राम)",
+        "आधार कार्ड की प्रति",
+        "खेत का खसरा नंबर व पता"
+      ],
+      "portalUrl": "https://soilhealth.dac.gov.in",
+      "nodalMinistry": "Ministry of Agriculture & Farmers Welfare",
+      "helpline": "011-23381012",
+      "latestAnnouncement": "Official scheme supported by Ministry of Agriculture & Farmers Welfare.",
+      "portalStatus": "ONLINE",
+      "lastUpdated": "2026-10-21T19:46:50.220124",
+      "isLiveUpdated": true
+    },
+    {
+      "id": "pkvy",
+      "title": "Paramparagat Krishi Vikas Yojana (PKVY)",
+      "titleHindi": "परंपरागत कृषि विकास योजना (जैविक खेती अनुदान)",
+      "category": "Organic & Soil",
+      "categoryHindi": "प्राकृतिक खेती व मिट्टी",
+      "benefit": "₹50,000 per hectare assistance for organic input production, PGS certification, packaging and marketing.",
+      "benefitHindi": "जैविक खाद, वर्मीकम्पोस्ट, प्राकृतिक कीटनाशक और जैविक प्रमाणीकरण के लिए ₹50,000 प्रति हेक्टेयर की आर्थिक मदद।",
+      "eligibility": "Farmers forming organic clusters of minimum 20 hectares or adopting natural farming practices.",
+      "eligibilityHindi": "कम से कम 20 हेक्टेयर का क्लस्टर बनाने वाले किसान समूह या प्राकृतिक खेती अपनाने वाले कृषक।",
+      "requiredDocuments": [
+        "Aadhaar Card",
+        "Land Holding Records",
+        "Cluster Registration Form / SHG Resolution",
+        "Bank Account Details"
+      ],
+      "requiredDocumentsHindi": [
+        "आधार कार्ड",
+        "जमीन के दस्तावेज",
+        "क्लस्टर पंजीकरण फॉर्म या समूह का प्रस्ताव",
+        "बैंक खाता पासबुक"
+      ],
+      "portalUrl": "https://pgsindia-ncof.gov.in",
+      "nodalMinistry": "Ministry of Agriculture & Farmers Welfare",
+      "helpline": "1800-180-1551",
+      "latestAnnouncement": "Official scheme supported by Ministry of Agriculture & Farmers Welfare.",
+      "portalStatus": "ONLINE",
+      "lastUpdated": "2026-10-21T19:46:50.220124",
+      "isLiveUpdated": true
+    },
+    {
+      "id": "namo-drone-didi",
+      "title": "Namo Drone Didi Scheme",
+      "titleHindi": "नमो ड्रोन दीदी योजना (कृषि ड्रोन सहायता)",
+      "category": "Machinery",
+      "categoryHindi": "कृषि मशीनरी व उपकरण",
+      "benefit": "80% financial assistance (up to ₹8 Lakh) to Women Self Help Groups (SHGs) for purchasing agricultural drones and accessories.",
+      "benefitHindi": "महिला स्वयं सहायता समूहों को कृषि ड्रोन खरीदने के लिए 80% या अधिकतम ₹8 लाख की सीधी वित्तीय सहायता।",
+      "eligibility": "Recognized Women Self Help Groups (SHGs) under DAY-NRLM and registered farmer collectives.",
+      "eligibilityHindi": "दीनदयाल अंत्योदय योजना - राष्ट्रीय ग्रामीण आजीविका मिशन के तहत पंजीकृत महिला स्वयं सहायता समूह।",
+      "requiredDocuments": [
+        "SHG Registration Certificate",
+        "Member Aadhaar Cards",
+        "Bank Account Statement of SHG",
+        "Drone Pilot Training Certification from DGCA approved institute"
+      ],
+      "requiredDocumentsHindi": [
+        "स्वयं सहायता समूह का पंजीकरण प्रमाण पत्र",
+        "समूह सदस्यों के आधार कार्ड",
+        "समूह का बैंक खाता विवरण",
+        "डीजीसीए प्रमाणित ड्रोन पायलट प्रशिक्षण प्रमाण पत्र"
+      ],
+      "portalUrl": "https://agriwelfare.gov.in",
+      "nodalMinistry": "Ministry of Agriculture & Farmers Welfare & MoRD",
+      "helpline": "1800-180-1551",
+      "latestAnnouncement": "Official scheme supported by Ministry of Agriculture & Farmers Welfare & MoRD.",
+      "portalStatus": "ONLINE",
+      "lastUpdated": "2026-10-21T19:46:50.220124",
+      "isLiveUpdated": true
+    },
+    {
+      "id": "enam",
+      "title": "e-NAM (National Agriculture Market)",
+      "titleHindi": "ई-नाम (राष्ट्रीय कृषि बाजार - ऑनलाइन मंडी)",
+      "category": "Income Support",
+      "categoryHindi": "आय सहायता (Direct Benefit)",
+      "benefit": "Pan-India electronic trading portal connecting mandis, offering transparent price discovery and direct online payments.",
+      "benefitHindi": "देशभर की मंडियों में ऑनलाइन बोली लगाकर अपनी फसल को सर्वोत्तम दाम पर बेचने की सुविधा व 24 घंटे में सीधा बैंक भुगतान।",
+      "eligibility": "Any farmer with agricultural produce seeking competitive national market prices.",
+      "eligibilityHindi": "देश का कोई भी किसान जिसके पास बेचने हेतु कृषि उपज उपलब्ध है।",
+      "requiredDocuments": [
+        "Aadhaar Card",
+        "Bank Passbook with IFSC",
+        "Mandi Gate Pass / Lot details"
+      ],
+      "requiredDocumentsHindi": [
+        "आधार कार्ड",
+        "बैंक खाता विवरण (IFSC सहित)",
+        "मंडी प्रवेश पर्ची व फसल विवरण"
+      ],
+      "portalUrl": "https://enam.gov.in",
+      "nodalMinistry": "Ministry of Agriculture & Farmers Welfare",
+      "helpline": "1800-270-0224",
+      "latestAnnouncement": "Official scheme supported by Ministry of Agriculture & Farmers Welfare.",
+      "portalStatus": "ONLINE",
+      "lastUpdated": "2026-10-21T19:46:50.220124",
+      "isLiveUpdated": true
+    },
+    {
+      "id": "aif",
+      "title": "Agriculture Infrastructure Fund (AIF)",
+      "titleHindi": "कृषि अवसंरचना कोष (AIF वेयरहाउस व कोल्ड स्टोरेज ऋण)",
+      "category": "Credit & Loans",
+      "categoryHindi": "सस्ता कृषि ऋण",
+      "benefit": "Interest subvention of 3% per annum up to ₹2 Crore loan for post-harvest management projects (cold stores, sorting, grading, silos).",
+      "benefitHindi": "कोल्ड स्टोरेज, गोदाम, छंटाई व ग्रेडिंग यूनिट स्थापित करने हेतु ₹2 करोड़ तक के ऋण पर 3% वार्षिक ब्याज छूट।",
+      "eligibility": "Primary Agricultural Credit Societies (PACS), FPOs, SHGs, Agri-entrepreneurs, and individual farmers.",
+      "eligibilityHindi": "प्राथमिक कृषि ऋण समितियां (PACS), किसान उत्पादक संगठन (FPO), स्वयं सहायता समूह तथा व्यक्तिगत किसान।",
+      "requiredDocuments": [
+        "Detailed Project Report (DPR)",
+        "Land Ownership or Lease Deed (minimum 10 years)",
+        "KYC Documents of Applicant",
+        "Bank In-principle Sanction Letter"
+      ],
+      "requiredDocumentsHindi": [
+        "विस्तृत परियोजना रिपोर्ट (DPR)",
+        "भूमि स्वामित्व या कम से कम 10 वर्ष का पट्टा",
+        "आवेदक के केवाईसी दस्तावेज",
+        "बैंक से ऋण स्वीकृति पत्र"
+      ],
+      "portalUrl": "https://agriinfra.dac.gov.in",
+      "nodalMinistry": "Ministry of Agriculture & Farmers Welfare",
+      "helpline": "011-23382012",
+      "latestAnnouncement": "Official scheme supported by Ministry of Agriculture & Farmers Welfare.",
+      "portalStatus": "ONLINE",
+      "lastUpdated": "2026-10-21T19:46:50.220124",
+      "isLiveUpdated": true
+    }
+  ]
+}
