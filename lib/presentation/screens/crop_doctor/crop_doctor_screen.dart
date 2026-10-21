@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_lucide/flutter_lucide.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
@@ -181,7 +180,7 @@ class _CropDoctorScreenState extends State<CropDoctorScreen> with SingleTickerPr
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: const Color(0xFFE2E8F0), width: 1),
+                border: Border.all(color: const Color(0xFFE2E8F0), width: 0.8),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withValues(alpha: 0.03),
@@ -215,9 +214,9 @@ class _CropDoctorScreenState extends State<CropDoctorScreen> with SingleTickerPr
                         child: Container(
                           padding: const EdgeInsets.all(8),
                           decoration: BoxDecoration(
-                            color: const Color(0xFFF0FDF4),
+                            color: const Color(0xFFF8FAFC),
                             borderRadius: BorderRadius.circular(14),
-                            border: Border.all(color: const Color(0xFF86EFAC), width: 1.2),
+                            border: Border.all(color: const Color(0xFFE2E8F0), width: 0.8),
                           ),
                           child: Column(
                             children: [
@@ -266,9 +265,9 @@ class _CropDoctorScreenState extends State<CropDoctorScreen> with SingleTickerPr
                         child: Container(
                           padding: const EdgeInsets.all(8),
                           decoration: BoxDecoration(
-                            color: const Color(0xFFFEF2F2),
+                            color: const Color(0xFFF8FAFC),
                             borderRadius: BorderRadius.circular(14),
-                            border: Border.all(color: const Color(0xFFFECACA), width: 1.2),
+                            border: Border.all(color: const Color(0xFFE2E8F0), width: 0.8),
                           ),
                           child: Column(
                             children: [
@@ -330,7 +329,7 @@ class _CropDoctorScreenState extends State<CropDoctorScreen> with SingleTickerPr
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(28),
-        border: Border.all(color: const Color(0xFFBBF7D0), width: 1.2),
+        border: Border.all(color: const Color(0xFFE2E8F0), width: 0.8),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.035),
@@ -349,10 +348,10 @@ class _CropDoctorScreenState extends State<CropDoctorScreen> with SingleTickerPr
               height: 170,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(24),
-                color: const Color(0xFFF0FDF4),
+                color: const Color(0xFFF8FAFC),
                 border: Border.all(
-                  color: const Color(0xFF86EFAC),
-                  width: 1.5,
+                  color: const Color(0xFFE2E8F0),
+                  width: 0.8,
                 ),
               ),
               child: Stack(
@@ -411,7 +410,7 @@ class _CropDoctorScreenState extends State<CropDoctorScreen> with SingleTickerPr
                       },
                     ),
 
-                  // Center Icon / State
+                  // Center Icon / State (Clean vector camera, image removed)
                   if (_isAnalyzing)
                     Column(
                       mainAxisSize: MainAxisSize.min,
@@ -436,14 +435,21 @@ class _CropDoctorScreenState extends State<CropDoctorScreen> with SingleTickerPr
                       ],
                     )
                   else
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(16),
-                      child: SvgPicture.asset(
-                        'assets/vectors/crop_leaf_scan.svg',
-                        width: 100,
-                        height: 100,
-                        fit: BoxFit.contain,
-                      ),
+                    const Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          LucideIcons.camera,
+                          size: 46,
+                          color: Color(0xFF64748B),
+                        ),
+                        SizedBox(height: 6),
+                        Icon(
+                          LucideIcons.scan,
+                          size: 18,
+                          color: Color(0xFF94A3B8),
+                        ),
+                      ],
                     ),
                 ],
               ),
@@ -518,7 +524,7 @@ class _CropDoctorScreenState extends State<CropDoctorScreen> with SingleTickerPr
                   ),
                   const SizedBox(width: 10),
 
-                  // Soft Mint Gallery Button
+                  // Soft Gallery Button
                   Expanded(
                     flex: 2,
                     child: BouncyTap(
@@ -527,22 +533,22 @@ class _CropDoctorScreenState extends State<CropDoctorScreen> with SingleTickerPr
                       child: Container(
                         padding: const EdgeInsets.symmetric(vertical: 13),
                         decoration: BoxDecoration(
-                          color: const Color(0xFFDCFCE7),
+                          color: const Color(0xFFF8FAFC),
                           borderRadius: BorderRadius.circular(16),
                           border: Border.all(
-                            color: const Color(0xFF86EFAC),
-                            width: 1,
+                            color: const Color(0xFFE2E8F0),
+                            width: 0.8,
                           ),
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Icon(LucideIcons.image, color: Color(0xFF15803D), size: 18),
+                            const Icon(LucideIcons.image, color: Color(0xFF0F172A), size: 18),
                             const SizedBox(width: 6),
                             Text(
                               lang.isHindi ? 'गैलरी' : 'Gallery',
                               style: AppTypography.labelLarge(isHindi: lang.isHindi).copyWith(
-                                color: const Color(0xFF15803D),
+                                color: const Color(0xFF0F172A),
                                 fontWeight: FontWeight.w700,
                                 fontSize: 13,
                               ),
@@ -566,10 +572,10 @@ class _CropDoctorScreenState extends State<CropDoctorScreen> with SingleTickerPr
       height: 16,
       decoration: BoxDecoration(
         border: Border(
-          top: isTop ? const BorderSide(color: Color(0xFF15803D), width: 2.5) : BorderSide.none,
-          bottom: !isTop ? const BorderSide(color: Color(0xFF15803D), width: 2.5) : BorderSide.none,
-          left: isLeft ? const BorderSide(color: Color(0xFF15803D), width: 2.5) : BorderSide.none,
-          right: !isLeft ? const BorderSide(color: Color(0xFF15803D), width: 2.5) : BorderSide.none,
+          top: isTop ? const BorderSide(color: Color(0xFF64748B), width: 2.0) : BorderSide.none,
+          bottom: !isTop ? const BorderSide(color: Color(0xFF64748B), width: 2.0) : BorderSide.none,
+          left: isLeft ? const BorderSide(color: Color(0xFF64748B), width: 2.0) : BorderSide.none,
+          right: !isLeft ? const BorderSide(color: Color(0xFF64748B), width: 2.0) : BorderSide.none,
         ),
       ),
     );
@@ -590,7 +596,7 @@ class _CropDoctorScreenState extends State<CropDoctorScreen> with SingleTickerPr
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.border.withValues(alpha: 0.8), width: 1),
+        border: Border.all(color: const Color(0xFFE2E8F0), width: 0.8),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.02),

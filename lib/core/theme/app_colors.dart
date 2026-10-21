@@ -24,7 +24,7 @@ class AppColors {
   static const Color textMuted = Color(0xFF64748B); // Soft Charcoal
 
   // Borders & Dividers
-  static const Color border = Color(0xFFBBF7D0); // Delicate Mint Border
+  static const Color border = Color(0xFFE2E8F0); // Clean Slate Border (Non-green)
   static const Color borderSubtle = Color(0x15000000); // 8% Ambient Border
 
   // Status & Warnings
