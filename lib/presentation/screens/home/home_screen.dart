@@ -122,6 +122,36 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // 1. Pure Typography Greeting (Above the Hero Image)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    lang.tr('greeting'),
+                    style: AppTypography.headingSmall(isHindi: lang.isHindi).copyWith(
+                      fontSize: 21,
+                      fontWeight: FontWeight.w800,
+                      color: AppColors.primaryDark,
+                      height: 1.25,
+                    ),
+                  ),
+                  const SizedBox(height: 3),
+                  Text(
+                    lang.isHindi
+                        ? 'आपकी फसल, उपज व मंडी का संपूर्ण डिजिटल साथी'
+                        : 'Your complete digital companion for crops & mandi',
+                    style: AppTypography.bodySmall(isHindi: lang.isHindi).copyWith(
+                      fontSize: 12.5,
+                      color: AppColors.textSecondary,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 14),
+
             // Visual Hero Banner (Lush Indian Farm Landscape & Smart Farmer)
             ClipRRect(
               borderRadius: BorderRadius.circular(22),
@@ -208,37 +238,7 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
             ).animate().fadeIn(duration: 350.ms).slideY(begin: 0.04, end: 0),
-            const SizedBox(height: 16),
-
-            // 2. Pure Typography Greeting (Zero Box Framing)
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 4),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    lang.tr('greeting'),
-                    style: AppTypography.headingSmall(isHindi: lang.isHindi).copyWith(
-                      fontSize: 21,
-                      fontWeight: FontWeight.w800,
-                      color: AppColors.primaryDark,
-                      height: 1.25,
-                    ),
-                  ),
-                  const SizedBox(height: 2),
-                  Text(
-                    lang.isHindi
-                        ? 'आपकी फसल, उपज व मंडी का संपूर्ण डिजिटल साथी'
-                        : 'Your complete digital companion for crops & mandi',
-                    style: AppTypography.bodySmall(isHindi: lang.isHindi).copyWith(
-                      fontSize: 12.5,
-                      color: AppColors.textSecondary,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 18),
+            const SizedBox(height: 20),
 
             // Live Mandi Rates Stream (Borderless Horizontal Ribbon)
             MandiTickerRibbon(

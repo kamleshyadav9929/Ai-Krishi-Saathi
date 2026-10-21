@@ -14,7 +14,7 @@ class AppTranslations {
       'navSettings': 'सेटिंग्स',
       
       // Home Screen
-      'greeting': 'नमस्ते किसान भाई 🙏',
+      'greeting': 'हार्दिक स्वागत है किसान भाई 🙏',
       'weatherCardTitle': 'आज का मौसम व कृषि सलाह',
       'weatherAdvisory': 'आज धूप खिली रहेगी। सिंचाई के लिए अनुकूल समय है।',
       'quickActions': 'मुख्य सेवाएं',
@@ -126,7 +126,7 @@ class AppTranslations {
       'navSettings': 'Settings',
 
       // Home Screen
-      'greeting': 'Welcome Farmer 🙏',
+      'greeting': 'Most Welcome Farmer 🙏',
       'weatherCardTitle': "Today's Weather & Farm Advisory",
       'weatherAdvisory': 'Clear skies expected today. Favorable window for irrigation.',
       'quickActions': 'Key Services',
