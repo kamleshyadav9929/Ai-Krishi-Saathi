@@ -10,6 +10,7 @@ import '../../../core/theme/app_typography.dart';
 import '../../../core/utils/haptic_helper.dart';
 import '../../../data/services/mandi_service.dart';
 import '../../../data/services/voice_assistant_service.dart';
+import '../../widgets/borderless_action_tile.dart';
 import '../../widgets/bouncy_tap.dart';
 import '../../widgets/custom_app_bar.dart';
 import '../../widgets/mandi_ticker_ribbon.dart';
@@ -247,22 +248,165 @@ class HomeScreen extends StatelessWidget {
             ),
             const SizedBox(height: 22),
 
-            // Key Services - Visual Farming Hub (Like Visual Farming Guides)
+            // 5. Borderless Quick Services Hub (Tactile 4x2 Icon Grid)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4),
+              child: Text(
+                lang.tr('quickActions'),
+                style: AppTypography.headingSmall(isHindi: lang.isHindi).copyWith(
+                  fontSize: 17,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.textPrimary,
+                ),
+              ),
+            ),
+            const SizedBox(height: 14),
+
+            // Row 1 of 4 Action Tiles
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: BorderlessActionTile(
+                    icon: LucideIcons.scan_line,
+                    iconBg: const Color(0xFFDCFCE7),
+                    iconColor: AppColors.primary,
+                    title: lang.tr('cropDoctorTitle'),
+                    badge: 'AI',
+                    isHindi: lang.isHindi,
+                    onTap: () => onNavigateTab(1),
+                    index: 0,
+                  ),
+                ),
+                Expanded(
+                  child: BorderlessActionTile(
+                    icon: LucideIcons.trending_up,
+                    iconBg: const Color(0xFFFEF3C7),
+                    iconColor: AppColors.accent,
+                    title: lang.tr('mandiPriceTitle'),
+                    badge: 'Live',
+                    isHindi: lang.isHindi,
+                    onTap: () => onNavigateTab(2),
+                    index: 1,
+                  ),
+                ),
+                Expanded(
+                  child: BorderlessActionTile(
+                    icon: LucideIcons.sprout,
+                    iconBg: const Color(0xFFE0F2FE),
+                    iconColor: const Color(0xFF0369A1),
+                    title: lang.tr('sowingAdvisorTitle'),
+                    isHindi: lang.isHindi,
+                    onTap: () => onNavigateTab(3),
+                    index: 2,
+                  ),
+                ),
+                Expanded(
+                  child: BorderlessActionTile(
+                    icon: LucideIcons.book_open,
+                    iconBg: const Color(0xFFDCFCE7),
+                    iconColor: AppColors.primary,
+                    title: lang.isHindi ? 'फसल डायरी' : 'Crop Diary',
+                    badge: lang.isHindi ? 'नया' : 'NEW',
+                    isHindi: lang.isHindi,
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const CropProfileScreen()),
+                      );
+                    },
+                    index: 3,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+
+            // Row 2 of 4 Action Tiles
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: BorderlessActionTile(
+                    icon: LucideIcons.flask_conical,
+                    iconBg: const Color(0xFFE0F2FE),
+                    iconColor: const Color(0xFF0284C7),
+                    title: lang.isHindi ? 'खाद कैलकुलेटर' : 'Fertilizers',
+                    isHindi: lang.isHindi,
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const SoilCardScreen()),
+                      );
+                    },
+                    index: 4,
+                  ),
+                ),
+                Expanded(
+                  child: BorderlessActionTile(
+                    icon: LucideIcons.calendar,
+                    iconBg: const Color(0xFFFEF3C7),
+                    iconColor: AppColors.accent,
+                    title: lang.tr('cropCalendarTitle'),
+                    isHindi: lang.isHindi,
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const CropCalendarScreen()),
+                      );
+                    },
+                    index: 5,
+                  ),
+                ),
+                Expanded(
+                  child: BorderlessActionTile(
+                    icon: LucideIcons.landmark,
+                    iconBg: const Color(0xFFFEF3C7),
+                    iconColor: AppColors.accent,
+                    title: lang.isHindi ? 'सरकारी योजना' : 'Govt Schemes',
+                    isHindi: lang.isHindi,
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const GovtSchemesScreen()),
+                      );
+                    },
+                    index: 6,
+                  ),
+                ),
+                Expanded(
+                  child: BorderlessActionTile(
+                    icon: LucideIcons.calculator,
+                    iconBg: const Color(0xFFF3E8FF),
+                    iconColor: const Color(0xFF7E22CE),
+                    title: lang.tr('expenseTrackerTitle'),
+                    isHindi: lang.isHindi,
+                    onTap: () => onNavigateTab(4),
+                    index: 7,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 22),
+
+            // Visual Farming Guides (Visual Carousel)
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 4),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    lang.tr('quickActions'),
+                    lang.isHindi ? 'किसान सचित्र मार्गदर्शिका' : 'Visual Farming Guides',
                     style: AppTypography.headingSmall(isHindi: lang.isHindi).copyWith(
-                      fontSize: 17,
+                      fontSize: 16,
                       fontWeight: FontWeight.w700,
                       color: AppColors.textPrimary,
                     ),
                   ),
                   Text(
-                    lang.isHindi ? 'सभी सेवाएं' : 'All services',
+                    lang.isHindi ? 'देखें व सीखें' : 'Learn visually',
                     style: AppTypography.bodySmall(isHindi: lang.isHindi).copyWith(
                       fontSize: 11.5,
                       color: const Color(0xFF15803D),
@@ -272,9 +416,9 @@ class HomeScreen extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 10),
 
-            // Horizontal Visual Feature Cards for Key Services
+            // Horizontal Visual Feature Cards
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               physics: const BouncingScrollPhysics(),
@@ -282,36 +426,9 @@ class HomeScreen extends StatelessWidget {
                 children: [
                   _buildVisualGuideCard(
                     context: context,
-                    title: lang.tr('cropDoctorTitle'),
-                    subtitle: lang.isHindi ? 'पत्ती स्कैन कर तुरंत रोग व उपचार जानें' : 'Instant AI leaf scan & crop diagnosis',
-                    badge: 'AI Doctor',
-                    imagePath: 'assets/images/crop_doctor_guide.png',
-                    onTap: () => onNavigateTab(1),
-                  ),
-                  const SizedBox(width: 12),
-                  _buildVisualGuideCard(
-                    context: context,
-                    title: lang.tr('mandiPriceTitle'),
-                    subtitle: lang.isHindi ? 'ताज़ा मंडी भाव, न्यूनतम व अधिकतम मूल्य' : 'Live APMC market rates & price trends',
-                    badge: 'Live Mandi',
-                    imagePath: 'assets/images/mandi_market_hero.png',
-                    onTap: () => onNavigateTab(2),
-                  ),
-                  const SizedBox(width: 12),
-                  _buildVisualGuideCard(
-                    context: context,
-                    title: lang.tr('sowingAdvisorTitle'),
-                    subtitle: lang.isHindi ? 'खरीफ, रबी व जायद की सही फसल चुनें' : 'Smart season & crop selection',
-                    badge: lang.isHindi ? 'बुवाई' : 'Sowing',
-                    imagePath: 'assets/images/sowing_seasons_hero.png',
-                    onTap: () => onNavigateTab(3),
-                  ),
-                  const SizedBox(width: 12),
-                  _buildVisualGuideCard(
-                    context: context,
                     title: lang.isHindi ? 'मृदा स्वास्थ्य व खाद' : 'Soil Health & Fertilizer',
-                    subtitle: lang.isHindi ? 'NPK जांचें, संतुलित खाद की मात्रा जानें' : 'Test soil, get balanced NPK plan',
-                    badge: lang.isHindi ? 'खाद' : 'Soil Health',
+                    subtitle: lang.isHindi ? 'NPK जांचें, सही खाद जानें' : 'Test soil, get NPK plan',
+                    badge: lang.isHindi ? 'सॉइल कार्ड' : 'Soil Health',
                     imagePath: 'assets/images/soil_test_hero.png',
                     onTap: () {
                       Navigator.push(
@@ -323,8 +440,8 @@ class HomeScreen extends StatelessWidget {
                   const SizedBox(width: 12),
                   _buildVisualGuideCard(
                     context: context,
-                    title: lang.tr('cropCalendarTitle'),
-                    subtitle: lang.isHindi ? 'अंकुरण से कटाई का संपूर्ण रोडमैप' : 'Sowing to harvest schedule',
+                    title: lang.isHindi ? 'फसल विकास कैलेंडर' : 'Crop Growth Calendar',
+                    subtitle: lang.isHindi ? 'अंकुरण से कटाई का रोडमैप' : 'Sowing to harvest schedule',
                     badge: lang.isHindi ? 'कैलेंडर' : 'Calendar',
                     imagePath: 'assets/images/crop_calendar_hero.png',
                     onTap: () {
@@ -338,7 +455,7 @@ class HomeScreen extends StatelessWidget {
                   _buildVisualGuideCard(
                     context: context,
                     title: lang.isHindi ? 'सरकारी योजनाएं व सब्सिडी' : 'Govt Subsidies & Schemes',
-                    subtitle: lang.isHindi ? 'पीएम-किसान, सोलर पंप व कृषि यंत्र' : 'PM-Kisan, Solar subsidy & schemes',
+                    subtitle: lang.isHindi ? 'पीएम-किसान, सोलर पंप' : 'PM-Kisan, Solar subsidy',
                     badge: lang.isHindi ? 'सब्सिडी' : 'Subsidy',
                     imagePath: 'assets/images/govt_schemes_hero.png',
                     onTap: () {
@@ -351,16 +468,11 @@ class HomeScreen extends StatelessWidget {
                   const SizedBox(width: 12),
                   _buildVisualGuideCard(
                     context: context,
-                    title: lang.isHindi ? 'फसल डायरी व प्रबंधन' : 'Crop Diary & Farm Manager',
-                    subtitle: lang.isHindi ? 'खेत का हिसाब व फसल प्रोफाइल' : 'Track farm stages & health',
-                    badge: lang.isHindi ? 'डायरी' : 'Diary',
-                    imagePath: 'assets/images/hero_krishi_banner.png',
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const CropProfileScreen()),
-                      );
-                    },
+                    title: lang.isHindi ? 'फसल बुवाई व मौसम चक्र' : 'Crop Sowing & Seasons',
+                    subtitle: lang.isHindi ? 'खरीफ, रबी व जायद सलाह' : 'Kharif, Rabi, Zaid tips',
+                    badge: lang.isHindi ? 'बुवाई' : 'Sowing',
+                    imagePath: 'assets/images/sowing_seasons_hero.png',
+                    onTap: () => onNavigateTab(3),
                   ),
                 ],
               ),
