@@ -7,6 +7,7 @@ import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_typography.dart';
 import '../../../data/models/crop_disease_model.dart';
 import '../../widgets/action_button.dart';
+import '../../widgets/custom_app_bar.dart';
 
 class DiagnosisResultScreen extends StatelessWidget {
   final CropDiseaseModel diagnosis;
@@ -26,8 +27,9 @@ class DiagnosisResultScreen extends StatelessWidget {
         File(diagnosis.imagePath!).existsSync();
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(lang.tr('diagnosisResult')),
+      appBar: const CustomAppBar(
+        titleKey: 'diagnosisResult',
+        showLanguageToggle: false,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),

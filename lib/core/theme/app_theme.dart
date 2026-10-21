@@ -24,7 +24,7 @@ class AppTheme {
         backgroundColor: Colors.white,
         foregroundColor: AppColors.primaryDark,
         elevation: 0,
-        scrolledUnderElevation: 1,
+        scrolledUnderElevation: 0,
         centerTitle: false,
         titleTextStyle: AppTypography.headingMedium(isHindi: isHindi).copyWith(
           color: AppColors.primaryDark,
