@@ -136,6 +136,94 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
             ),
+            const SizedBox(height: 14),
+
+            // Visual Hero Banner (Lush Indian Farm Landscape & Smart Farmer)
+            ClipRRect(
+              borderRadius: BorderRadius.circular(22),
+              child: Container(
+                height: 148,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(22),
+                  boxShadow: [
+                    BoxShadow(
+                      color: const Color(0xFF14532D).withValues(alpha: 0.12),
+                      blurRadius: 14,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    Image.asset(
+                      'assets/images/hero_krishi_banner.png',
+                      fit: BoxFit.cover,
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
+                          colors: [
+                            Colors.black.withValues(alpha: 0.72),
+                            Colors.black.withValues(alpha: 0.35),
+                            Colors.transparent,
+                          ],
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF22C55E),
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                            child: Text(
+                              lang.isHindi ? 'डिजिटल कृषि क्रांति' : 'Smart Farming AI',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 10,
+                                fontWeight: FontWeight.w800,
+                                letterSpacing: 0.4,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 6),
+                          Text(
+                            lang.isHindi ? 'फसल की सुरक्षा,\nसटीक पैदावार' : 'Protect Your Crop,\nMaximize Yield',
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w800,
+                              height: 1.22,
+                            ),
+                          ),
+                          const SizedBox(height: 5),
+                          Text(
+                            lang.isHindi
+                                ? 'रोग पहचान • आज का मंडी भाव • सही खाद'
+                                : 'Disease Detection • Mandi Prices • Soil Care',
+                            style: const TextStyle(
+                              color: Color(0xFFDCFCE7),
+                              fontSize: 11,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ).animate().fadeIn(duration: 350.ms).slideY(begin: 0.04, end: 0),
             const SizedBox(height: 16),
 
             // 2. Pure Typography Greeting (Zero Box Framing)
@@ -419,7 +507,311 @@ class HomeScreen extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: 22),
+
+            // Visual How-To Guide For Farmers (Illustration-Rich Step Guide)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    lang.isHindi ? 'एप कैसे उपयोग करें?' : 'How To Use App',
+                    style: AppTypography.headingSmall(isHindi: lang.isHindi).copyWith(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.textPrimary,
+                    ),
+                  ),
+                  Text(
+                    lang.isHindi ? '3 आसान कदम' : '3 Easy Steps',
+                    style: AppTypography.bodySmall(isHindi: lang.isHindi).copyWith(
+                      fontSize: 11.5,
+                      color: const Color(0xFF15803D),
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 10),
+            Row(
+              children: [
+                Expanded(
+                  child: BouncyTap(
+                    onTap: () {
+                      HapticHelper.lightImpact();
+                      onNavigateTab(1);
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(color: const Color(0xFFBBF7D0), width: 1.2),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withValues(alpha: 0.04),
+                            blurRadius: 10,
+                            offset: const Offset(0, 3),
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(14),
+                            child: Image.asset(
+                              'assets/images/crop_doctor_scan.png',
+                              height: 74,
+                              width: 74,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            lang.isHindi ? '1. रोग जांच' : '1. Scan Leaf',
+                            textAlign: TextAlign.center,
+                            style: AppTypography.labelLarge(isHindi: lang.isHindi).copyWith(
+                              fontSize: 12.5,
+                              fontWeight: FontWeight.w700,
+                              color: const Color(0xFF14532D),
+                            ),
+                          ),
+                          const SizedBox(height: 2),
+                          Text(
+                            lang.isHindi ? 'पत्ती की फोटो' : 'Take photo',
+                            textAlign: TextAlign.center,
+                            style: AppTypography.bodySmall(isHindi: lang.isHindi).copyWith(
+                              fontSize: 10.5,
+                              color: AppColors.textMuted,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: BouncyTap(
+                    onTap: () {
+                      HapticHelper.lightImpact();
+                      onNavigateTab(2);
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(color: const Color(0xFFFEF08A), width: 1.2),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withValues(alpha: 0.04),
+                            blurRadius: 10,
+                            offset: const Offset(0, 3),
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(14),
+                            child: Image.asset(
+                              'assets/images/mandi_market_hero.png',
+                              height: 74,
+                              width: 74,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            lang.isHindi ? '2. मंडी भाव' : '2. Mandi Rate',
+                            textAlign: TextAlign.center,
+                            style: AppTypography.labelLarge(isHindi: lang.isHindi).copyWith(
+                              fontSize: 12.5,
+                              fontWeight: FontWeight.w700,
+                              color: const Color(0xFF854D0E),
+                            ),
+                          ),
+                          const SizedBox(height: 2),
+                          Text(
+                            lang.isHindi ? 'ताज़ा भाव' : 'Live rates',
+                            textAlign: TextAlign.center,
+                            style: AppTypography.bodySmall(isHindi: lang.isHindi).copyWith(
+                              fontSize: 10.5,
+                              color: AppColors.textMuted,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: BouncyTap(
+                    onTap: () {
+                      HapticHelper.mediumImpact();
+                      VoiceAssistantSheet.show(
+                        context,
+                        onVoiceAction: (intent) => _handleVoiceAction(context, intent),
+                      );
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(color: const Color(0xFFBAE6FD), width: 1.2),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withValues(alpha: 0.04),
+                            blurRadius: 10,
+                            offset: const Offset(0, 3),
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(14),
+                            child: Image.asset(
+                              'assets/images/voice_assistant_hero.png',
+                              height: 74,
+                              width: 74,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            lang.isHindi ? '3. बोलें' : '3. Speak',
+                            textAlign: TextAlign.center,
+                            style: AppTypography.labelLarge(isHindi: lang.isHindi).copyWith(
+                              fontSize: 12.5,
+                              fontWeight: FontWeight.w700,
+                              color: const Color(0xFF0369A1),
+                            ),
+                          ),
+                          const SizedBox(height: 2),
+                          Text(
+                            lang.isHindi ? 'माइक दबाएं' : 'Tap & speak',
+                            textAlign: TextAlign.center,
+                            style: AppTypography.bodySmall(isHindi: lang.isHindi).copyWith(
+                              fontSize: 10.5,
+                              color: AppColors.textMuted,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 20),
+
+            // Illustrated Feature Hub for Farmers (Visual Carousel)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    lang.isHindi ? 'किसान सचित्र मार्गदर्शिका' : 'Visual Farming Guides',
+                    style: AppTypography.headingSmall(isHindi: lang.isHindi).copyWith(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.textPrimary,
+                    ),
+                  ),
+                  Text(
+                    lang.isHindi ? 'देखें व सीखें' : 'Learn visually',
+                    style: AppTypography.bodySmall(isHindi: lang.isHindi).copyWith(
+                      fontSize: 11.5,
+                      color: const Color(0xFF15803D),
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 10),
+
+            // Horizontal Visual Feature Cards
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              physics: const BouncingScrollPhysics(),
+              child: Row(
+                children: [
+                  _buildVisualGuideCard(
+                    context: context,
+                    title: lang.isHindi ? 'मृदा स्वास्थ्य व खाद' : 'Soil Health & Fertilizer',
+                    subtitle: lang.isHindi ? 'NPK जांचें, सही खाद जानें' : 'Test soil, get NPK plan',
+                    badge: lang.isHindi ? 'सॉइल कार्ड' : 'Soil Health',
+                    imagePath: 'assets/images/soil_test_hero.png',
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const SoilCardScreen()),
+                      );
+                    },
+                  ),
+                  const SizedBox(width: 12),
+                  _buildVisualGuideCard(
+                    context: context,
+                    title: lang.isHindi ? 'फसल विकास कैलेंडर' : 'Crop Growth Calendar',
+                    subtitle: lang.isHindi ? 'अंकुरण से कटाई का रोडमैप' : 'Sowing to harvest schedule',
+                    badge: lang.isHindi ? 'कैलेंडर' : 'Calendar',
+                    imagePath: 'assets/images/crop_calendar_hero.png',
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const CropCalendarScreen()),
+                      );
+                    },
+                  ),
+                  const SizedBox(width: 12),
+                  _buildVisualGuideCard(
+                    context: context,
+                    title: lang.isHindi ? 'सरकारी योजनाएं व सब्सिडी' : 'Govt Subsidies & Schemes',
+                    subtitle: lang.isHindi ? 'पीएम-किसान, सोलर पंप' : 'PM-Kisan, Solar subsidy',
+                    badge: lang.isHindi ? 'सब्सिडी' : 'Subsidy',
+                    imagePath: 'assets/images/govt_schemes_hero.png',
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const GovtSchemesScreen()),
+                      );
+                    },
+                  ),
+                  const SizedBox(width: 12),
+                  _buildVisualGuideCard(
+                    context: context,
+                    title: lang.isHindi ? 'फसल बुवाई व मौसम चक्र' : 'Crop Sowing & Seasons',
+                    subtitle: lang.isHindi ? 'खरीफ, रबी व जायद सलाह' : 'Kharif, Rabi, Zaid tips',
+                    badge: lang.isHindi ? 'बुवाई' : 'Sowing',
+                    imagePath: 'assets/images/sowing_seasons_hero.png',
+                    onTap: () => onNavigateTab(3),
+                  ),
+                  const SizedBox(width: 12),
+                  _buildVisualGuideCard(
+                    context: context,
+                    title: lang.isHindi ? 'मौसम व बारिश अलर्ट' : 'Weather & Rain Alerts',
+                    subtitle: lang.isHindi ? 'मौसम के अनुसार कृषि सलाह' : 'Climate-smart farm guide',
+                    badge: lang.isHindi ? 'मौसम' : 'Weather',
+                    imagePath: 'assets/images/weather_advisory_hero.png',
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const WeatherAlertScreen()),
+                      );
+                    },
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 22),
 
             // 6. Smart Alert & Farm Advisory Ribbon (Single Inset Surface)
             if (weather != null) ...[
@@ -573,6 +965,103 @@ class HomeScreen extends StatelessWidget {
               ),
             ],
             const SizedBox(height: 16),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildVisualGuideCard({
+    required BuildContext context,
+    required String title,
+    required String subtitle,
+    required String badge,
+    required String imagePath,
+    required VoidCallback onTap,
+  }) {
+    return BouncyTap(
+      onTap: () {
+        HapticHelper.lightImpact();
+        onTap();
+      },
+      scaleDown: 0.96,
+      child: Container(
+        width: 195,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(18),
+          border: Border.all(color: const Color(0xFFE2E8F0), width: 1),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.04),
+              blurRadius: 10,
+              offset: const Offset(0, 3),
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ClipRRect(
+              borderRadius: const BorderRadius.vertical(top: Radius.circular(17)),
+              child: Stack(
+                children: [
+                  Image.asset(
+                    imagePath,
+                    height: 105,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                  ),
+                  Positioned(
+                    top: 8,
+                    left: 8,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
+                      decoration: BoxDecoration(
+                        color: Colors.black.withValues(alpha: 0.65),
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      child: Text(
+                        badge,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 10,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontSize: 12.5,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.textPrimary,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    subtitle,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontSize: 10.5,
+                      color: AppColors.textMuted,
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),

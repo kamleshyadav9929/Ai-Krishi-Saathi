@@ -72,6 +72,95 @@ class _SowingAdvisorScreenState extends State<SowingAdvisorScreen> {
             _buildMLCockpit(lang),
             const SizedBox(height: 20),
 
+            // Agricultural Seasons Panoramic Illustrated Banner
+            ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: Container(
+                height: 140,
+                width: double.infinity,
+                margin: const EdgeInsets.only(bottom: 16),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: const Color(0xFF15803D).withValues(alpha: 0.12),
+                      blurRadius: 14,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    Image.asset(
+                      'assets/images/sowing_seasons_hero.png',
+                      fit: BoxFit.cover,
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
+                          colors: [
+                            Colors.black.withValues(alpha: 0.78),
+                            Colors.black.withValues(alpha: 0.38),
+                            Colors.transparent,
+                          ],
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF22C55E),
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                            child: Text(
+                              lang.isHindi ? 'फसल ऋतु चक्र' : 'Crop Seasons Cycle',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 10,
+                                fontWeight: FontWeight.w800,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 6),
+                          Text(
+                            lang.isHindi
+                                ? 'खरीफ • रबी • जायद\nसटीक बुवाई योजना'
+                                : 'Kharif • Rabi • Zaid\nSmart Sowing Advisory',
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 16.5,
+                              fontWeight: FontWeight.w800,
+                              height: 1.2,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            lang.isHindi
+                                ? 'मानसून, शीत व ग्रीष्म ऋतु के अनुसार उत्तम बीज व खाद'
+                                : 'Optimal seed, fertilizer & soil care for every season',
+                            style: const TextStyle(
+                              color: Color(0xFFDCFCE7),
+                              fontSize: 11,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
             // 2. Season Filter Chips Ribbon
             Row(
               children: [

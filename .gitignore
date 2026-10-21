@@ -49,3 +49,6 @@ app.*.map.json
 
 # Node / JS
 node_modules/
+
+# API Keys (secrets)
+dart_defines.json

@@ -9,6 +9,7 @@ class MandiPriceModel {
   final double modalPrice;
   final DateTime reportedDate;
   final String source;
+  final bool isOfflineData;
 
   MandiPriceModel({
     required this.commodity,
@@ -21,6 +22,7 @@ class MandiPriceModel {
     required this.modalPrice,
     required this.reportedDate,
     this.source = 'Agmarknet / data.gov.in',
+    this.isOfflineData = false,
   });
 
   static double _parseDouble(dynamic val) {
@@ -104,6 +106,7 @@ class MandiPriceModel {
       modalPrice: modal,
       reportedDate: date,
       source: (json['source'] ?? 'Agmarknet / data.gov.in (Live)').toString(),
+      isOfflineData: json['isOfflineData'] == true,
     );
   }
 }
