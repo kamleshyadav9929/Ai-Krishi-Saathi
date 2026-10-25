@@ -355,6 +355,7 @@ class _MandiScreenState extends State<MandiScreen> {
                 final displayMarkets = sortedMarkets.take(5).toList();
                 final bestMarket = displayMarkets.isNotEmpty ? displayMarkets.first : null;
                 final double highestPrice = (bestMarket?.modalPrice ?? 1.0) > 0 ? bestMarket!.modalPrice : 1.0;
+                final otherMarkets = displayMarkets.skip(1).toList();
 
                 final trend = _mandiService.getPriceTrend(_selectedChartCrop);
                 final double startPrice = trend.first;
@@ -403,13 +404,13 @@ class _MandiScreenState extends State<MandiScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  lang.isHindi ? '7 दिनों का भाव ग्राफ़ व मंडी तुलना' : '7-Day Price Trend & Mandi Comparison',
+                                  lang.isHindi ? 'ट्रेंड व तुलना' : 'Trend & Comparison',
                                   style: AppTypography.headingSmall(isHindi: lang.isHindi).copyWith(fontSize: 16),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                 ),
                                 Text(
-                                  lang.isHindi ? 'दैनिक भाव का उतार-चढ़ाव व मंडियों की दरें' : 'Daily price movement & market rates',
+                                  lang.isHindi ? '7 दिनों का भाव और मंडियों की दरें' : '7-day trend & market rates',
                                   style: const TextStyle(fontSize: 11, color: AppColors.textMuted),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
@@ -691,12 +692,19 @@ class _MandiScreenState extends State<MandiScreen> {
                           ),
                         ),
 
-                      if (displayMarkets.isNotEmpty) ...[
-                        // Visual Mandi-by-Mandi Comparison Summary List (Borderless)
-                        ...displayMarkets.asMap().entries.map((entry) {
-                          final idx = entry.key;
-                          final m = entry.value;
-                          final isBest = idx == 0;
+                      if (otherMarkets.isNotEmpty) ...[
+                        Padding(
+                          padding: const EdgeInsets.only(top: 4, bottom: 8),
+                          child: Text(
+                            lang.isHindi ? 'अन्य मंडियों से तुलना' : 'Comparison with other markets',
+                            style: const TextStyle(
+                              fontSize: 11.5,
+                              fontWeight: FontWeight.w700,
+                              color: Color(0xFF64748B),
+                            ),
+                          ),
+                        ),
+                        ...otherMarkets.map((m) {
                           final diffFromBest = (bestMarket?.modalPrice ?? 0) - m.modalPrice;
                           final double barRatio = (m.modalPrice / highestPrice).clamp(0.2, 1.0);
 
@@ -704,7 +712,7 @@ class _MandiScreenState extends State<MandiScreen> {
                             margin: const EdgeInsets.only(bottom: 8),
                             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
                             decoration: BoxDecoration(
-                              color: isBest ? const Color(0xFFF0FDF4) : const Color(0xFFF8FAFC),
+                              color: const Color(0xFFF8FAFC),
                               borderRadius: BorderRadius.circular(14),
                             ),
                             child: Column(
@@ -712,24 +720,6 @@ class _MandiScreenState extends State<MandiScreen> {
                               children: [
                                 Row(
                                   children: [
-                                    Container(
-                                      width: 24,
-                                      height: 24,
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                        color: isBest ? const Color(0xFF15803D) : const Color(0xFFE2E8F0),
-                                        shape: BoxShape.circle,
-                                      ),
-                                      child: Text(
-                                        '#${idx + 1}',
-                                        style: TextStyle(
-                                          color: isBest ? Colors.white : const Color(0xFF475569),
-                                          fontSize: 10.5,
-                                          fontWeight: FontWeight.w800,
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(width: 10),
                                     Expanded(
                                       child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -759,10 +749,10 @@ class _MandiScreenState extends State<MandiScreen> {
                                       children: [
                                         Text(
                                           '₹${m.modalPrice.toInt()}',
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                             fontSize: 15,
                                             fontWeight: FontWeight.w800,
-                                            color: isBest ? const Color(0xFF15803D) : const Color(0xFF1E293B),
+                                            color: Color(0xFF1E293B),
                                           ),
                                         ),
                                         Text(
@@ -795,9 +785,7 @@ class _MandiScreenState extends State<MandiScreen> {
                                           height: 7,
                                           width: fillWidth,
                                           decoration: BoxDecoration(
-                                            color: isBest
-                                                ? const Color(0xFF15803D)
-                                                : const Color(0xFF22C55E).withValues(alpha: 0.75),
+                                            color: const Color(0xFF22C55E).withValues(alpha: 0.75),
                                             borderRadius: BorderRadius.circular(5),
                                           ),
                                         ),
@@ -807,7 +795,7 @@ class _MandiScreenState extends State<MandiScreen> {
                                 ),
                                 const SizedBox(height: 6),
 
-                                // Range & Status Tags
+                                // Range & Difference Tags
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
@@ -815,23 +803,7 @@ class _MandiScreenState extends State<MandiScreen> {
                                       '${lang.isHindi ? 'रेंज' : 'Range'}: ₹${m.minPrice.toInt()} - ₹${m.maxPrice.toInt()}',
                                       style: const TextStyle(fontSize: 10.5, color: Color(0xFF64748B)),
                                     ),
-                                    if (isBest)
-                                      Container(
-                                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                                        decoration: BoxDecoration(
-                                          color: const Color(0xFFDCFCE7),
-                                          borderRadius: BorderRadius.circular(6),
-                                        ),
-                                        child: Text(
-                                          lang.isHindi ? '★ सर्वाधिक भाव' : '★ Top Rate',
-                                          style: const TextStyle(
-                                            fontSize: 9.5,
-                                            fontWeight: FontWeight.w700,
-                                            color: Color(0xFF15803D),
-                                          ),
-                                        ),
-                                      )
-                                    else if (diffFromBest > 0)
+                                    if (diffFromBest > 0)
                                       Text(
                                         '-₹${diffFromBest.toInt()} ${lang.isHindi ? 'कम' : 'lower'}',
                                         style: const TextStyle(
