@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter_lucide/flutter_lucide.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -189,7 +190,6 @@ class _MandiScreenState extends State<MandiScreen> {
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: const Color(0xFFE2E8F0), width: 0.8),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black.withValues(alpha: 0.035),
@@ -354,18 +354,14 @@ class _MandiScreenState extends State<MandiScreen> {
                   ..sort((a, b) => b.modalPrice.compareTo(a.modalPrice));
                 final displayMarkets = sortedMarkets.take(5).toList();
                 final bestMarket = displayMarkets.isNotEmpty ? displayMarkets.first : null;
-                final lowestMarket = displayMarkets.isNotEmpty ? displayMarkets.last : null;
-                final priceDiff = (bestMarket != null && lowestMarket != null)
-                    ? (bestMarket.modalPrice - lowestMarket.modalPrice)
-                    : 0.0;
                 final double highestPrice = (bestMarket?.modalPrice ?? 1.0) > 0 ? bestMarket!.modalPrice : 1.0;
+                final double maxY = ((bestMarket?.maxPrice ?? 3000) * 1.15).ceilToDouble();
 
                 return Container(
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(20),
-                    border: Border.all(color: const Color(0xFFE2E8F0), width: 0.8),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black.withValues(alpha: 0.035),
@@ -388,7 +384,6 @@ class _MandiScreenState extends State<MandiScreen> {
                                 decoration: BoxDecoration(
                                   color: const Color(0xFFF0FDF4),
                                   borderRadius: BorderRadius.circular(10),
-                                  border: Border.all(color: const Color(0xFFBBF7D0), width: 0.8),
                                 ),
                                 child: const Icon(LucideIcons.scale, size: 18, color: Color(0xFF15803D)),
                               ),
@@ -401,7 +396,7 @@ class _MandiScreenState extends State<MandiScreen> {
                                     style: AppTypography.headingSmall(isHindi: lang.isHindi).copyWith(fontSize: 16),
                                   ),
                                   Text(
-                                    lang.isHindi ? 'जानें कहाँ मिलेगा सबसे ज्यादा दाम' : 'Compare rates across nearby markets',
+                                    lang.isHindi ? 'विभिन्न मंडियों के भाव का ग्राफ़' : 'Compare market rates graphically',
                                     style: const TextStyle(fontSize: 11, color: AppColors.textMuted),
                                   ),
                                 ],
@@ -413,7 +408,6 @@ class _MandiScreenState extends State<MandiScreen> {
                             decoration: BoxDecoration(
                               color: const Color(0xFFF0FDF4),
                               borderRadius: BorderRadius.circular(20),
-                              border: Border.all(color: const Color(0xFF86EFAC), width: 0.8),
                             ),
                             child: Text(
                               lang.isHindi
@@ -452,10 +446,7 @@ class _MandiScreenState extends State<MandiScreen> {
                                 selected: isSelected,
                                 selectedColor: const Color(0xFF15803D),
                                 backgroundColor: const Color(0xFFF8FAFC),
-                                side: BorderSide(
-                                  color: isSelected ? const Color(0xFF15803D) : const Color(0xFFE2E8F0),
-                                  width: 0.8,
-                                ),
+                                side: BorderSide.none,
                                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                                 onSelected: (selected) {
                                   if (selected) {
@@ -468,7 +459,7 @@ class _MandiScreenState extends State<MandiScreen> {
                           }).toList(),
                         ),
                       ),
-                      const SizedBox(height: 14),
+                      const SizedBox(height: 16),
 
                       if (displayMarkets.isEmpty)
                         Padding(
@@ -481,96 +472,102 @@ class _MandiScreenState extends State<MandiScreen> {
                           ),
                         )
                       else ...[
-                        // Farmer Profit Highlight Recommendation
-                        if (bestMarket != null)
-                          Container(
-                            padding: const EdgeInsets.all(12),
-                            margin: const EdgeInsets.only(bottom: 14),
-                            decoration: BoxDecoration(
-                              color: const Color(0xFFF0FDF4),
-                              borderRadius: BorderRadius.circular(14),
-                              border: Border.all(color: const Color(0xFF86EFAC), width: 0.8),
-                            ),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  padding: const EdgeInsets.all(8),
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xFFDCFCE7),
-                                    shape: BoxShape.circle,
-                                    border: Border.all(color: const Color(0xFF22C55E), width: 1),
-                                  ),
-                                  child: const Icon(LucideIcons.trophy, size: 18, color: Color(0xFF15803D)),
+                        // Mandi Price Comparison Graph
+                        SizedBox(
+                          height: 185,
+                          child: BarChart(
+                            BarChartData(
+                              alignment: BarChartAlignment.spaceAround,
+                              maxY: maxY > 0 ? maxY : 3000,
+                              minY: 0,
+                              gridData: FlGridData(
+                                show: true,
+                                drawVerticalLine: false,
+                                horizontalInterval: 1000,
+                                getDrawingHorizontalLine: (value) => const FlLine(
+                                  color: Color(0xFFF1F5F9),
+                                  strokeWidth: 1,
                                 ),
-                                const SizedBox(width: 10),
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            lang.isHindi ? 'सर्वोत्तम मंडी सुझाव' : 'Top Rate Market',
-                                            style: const TextStyle(
-                                              fontSize: 11,
-                                              fontWeight: FontWeight.w700,
-                                              color: Color(0xFF15803D),
-                                            ),
-                                          ),
-                                          Container(
-                                            padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
-                                            decoration: BoxDecoration(
-                                              color: const Color(0xFF15803D),
-                                              borderRadius: BorderRadius.circular(6),
-                                            ),
-                                            child: Text(
-                                              '₹${bestMarket.modalPrice.toInt()}/Q',
-                                              style: const TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.w800,
-                                                fontSize: 11,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(height: 4),
-                                      Text(
-                                        lang.isHindi
-                                            ? '${bestMarket.market} मंडी में सबसे अच्छा भाव मिल रहा है।'
-                                            : '${bestMarket.market} is currently offering the best rate.',
-                                        style: TextStyle(
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.w700,
-                                          color: const Color(0xFF0F172A),
-                                          fontFamily: lang.isHindi ? 'Noto Sans Devanagari' : null,
-                                        ),
-                                      ),
-                                      if (priceDiff > 0 && lowestMarket != null)
-                                        Padding(
-                                          padding: const EdgeInsets.only(top: 3),
-                                          child: Text(
-                                            lang.isHindi
-                                                ? '${lowestMarket.market} मंडी की तुलना में ₹${priceDiff.toInt()} प्रति क्विंटल तक ज्यादा मुनाफा!'
-                                                : '+₹${priceDiff.toInt()}/Q extra profit compared to ${lowestMarket.market}!',
-                                            style: TextStyle(
-                                              fontSize: 11.5,
-                                              fontWeight: FontWeight.w600,
-                                              color: const Color(0xFF15803D),
-                                              fontFamily: lang.isHindi ? 'Noto Sans Devanagari' : null,
-                                            ),
-                                          ),
-                                        ),
-                                    ],
+                              ),
+                              titlesData: FlTitlesData(
+                                show: true,
+                                topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                                rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                                leftTitles: AxisTitles(
+                                  sideTitles: SideTitles(
+                                    showTitles: true,
+                                    reservedSize: 40,
+                                    getTitlesWidget: (value, meta) {
+                                      if (value == 0 || value % 1000 != 0) return const SizedBox.shrink();
+                                      return Text(
+                                        '₹${(value / 1000).toStringAsFixed(0)}k',
+                                        style: const TextStyle(fontSize: 10, color: AppColors.textMuted),
+                                      );
+                                    },
                                   ),
                                 ),
-                              ],
+                                bottomTitles: AxisTitles(
+                                  sideTitles: SideTitles(
+                                    showTitles: true,
+                                    reservedSize: 32,
+                                    getTitlesWidget: (value, meta) {
+                                      final index = value.toInt();
+                                      if (index < 0 || index >= displayMarkets.length) return const SizedBox.shrink();
+                                      final m = displayMarkets[index];
+                                      var shortName = m.market.split(' ').first;
+                                      if (shortName.length > 7) {
+                                        shortName = '${shortName.substring(0, 6)}..';
+                                      }
+                                      return Padding(
+                                        padding: const EdgeInsets.only(top: 6),
+                                        child: Text(
+                                          shortName,
+                                          style: const TextStyle(
+                                            fontSize: 10,
+                                            fontWeight: FontWeight.w600,
+                                            color: Color(0xFF334155),
+                                          ),
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ),
+                              borderData: FlBorderData(show: false),
+                              barGroups: displayMarkets.asMap().entries.map((entry) {
+                                final idx = entry.key;
+                                final item = entry.value;
+                                final isBest = item.modalPrice == bestMarket?.modalPrice;
+                                return BarChartGroupData(
+                                  x: idx,
+                                  barRods: [
+                                    BarChartRodData(
+                                      toY: item.modalPrice,
+                                      color: isBest ? const Color(0xFF15803D) : const Color(0xFF86EFAC),
+                                      width: 22,
+                                      borderRadius: const BorderRadius.vertical(top: Radius.circular(6)),
+                                    ),
+                                  ],
+                                );
+                              }).toList(),
+                              barTouchData: BarTouchData(
+                                touchTooltipData: BarTouchTooltipData(
+                                  getTooltipItem: (group, groupIndex, rod, rodIndex) {
+                                    final m = displayMarkets[group.x.toInt()];
+                                    return BarTooltipItem(
+                                      '${m.market}\n₹${rod.toY.toInt()}/Q\nMin: ₹${m.minPrice.toInt()} Max: ₹${m.maxPrice.toInt()}',
+                                      const TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.w600),
+                                    );
+                                  },
+                                ),
+                              ),
                             ),
                           ),
+                        ),
+                        const SizedBox(height: 14),
 
-                        // Visual Mandi-by-Mandi Comparison List
+                        // Visual Mandi-by-Mandi Comparison Summary List (Borderless)
                         ...displayMarkets.asMap().entries.map((entry) {
                           final idx = entry.key;
                           final m = entry.value;
@@ -579,15 +576,11 @@ class _MandiScreenState extends State<MandiScreen> {
                           final double barRatio = (m.modalPrice / highestPrice).clamp(0.2, 1.0);
 
                           return Container(
-                            margin: const EdgeInsets.only(bottom: 10),
-                            padding: const EdgeInsets.all(12),
+                            margin: const EdgeInsets.only(bottom: 8),
+                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
                             decoration: BoxDecoration(
-                              color: isBest ? const Color(0xFFF9FDF9) : const Color(0xFFFAFAFA),
+                              color: isBest ? const Color(0xFFF0FDF4) : const Color(0xFFF8FAFC),
                               borderRadius: BorderRadius.circular(14),
-                              border: Border.all(
-                                color: isBest ? const Color(0xFF86EFAC) : const Color(0xFFE2E8F0),
-                                width: isBest ? 1.2 : 0.8,
-                              ),
                             ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -595,8 +588,8 @@ class _MandiScreenState extends State<MandiScreen> {
                                 Row(
                                   children: [
                                     Container(
-                                      width: 26,
-                                      height: 26,
+                                      width: 24,
+                                      height: 24,
                                       alignment: Alignment.center,
                                       decoration: BoxDecoration(
                                         color: isBest ? const Color(0xFF15803D) : const Color(0xFFE2E8F0),
@@ -606,7 +599,7 @@ class _MandiScreenState extends State<MandiScreen> {
                                         '#${idx + 1}',
                                         style: TextStyle(
                                           color: isBest ? Colors.white : const Color(0xFF475569),
-                                          fontSize: 11,
+                                          fontSize: 10.5,
                                           fontWeight: FontWeight.w800,
                                         ),
                                       ),
@@ -619,7 +612,7 @@ class _MandiScreenState extends State<MandiScreen> {
                                           Text(
                                             m.market,
                                             style: TextStyle(
-                                              fontSize: 14,
+                                              fontSize: 13.5,
                                               fontWeight: FontWeight.w700,
                                               color: const Color(0xFF0F172A),
                                               fontFamily: lang.isHindi ? 'Noto Sans Devanagari' : null,
@@ -642,20 +635,20 @@ class _MandiScreenState extends State<MandiScreen> {
                                         Text(
                                           '₹${m.modalPrice.toInt()}',
                                           style: TextStyle(
-                                            fontSize: 16,
+                                            fontSize: 15,
                                             fontWeight: FontWeight.w800,
                                             color: isBest ? const Color(0xFF15803D) : const Color(0xFF1E293B),
                                           ),
                                         ),
                                         Text(
                                           lang.isHindi ? 'मॉडल भाव /क्विं.' : 'Modal /Q',
-                                          style: const TextStyle(fontSize: 10, color: AppColors.textMuted),
+                                          style: const TextStyle(fontSize: 9.5, color: AppColors.textMuted),
                                         ),
                                       ],
                                     ),
                                   ],
                                 ),
-                                const SizedBox(height: 10),
+                                const SizedBox(height: 8),
 
                                 // Visual Proportional Comparative Bar
                                 LayoutBuilder(
@@ -666,28 +659,28 @@ class _MandiScreenState extends State<MandiScreen> {
                                     return Stack(
                                       children: [
                                         Container(
-                                          height: 9,
+                                          height: 7,
                                           width: totalWidth,
                                           decoration: BoxDecoration(
                                             color: const Color(0xFFE2E8F0),
-                                            borderRadius: BorderRadius.circular(6),
+                                            borderRadius: BorderRadius.circular(5),
                                           ),
                                         ),
                                         Container(
-                                          height: 9,
+                                          height: 7,
                                           width: fillWidth,
                                           decoration: BoxDecoration(
                                             color: isBest
                                                 ? const Color(0xFF15803D)
                                                 : const Color(0xFF22C55E).withValues(alpha: 0.75),
-                                            borderRadius: BorderRadius.circular(6),
+                                            borderRadius: BorderRadius.circular(5),
                                           ),
                                         ),
                                       ],
                                     );
                                   },
                                 ),
-                                const SizedBox(height: 8),
+                                const SizedBox(height: 6),
 
                                 // Range & Status Tags
                                 Row(
@@ -695,11 +688,11 @@ class _MandiScreenState extends State<MandiScreen> {
                                   children: [
                                     Text(
                                       '${lang.isHindi ? 'रेंज' : 'Range'}: ₹${m.minPrice.toInt()} - ₹${m.maxPrice.toInt()}',
-                                      style: const TextStyle(fontSize: 11, color: Color(0xFF64748B)),
+                                      style: const TextStyle(fontSize: 10.5, color: Color(0xFF64748B)),
                                     ),
                                     if (isBest)
                                       Container(
-                                        padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
+                                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                                         decoration: BoxDecoration(
                                           color: const Color(0xFFDCFCE7),
                                           borderRadius: BorderRadius.circular(6),
@@ -707,7 +700,7 @@ class _MandiScreenState extends State<MandiScreen> {
                                         child: Text(
                                           lang.isHindi ? '★ सर्वाधिक भाव' : '★ Top Rate',
                                           style: const TextStyle(
-                                            fontSize: 10,
+                                            fontSize: 9.5,
                                             fontWeight: FontWeight.w700,
                                             color: Color(0xFF15803D),
                                           ),
@@ -717,7 +710,7 @@ class _MandiScreenState extends State<MandiScreen> {
                                       Text(
                                         '-₹${diffFromBest.toInt()} ${lang.isHindi ? 'कम' : 'lower'}',
                                         style: const TextStyle(
-                                          fontSize: 10.5,
+                                          fontSize: 10,
                                           fontWeight: FontWeight.w600,
                                           color: Color(0xFFE11D48),
                                         ),
@@ -761,7 +754,6 @@ class _MandiScreenState extends State<MandiScreen> {
                 decoration: BoxDecoration(
                   color: const Color(0xFFDCFCE7),
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: const Color(0xFFBBF7D0)),
                 ),
                 child: Row(
                   children: [
