@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_lucide/flutter_lucide.dart';
 import 'package:provider/provider.dart';
@@ -8,17 +9,23 @@ import 'core/location/location_provider.dart';
 import 'core/theme/app_theme.dart';
 import 'core/utils/haptic_helper.dart';
 import 'data/services/supabase_service.dart';
+import 'presentation/screens/crop_advisory/crop_advisory_screen.dart';
 import 'presentation/screens/crop_doctor/crop_doctor_screen.dart';
 import 'presentation/screens/farm_manager/farm_manager_screen.dart';
 import 'presentation/screens/home/home_screen.dart';
 import 'presentation/screens/mandi/mandi_screen.dart';
+import 'presentation/screens/my_farm/my_farm_screen.dart';
 import 'presentation/screens/schemes/govt_schemes_screen.dart';
 import 'presentation/screens/settings/settings_screen.dart';
 import 'presentation/screens/sowing/sowing_advisor_screen.dart';
+import 'presentation/screens/videos/krishi_videos_screen.dart';
 import 'presentation/widgets/kiwi_bottom_nav.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]);
   await SupabaseService.initialize();
   runApp(
     MultiProvider(
@@ -77,9 +84,12 @@ class _MainNavigationShellState extends State<MainNavigationShell> {
     final lang = Provider.of<LanguageProvider>(context);
 
     final screens = [
-      HomeScreen(onNavigateTab: _navigateToTab),
+      HomeScreen(onNavigateTab: _navigateToTab), // 0: Home
+      const MandiScreen(), // 1: Mandi
+      KrishiVideosScreen(onNavigateTab: _navigateToTab), // 2: Videos
+      CropAdvisoryScreen(onNavigateTab: _navigateToTab), // 3: Advisory
+      MyFarmScreen(onNavigateTab: _navigateToTab), // 4: More / My Farm
       const CropDoctorScreen(),
-      const MandiScreen(),
       const GovtSchemesScreen(),
       const FarmManagerScreen(),
       const SowingAdvisorScreen(),
@@ -101,24 +111,25 @@ class _MainNavigationShellState extends State<MainNavigationShell> {
             label: lang.tr('navHome'),
           ),
           GoogleNavItem(
-            icon: LucideIcons.scan_line,
-            activeIcon: LucideIcons.scan_line,
-            label: lang.tr('navCropDoctor'),
-          ),
-          GoogleNavItem(
-            icon: LucideIcons.trending_up,
-            activeIcon: LucideIcons.trending_up,
+            icon: LucideIcons.circle_dollar_sign,
+            activeIcon: LucideIcons.circle_dollar_sign,
             label: lang.tr('navMandi'),
           ),
           GoogleNavItem(
-            icon: LucideIcons.landmark,
-            activeIcon: LucideIcons.landmark,
-            label: lang.tr('navSchemes'),
+            icon: LucideIcons.video,
+            activeIcon: LucideIcons.video,
+            label: lang.tr('navVideos'),
           ),
           GoogleNavItem(
-            icon: LucideIcons.wallet,
-            activeIcon: LucideIcons.wallet,
-            label: lang.tr('navFarmRecords'),
+            icon: LucideIcons.sprout,
+            activeIcon: LucideIcons.sprout,
+            label: lang.tr('navAdvisory'),
+          ),
+          GoogleNavItem(
+            icon: LucideIcons.menu,
+            activeIcon: LucideIcons.menu,
+            label: lang.tr('navMore'),
+            hasBadge: true,
           ),
         ],
       ),

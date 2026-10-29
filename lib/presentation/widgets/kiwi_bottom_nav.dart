@@ -5,11 +5,13 @@ class GoogleNavItem {
   final IconData icon;
   final IconData activeIcon;
   final String label;
+  final bool hasBadge;
 
   const GoogleNavItem({
     required this.icon,
     required this.activeIcon,
     required this.label,
+    this.hasBadge = false,
   });
 }
 
@@ -72,26 +74,45 @@ class GoogleBottomNav extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       // Google signature active pill capsule
-                      AnimatedContainer(
-                        duration: const Duration(milliseconds: 220),
-                        curve: Curves.fastOutSlowIn,
-                        width: isSelected ? 56 : 38,
-                        height: 32,
-                        decoration: BoxDecoration(
-                          color: isSelected
-                              ? const Color(0xFFDCFCE7) // Soft Google Biophilic Green Pill
-                              : Colors.transparent,
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        child: Center(
-                          child: Icon(
-                            isSelected ? item.activeIcon : item.icon,
-                            size: 21,
-                            color: isSelected
-                                ? const Color(0xFF14532D) // Google Deep Slate Green
-                                : const Color(0xFF5F6368), // Iconic Google Slate Inactive
+                      Stack(
+                        clipBehavior: Clip.none,
+                        children: [
+                          AnimatedContainer(
+                            duration: const Duration(milliseconds: 220),
+                            curve: Curves.fastOutSlowIn,
+                            width: isSelected ? 56 : 38,
+                            height: 32,
+                            decoration: BoxDecoration(
+                              color: isSelected
+                                  ? const Color(0xFFDCFCE7) // Soft Google Biophilic Green Pill
+                                  : Colors.transparent,
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            child: Center(
+                              child: Icon(
+                                isSelected ? item.activeIcon : item.icon,
+                                size: 21,
+                                color: isSelected
+                                    ? const Color(0xFF14532D) // Google Deep Slate Green
+                                    : const Color(0xFF5F6368), // Iconic Google Slate Inactive
+                              ),
+                            ),
                           ),
-                        ),
+                          if (item.hasBadge)
+                            Positioned(
+                              top: 2,
+                              right: isSelected ? 12 : 4,
+                              child: Container(
+                                width: 8,
+                                height: 8,
+                                decoration: BoxDecoration(
+                                  color: const Color(0xFFEF4444),
+                                  shape: BoxShape.circle,
+                                  border: Border.all(color: Colors.white, width: 1.5),
+                                ),
+                              ),
+                            ),
+                        ],
                       ),
                       const SizedBox(height: 3),
                       // Text label underneath pill
