@@ -18,7 +18,6 @@ import 'presentation/screens/my_farm/my_farm_screen.dart';
 import 'presentation/screens/schemes/govt_schemes_screen.dart';
 import 'presentation/screens/settings/settings_screen.dart';
 import 'presentation/screens/sowing/sowing_advisor_screen.dart';
-import 'presentation/screens/videos/krishi_videos_screen.dart';
 import 'presentation/widgets/kiwi_bottom_nav.dart';
 
 void main() async {
@@ -86,9 +85,8 @@ class _MainNavigationShellState extends State<MainNavigationShell> {
     final screens = [
       HomeScreen(onNavigateTab: _navigateToTab), // 0: Home
       const MandiScreen(), // 1: Mandi
-      KrishiVideosScreen(onNavigateTab: _navigateToTab), // 2: Videos
-      CropAdvisoryScreen(onNavigateTab: _navigateToTab), // 3: Advisory
-      MyFarmScreen(onNavigateTab: _navigateToTab), // 4: More / My Farm
+      CropAdvisoryScreen(onNavigateTab: _navigateToTab), // 2: Advisory
+      MyFarmScreen(onNavigateTab: _navigateToTab), // 3: More / My Farm
       const CropDoctorScreen(),
       const GovtSchemesScreen(),
       const FarmManagerScreen(),
@@ -102,7 +100,7 @@ class _MainNavigationShellState extends State<MainNavigationShell> {
         children: screens,
       ),
       bottomNavigationBar: GoogleBottomNav(
-        currentIndex: (_currentIndex >= 0 && _currentIndex < 5) ? _currentIndex : -1,
+        currentIndex: (_currentIndex >= 0 && _currentIndex < 4) ? _currentIndex : -1,
         onTap: (index) => _navigateToTab(index),
         items: [
           GoogleNavItem(
@@ -114,11 +112,6 @@ class _MainNavigationShellState extends State<MainNavigationShell> {
             icon: LucideIcons.circle_dollar_sign,
             activeIcon: LucideIcons.circle_dollar_sign,
             label: lang.tr('navMandi'),
-          ),
-          GoogleNavItem(
-            icon: LucideIcons.video,
-            activeIcon: LucideIcons.video,
-            label: lang.tr('navVideos'),
           ),
           GoogleNavItem(
             icon: LucideIcons.sprout,

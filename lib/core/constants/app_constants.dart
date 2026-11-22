@@ -6,7 +6,7 @@ class AppConstants {
   static const String programme = 'B.Tech — Computer Science and Engineering';
 
   // API Endpoints & Defaults
-  static const String geminiModel = 'gemini-3.1-flash-lite';
+  static const String geminiModel = 'gemini-3-flash-preview';
   static const String geminiApiKey = String.fromEnvironment(
     'GEMINI_API_KEY',
     defaultValue: 'YOUR_GEMINI_API_KEY',

@@ -5,13 +5,12 @@ import 'package:provider/provider.dart';
 import '../../../core/localization/language_provider.dart';
 import '../../../core/location/location_provider.dart';
 import '../../../core/utils/haptic_helper.dart';
-import '../../../data/services/mandi_service.dart';
 import '../../../data/services/voice_assistant_service.dart';
 import '../../widgets/bouncy_tap.dart';
-import '../anti_counterfeit/anti_counterfeit_screen.dart';
 import '../calendar/crop_calendar_screen.dart';
 import '../crop_doctor/crop_doctor_screen.dart';
 import '../crop_profile/crop_profile_screen.dart';
+import '../farm_manager/farm_manager_screen.dart';
 import '../products/agri_products_screen.dart';
 import '../retailers/nearby_retailers_screen.dart';
 import '../schemes/govt_schemes_screen.dart';
@@ -25,12 +24,7 @@ import '../weather_alert/weather_alert_screen.dart';
 /// - Pure white canvas with flat full-width 8px section dividers (NO boxy cards!)
 /// - Header: Circular emblem logo + "Namaskar 🙏" + Gold Coin reward pill
 /// - Weather: Pure flat row directly on white background
-/// - Important Updates!: Soft unbordered mint banner with chevron toggle
-/// - WhatsApp Updates: Clean unboxed flat card with vibrant green "Turn on" button
-/// - Quick Action Grid: 4 light icon tiles with labels OUTSIDE/BELOW the icons
-/// - Videos for you: Authentic horizontal carousel with search pill
-/// - Mandi Price Update: Live Agmarknet rates with "View All Markets →"
-/// - Crop Calendar: Active crop stage + daily ICAR agronomy + TTS audio playback
+/// - Quick Action Grid: All 8 services directly visible (2 rows of 4)
 /// - Floating mascot chatbot button at bottom-right
 class HomeScreen extends StatefulWidget {
   final Function(int) onNavigateTab;
@@ -42,30 +36,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final VoiceAssistantService _voiceService = VoiceAssistantService();
-  bool _isPlayingAudio = false;
-  bool _isUpdatesExpanded = true;
-  bool _isQuickLinksExpanded = false;
-  bool _isWhatsAppSubscribed = false;
   final int _userCoins = 0;
-
-  @override
-  void dispose() {
-    _voiceService.stopSpeaking();
-    super.dispose();
-  }
-
-  Future<void> _toggleAdvisoryAudio(String text) async {
-    HapticHelper.lightImpact();
-    if (_isPlayingAudio) {
-      await _voiceService.stopSpeaking();
-      setState(() => _isPlayingAudio = false);
-    } else {
-      setState(() => _isPlayingAudio = true);
-      await _voiceService.speak(text, isHindi: true);
-      if (mounted) setState(() => _isPlayingAudio = false);
-    }
-  }
 
   void _showCoinRewardSheet(BuildContext context, bool isHindi) {
     HapticHelper.mediumImpact();
@@ -148,8 +119,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     const SizedBox(height: 6),
                     Text(
                       isHindi
-                          ? '• असली बायर दवाओं के QR कोड स्कैन करने पर 50 सिक्के\n• फसल डॉक्टर से रोग पहचान करने पर 20 सिक्के\n• खेत प्रोफाइल पूरा करने पर 100 सिक्के'
-                          : '• Scan genuine Bayer product QR codes (+50 coins)\n• Diagnose plant disease via Crop Doctor (+20 coins)\n• Complete your farm profile (+100 coins)',
+                          ? '• फसल डॉक्टर से रोग पहचान करने पर 20 सिक्के\n• खेत प्रोफाइल पूरा करने पर 100 सिक्के\n• नियमित दैनिक कृषि सलाह देखने पर 10 सिक्के'
+                          : '• Diagnose plant disease via Crop Doctor (+20 coins)\n• Complete your farm profile (+100 coins)\n• Check daily agronomy advisory (+10 coins)',
                       style: const TextStyle(fontSize: 12, color: Color(0xFF475569), height: 1.5),
                     ),
                   ],
@@ -182,11 +153,6 @@ class _HomeScreenState extends State<HomeScreen> {
     final loc = Provider.of<LocationProvider>(context);
     final isHindi = lang.isHindi;
     final weather = loc.currentWeather;
-    final mandiService = MandiService();
-    final tickerPrices = mandiService.getTickerPrices(state: loc.currentState);
-
-    const activeCropDailyText =
-        'राम राम किसान भाई! आपकी गेहूं की फसल आज 35 दिन की हो चुकी है। कल्ले फूटने (Tillering) की यह अवस्था अत्यंत महत्वपूर्ण है। खेत में पर्याप्त नमी रखें और प्रति एकड़ 40 से 45 किग्रा यूरिया की पहली टॉप-ड्रेसिंग करें। पीला रतुआ रोग की नियमित निगरानी रखें।';
 
     final tempString = weather != null ? '${weather.temperature.round()}°' : '21°';
     final conditionString = weather != null
@@ -237,7 +203,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   );
                   break;
                 case VoiceActionIntent.navigateFarmManager:
-                  widget.onNavigateTab(4);
+                  widget.onNavigateTab(3);
                   break;
                 case VoiceActionIntent.navigateCropProfile:
                   Navigator.push(
@@ -495,232 +461,24 @@ class _HomeScreenState extends State<HomeScreen> {
               Container(height: 8, color: const Color(0xFFF3F4F6)),
 
               // ==========================================================
-              // 3. IMPORTANT UPDATES! (Expandable clean banner)
-              // ==========================================================
-              Padding(
-                padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
-                child: Column(
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        HapticHelper.lightTap();
-                        setState(() => _isUpdatesExpanded = !_isUpdatesExpanded);
-                      },
-                      child: Row(
-                        children: [
-                          const Text('📣', style: TextStyle(fontSize: 16)),
-                          const SizedBox(width: 8),
-                          Text(
-                            isHindi ? 'Important Updates!' : 'Important Updates!',
-                            style: const TextStyle(
-                              fontSize: 15.5,
-                              fontWeight: FontWeight.w800,
-                              color: Color(0xFF111827),
-                            ),
-                          ),
-                          const Spacer(),
-                          Icon(
-                            _isUpdatesExpanded ? LucideIcons.chevron_up : LucideIcons.chevron_down,
-                            size: 20,
-                            color: const Color(0xFF0E8B30),
-                          ),
-                        ],
-                      ),
-                    ),
-                    if (_isUpdatesExpanded) ...[
-                      const SizedBox(height: 10),
-                      BouncyTap(
-                        onTap: () {
-                          HapticHelper.lightTap();
-                          widget.onNavigateTab(4); // Navigate to Profile / My Farm
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFF6FBF7), // Soft mint tint from FarmRise
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                          child: Row(
-                            children: [
-                              Container(
-                                width: 44,
-                                height: 44,
-                                decoration: const BoxDecoration(
-                                  color: Color(0xFFDCFCE7),
-                                  shape: BoxShape.circle,
-                                ),
-                                child: const Center(
-                                  child: Icon(
-                                    LucideIcons.sparkles,
-                                    color: Color(0xFF0E8B30),
-                                    size: 20,
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(width: 12),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      isHindi ? 'अपनी प्रोफाइल पूरी करें' : 'Complete your profile',
-                                      style: const TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w700,
-                                        color: Color(0xFF111827),
-                                      ),
-                                    ),
-                                    const SizedBox(height: 2),
-                                    Text(
-                                      isHindi
-                                          ? 'व्यक्तिगत कृषि अनुभव और सटीक सलाह पाएं'
-                                          : 'Unlock a personalised experience',
-                                      style: const TextStyle(
-                                        fontSize: 12.5,
-                                        fontWeight: FontWeight.w500,
-                                        color: Color(0xFF6B7280),
-                                      ),
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                width: 34,
-                                height: 34,
-                                decoration: const BoxDecoration(
-                                  color: Color(0xFF0E8B30),
-                                  shape: BoxShape.circle,
-                                ),
-                                child: const Icon(
-                                  LucideIcons.arrow_right,
-                                  color: Colors.white,
-                                  size: 18,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ],
-                ),
-              ),
-
-              // Solid Gray Section Separator Bar
-              Container(height: 8, color: const Color(0xFFF3F4F6)),
-
-              // ==========================================================
-              // 4. GET WHATSAPP UPDATES (Clean FarmRise Card - NO BOX BORDER!)
-              // ==========================================================
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(12),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.05),
-                        blurRadius: 8,
-                        offset: const Offset(0, 2),
-                      ),
-                    ],
-                  ),
-                  child: Row(
-                    children: [
-                      // WhatsApp Green Icon
-                      Container(
-                        width: 40,
-                        height: 40,
-                        decoration: const BoxDecoration(
-                          color: Color(0xFF22C55E),
-                          shape: BoxShape.circle,
-                        ),
-                        child: const Center(
-                          child: Icon(
-                            LucideIcons.message_circle,
-                            color: Colors.white,
-                            size: 22,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 12),
-
-                      // Text
-                      Expanded(
-                        child: Text(
-                          isHindi ? 'व्हाट्सएप पर अपडेट पाएं' : 'Get WhatsApp Updates',
-                          style: const TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w700,
-                            color: Color(0xFF111827),
-                          ),
-                        ),
-                      ),
-
-                      // Turn On Button
-                      ElevatedButton(
-                        onPressed: () {
-                          HapticHelper.mediumImpact();
-                          setState(() => _isWhatsAppSubscribed = !_isWhatsAppSubscribed);
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                _isWhatsAppSubscribed
-                                    ? (isHindi
-                                        ? '✅ व्हाट्सएप अलर्ट सफलतापूर्वक सक्रिय हो गया!'
-                                        : '✅ WhatsApp daily alerts enabled!')
-                                    : (isHindi ? 'व्हाट्सएप अलर्ट बंद कर दिया गया।' : 'WhatsApp alerts paused.'),
-                              ),
-                              backgroundColor: const Color(0xFF0E8B30),
-                              duration: const Duration(seconds: 2),
-                            ),
-                          );
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: _isWhatsAppSubscribed ? const Color(0xFF64748B) : const Color(0xFF0E8B30),
-                          foregroundColor: Colors.white,
-                          elevation: 0,
-                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                        ),
-                        child: Text(
-                          _isWhatsAppSubscribed
-                              ? (isHindi ? 'सक्रिय' : 'Active')
-                              : (isHindi ? 'शुरू करें' : 'Turn on'),
-                          style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 13),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-
-              // Solid Gray Section Separator Bar
-              Container(height: 8, color: const Color(0xFFF3F4F6)),
-
-              // ==========================================================
-              // 5. 4 QUICK ACTION TILES (Authentic FarmRise Layout)
+              // 3. 4 QUICK ACTION TILES (Authentic FarmRise Layout)
               // (Icons in rounded squircle, labels BELOW icons - NO BOXES!)
               // ==========================================================
               Padding(
-                padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+                padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Item 1: Verify Bayer Products (Anti-Counterfeit)
+                    // Item 1: Farm Ledger (Farm Income & Expense)
                     Expanded(
                       child: _buildFarmRiseActionTile(
-                        icon: LucideIcons.scan_line,
+                        icon: LucideIcons.calculator,
                         iconColor: const Color(0xFF0284C7), // Blue
-                        label: isHindi ? 'Verify Bayer\nProducts' : 'Verify Bayer\nProducts',
+                        label: isHindi ? 'Farm\nLedger' : 'Farm\nLedger',
                         onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (c) => const AntiCounterfeitScreen()),
+                            MaterialPageRoute(builder: (c) => const FarmManagerScreen()),
                           );
                         },
                       ),
@@ -774,459 +532,74 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
 
-              // "View More ⌵" Expander Link
-              Center(
-                child: InkWell(
-                  onTap: () {
-                    HapticHelper.lightTap();
-                    setState(() => _isQuickLinksExpanded = !_isQuickLinksExpanded);
-                  },
-                  borderRadius: BorderRadius.circular(20),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          _isQuickLinksExpanded
-                              ? (isHindi ? 'कम देखें' : 'View Less')
-                              : (isHindi ? 'View More' : 'View More'),
-                          style: const TextStyle(
-                            fontSize: 13.5,
-                            fontWeight: FontWeight.w700,
-                            color: Color(0xFF0E8B30),
-                          ),
-                        ),
-                        const SizedBox(width: 4),
-                        Icon(
-                          _isQuickLinksExpanded ? LucideIcons.chevron_up : LucideIcons.chevron_down,
-                          size: 18,
-                          color: const Color(0xFF0E8B30),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
+              const SizedBox(height: 16),
 
-              // Secondary Quick Links (When View More is toggled)
-              if (_isQuickLinksExpanded)
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 4, 16, 12),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: _buildFarmRiseActionTile(
-                          icon: LucideIcons.sprout,
-                          iconColor: const Color(0xFF0E8B30),
-                          label: isHindi ? 'Sowing\nAdvisor' : 'Sowing\nAdvisor',
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (c) => const SowingAdvisorScreen()),
-                            );
-                          },
-                        ),
-                      ),
-                      Expanded(
-                        child: _buildFarmRiseActionTile(
-                          icon: LucideIcons.calendar_days,
-                          iconColor: const Color(0xFF0284C7),
-                          label: isHindi ? 'Crop\nCalendar' : 'Crop\nCalendar',
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (c) => const CropCalendarScreen()),
-                            );
-                          },
-                        ),
-                      ),
-                      Expanded(
-                        child: _buildFarmRiseActionTile(
-                          icon: LucideIcons.test_tube,
-                          iconColor: const Color(0xFF7C3AED),
-                          label: isHindi ? 'Soil Health\nCard' : 'Soil Health\nCard',
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (c) => const SoilCardScreen()),
-                            );
-                          },
-                        ),
-                      ),
-                      Expanded(
-                        child: _buildFarmRiseActionTile(
-                          icon: LucideIcons.landmark,
-                          iconColor: const Color(0xFFD97706),
-                          label: isHindi ? 'Govt\nSchemes' : 'Govt\nSchemes',
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (c) => const GovtSchemesScreen()),
-                            );
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-
-              const SizedBox(height: 6),
-
-              // Solid Gray Section Separator Bar
-              Container(height: 8, color: const Color(0xFFF3F4F6)),
-
-              // ==========================================================
-              // 6. VIDEOS FOR YOU (Horizontal Carousel with Search Pill)
-              // ==========================================================
+              // Row 2 of Services (All Services shown)
               Padding(
-                padding: const EdgeInsets.fromLTRB(16, 14, 16, 12),
+                padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      isHindi ? 'Videos for you' : 'Videos for you',
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w800,
-                        color: Color(0xFF111827),
+                    // Item 5: Sowing Advisor
+                    Expanded(
+                      child: _buildFarmRiseActionTile(
+                        icon: LucideIcons.sprout,
+                        iconColor: const Color(0xFF0E8B30),
+                        label: isHindi ? 'Sowing\nAdvisor' : 'Sowing\nAdvisor',
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (c) => const SowingAdvisorScreen()),
+                          );
+                        },
                       ),
                     ),
-                    InkWell(
-                      onTap: () => widget.onNavigateTab(2), // Navigate to Videos tab
-                      borderRadius: BorderRadius.circular(20),
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFF3F4F6),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: const Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(LucideIcons.search, size: 14, color: Color(0xFF6B7280)),
-                            SizedBox(width: 4),
-                            Text(
-                              'Search',
-                              style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Color(0xFF6B7280)),
-                            ),
-                          ],
-                        ),
+
+                    // Item 6: Crop Calendar
+                    Expanded(
+                      child: _buildFarmRiseActionTile(
+                        icon: LucideIcons.calendar_days,
+                        iconColor: const Color(0xFF0284C7),
+                        label: isHindi ? 'Crop\nCalendar' : 'Crop\nCalendar',
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (c) => const CropCalendarScreen()),
+                          );
+                        },
+                      ),
+                    ),
+
+                    // Item 7: Soil Health Card
+                    Expanded(
+                      child: _buildFarmRiseActionTile(
+                        icon: LucideIcons.test_tube,
+                        iconColor: const Color(0xFF7C3AED),
+                        label: isHindi ? 'Soil Health\nCard' : 'Soil Health\nCard',
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (c) => const SoilCardScreen()),
+                          );
+                        },
+                      ),
+                    ),
+
+                    // Item 8: Govt Schemes
+                    Expanded(
+                      child: _buildFarmRiseActionTile(
+                        icon: LucideIcons.landmark,
+                        iconColor: const Color(0xFFD97706),
+                        label: isHindi ? 'Govt\nSchemes' : 'Govt\nSchemes',
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (c) => const GovtSchemesScreen()),
+                          );
+                        },
                       ),
                     ),
                   ],
-                ),
-              ),
-
-              // Videos Horizontal Carousel
-              SizedBox(
-                height: 230,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  physics: const BouncingScrollPhysics(),
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  children: [
-                    _buildVideoCard(
-                      views: '6.9K',
-                      category: '9 गतिविधियाँ',
-                      title: 'डायरेक्ट सीडेड राइस (DSR) व गेहूं में कल्ले',
-                      channel: 'Bayer CropScience',
-                      badgeColor: const Color(0xFF0E8B30),
-                      thumbnailGradient: const [Color(0xFF065F46), Color(0xFF047857)],
-                      onTap: () => widget.onNavigateTab(2),
-                    ),
-                    const SizedBox(width: 14),
-                    _buildVideoCard(
-                      views: '3.3K',
-                      category: 'फसल सुरक्षा',
-                      title: 'सरसों में माहू कीट नियंत्रण व स्प्रे की विधि',
-                      channel: 'Bayer Academy',
-                      badgeColor: const Color(0xFFD97706),
-                      thumbnailGradient: const [Color(0xFF78350F), Color(0xFFB45309)],
-                      onTap: () => widget.onNavigateTab(2),
-                    ),
-                    const SizedBox(width: 14),
-                    _buildVideoCard(
-                      views: '31.6K',
-                      category: 'ड्रोन स्प्रे',
-                      title: 'कृषि ड्रोन से नैनो यूरिया व कीटनाशक स्प्रे तकनीक',
-                      channel: 'Agri Drone Pro',
-                      badgeColor: const Color(0xFF0284C7),
-                      thumbnailGradient: const [Color(0xFF0C4A6E), Color(0xFF0284C7)],
-                      onTap: () => widget.onNavigateTab(2),
-                    ),
-                  ],
-                ),
-              ),
-
-              const SizedBox(height: 14),
-
-              // Solid Gray Section Separator Bar
-              Container(height: 8, color: const Color(0xFFF3F4F6)),
-
-              // ==========================================================
-              // 7. MANDI PRICE UPDATE (Matching FarmRise home_screen_mandi_card.xml)
-              // ==========================================================
-              Padding(
-                padding: const EdgeInsets.fromLTRB(16, 14, 16, 6),
-                child: Row(
-                  children: [
-                    const Icon(LucideIcons.map_pin, size: 16, color: Color(0xFF0E8B30)),
-                    const SizedBox(width: 6),
-                    Text(
-                      isHindi ? 'MANDI PRICE UPDATE' : 'MANDI PRICE UPDATE',
-                      style: const TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w800,
-                        color: Color(0xFF0E8B30),
-                        letterSpacing: 0.5,
-                      ),
-                    ),
-                    const Spacer(),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFDCFCE7),
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                      child: Text(
-                        isHindi ? 'लाइव भाव' : 'Live APMC',
-                        style: const TextStyle(
-                          fontSize: 10.5,
-                          fontWeight: FontWeight.w700,
-                          color: Color(0xFF15803D),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-
-              // Mandi Listings (Clean flat rows)
-              if (tickerPrices.isNotEmpty) ...[
-                for (final item in tickerPrices.take(3))
-                  InkWell(
-                    onTap: () => widget.onNavigateTab(1),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                      child: Row(
-                        children: [
-                          Container(
-                            width: 38,
-                            height: 38,
-                            decoration: const BoxDecoration(
-                              color: Color(0xFFFEF3C7),
-                              shape: BoxShape.circle,
-                            ),
-                            child: const Center(
-                              child: Icon(LucideIcons.circle_dollar_sign, color: Color(0xFFD97706), size: 20),
-                            ),
-                          ),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  isHindi ? item.commodityHindi : item.commodity,
-                                  style: const TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w700,
-                                    color: Color(0xFF111827),
-                                  ),
-                                ),
-                                Text(
-                                  '${item.market}, ${item.district}',
-                                  style: const TextStyle(
-                                    fontSize: 12,
-                                    color: Color(0xFF6B7280),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Text(
-                                '₹${item.modalPrice.round()}/Q',
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w800,
-                                  color: Color(0xFF111827),
-                                ),
-                              ),
-                              const Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Icon(LucideIcons.trending_up, size: 12, color: Color(0xFF16A34A)),
-                                  SizedBox(width: 2),
-                                  Text(
-                                    '+₹50',
-                                    style: TextStyle(
-                                      fontSize: 11,
-                                      fontWeight: FontWeight.w700,
-                                      color: Color(0xFF16A34A),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-              ],
-
-              // View All Markets Link
-              InkWell(
-                onTap: () => widget.onNavigateTab(1),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                  child: Row(
-                    children: [
-                      Text(
-                        isHindi ? 'सभी मंडियों के भाव देखें' : 'View All Markets',
-                        style: const TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w700,
-                          color: Color(0xFF0E8B30),
-                        ),
-                      ),
-                      const SizedBox(width: 4),
-                      const Icon(LucideIcons.arrow_right, size: 16, color: Color(0xFF0E8B30)),
-                    ],
-                  ),
-                ),
-              ),
-
-              // Solid Gray Section Separator Bar
-              Container(height: 8, color: const Color(0xFFF3F4F6)),
-
-              // ==========================================================
-              // 8. CROP CALENDAR & AGRONOMY (home_screen_crop_calendar_card.xml)
-              // ==========================================================
-              Padding(
-                padding: const EdgeInsets.fromLTRB(16, 14, 16, 8),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      isHindi ? 'Crop Calendar' : 'Crop Calendar',
-                      style: const TextStyle(
-                        fontSize: 17,
-                        fontWeight: FontWeight.w800,
-                        color: Color(0xFF111827),
-                      ),
-                    ),
-                    const Text(
-                      'PBW-502 • 35 Days',
-                      style: TextStyle(
-                        fontSize: 12.5,
-                        fontWeight: FontWeight.w600,
-                        color: Color(0xFF0E8B30),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Container(
-                  padding: const EdgeInsets.all(14),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(14),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.04),
-                        blurRadius: 8,
-                        offset: const Offset(0, 2),
-                      ),
-                    ],
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.all(8),
-                            decoration: const BoxDecoration(
-                              color: Color(0xFFDCFCE7),
-                              shape: BoxShape.circle,
-                            ),
-                            child: const Icon(LucideIcons.sprout, color: Color(0xFF0E8B30), size: 18),
-                          ),
-                          const SizedBox(width: 10),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  isHindi ? 'सक्रिय अवस्था: कल्ले फूटना (Tillering)' : 'Active Stage: Tillering Stage',
-                                  style: const TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w700,
-                                    color: Color(0xFF111827),
-                                  ),
-                                ),
-                                const Text(
-                                  'DAS: 25 - 45 Days',
-                                  style: TextStyle(fontSize: 11.5, color: Color(0xFF6B7280)),
-                                ),
-                              ],
-                            ),
-                          ),
-                          // TTS Audio Listen Button
-                          BouncyTap(
-                            onTap: () => _toggleAdvisoryAudio(activeCropDailyText),
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                              decoration: BoxDecoration(
-                                color: _isPlayingAudio ? const Color(0xFFDCFCE7) : Colors.white,
-                                borderRadius: BorderRadius.circular(20),
-                                border: Border.all(color: const Color(0xFF0E8B30)),
-                              ),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Icon(
-                                    _isPlayingAudio ? LucideIcons.volume_2 : LucideIcons.volume_1,
-                                    size: 14,
-                                    color: const Color(0xFF0E8B30),
-                                  ),
-                                  const SizedBox(width: 4),
-                                  Text(
-                                    _isPlayingAudio ? (isHindi ? 'रोकें' : 'Stop') : (isHindi ? 'सुनें' : 'Listen'),
-                                    style: const TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w700,
-                                      color: Color(0xFF0E8B30),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 10),
-                      Text(
-                        isHindi
-                            ? 'खेत में पर्याप्त नमी रखें और प्रति एकड़ 40 से 45 किग्रा यूरिया की पहली टॉप-ड्रेसिंग करें।'
-                            : 'Maintain adequate moisture and apply first top-dressing of 45 kg Urea per acre.',
-                        style: const TextStyle(
-                          fontSize: 13,
-                          color: Color(0xFF334155),
-                          height: 1.4,
-                        ),
-                      ),
-                    ],
-                  ),
                 ),
               ),
 
@@ -1280,139 +653,6 @@ class _HomeScreenState extends State<HomeScreen> {
             overflow: TextOverflow.ellipsis,
           ),
         ],
-      ),
-    );
-  }
-
-  /// Authentic FarmRise Video Card for Carousel
-  Widget _buildVideoCard({
-    required String views,
-    required String category,
-    required String title,
-    required String channel,
-    required Color badgeColor,
-    required List<Color> thumbnailGradient,
-    required VoidCallback onTap,
-  }) {
-    return BouncyTap(
-      onTap: onTap,
-      child: Container(
-        width: 250,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(14),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.04),
-              blurRadius: 8,
-              offset: const Offset(0, 2),
-            ),
-          ],
-        ),
-        clipBehavior: Clip.antiAlias,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Video Thumbnail Container
-            Container(
-              height: 125,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: thumbnailGradient,
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-              ),
-              child: Stack(
-                children: [
-                  // Play Circle Button
-                  Center(
-                    child: Container(
-                      width: 42,
-                      height: 42,
-                      decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.92),
-                        shape: BoxShape.circle,
-                      ),
-                      child: const Center(
-                        child: Icon(LucideIcons.play, color: Color(0xFF0E8B30), size: 20),
-                      ),
-                    ),
-                  ),
-                  // View Count Badge
-                  Positioned(
-                    top: 8,
-                    left: 8,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
-                      decoration: BoxDecoration(
-                        color: Colors.black.withValues(alpha: 0.65),
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const Icon(LucideIcons.eye, color: Colors.white, size: 11),
-                          const SizedBox(width: 4),
-                          Text(
-                            views,
-                            style: const TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.w700),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  // Category Badge
-                  Positioned(
-                    bottom: 8,
-                    left: 8,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                      decoration: BoxDecoration(
-                        color: badgeColor,
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                      child: Text(
-                        category,
-                        style: const TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.w700),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            // Video Title & Channel
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: const TextStyle(
-                      fontSize: 12.5,
-                      fontWeight: FontWeight.w700,
-                      color: Color(0xFF111827),
-                      height: 1.25,
-                    ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    channel,
-                    style: const TextStyle(
-                      fontSize: 11,
-                      fontWeight: FontWeight.w500,
-                      color: Color(0xFF6B7280),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }

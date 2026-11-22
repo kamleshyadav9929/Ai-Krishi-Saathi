@@ -6,7 +6,6 @@ import '../../../core/localization/language_provider.dart';
 import '../../../core/utils/haptic_helper.dart';
 import '../../widgets/bouncy_tap.dart';
 import '../../widgets/custom_app_bar.dart';
-import '../anti_counterfeit/anti_counterfeit_screen.dart';
 
 class AgriProductItem {
   final String id;
@@ -236,32 +235,6 @@ class _AgriProductsScreenState extends State<AgriProductsScreen> {
                     const Divider(height: 16, color: Color(0xFFE2E8F0)),
                     _buildInfoRow(isHindi ? 'सुरक्षा तुड़ाई अंतर (PHI)' : 'Safety Waiting (PHI)', p.phiDays),
                   ],
-                ),
-              ),
-              const SizedBox(height: 18),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton.icon(
-                  onPressed: () {
-                    HapticHelper.lightTap();
-                    Navigator.pop(ctx);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (c) => const AntiCounterfeitScreen()),
-                    );
-                  },
-                  icon: const Icon(LucideIcons.scan_barcode, size: 20),
-                  label: Text(
-                    isHindi ? 'इस दवा का असली बारकोड स्कैन करें' : 'Verify Genuine Barcode',
-                    style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 14),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF15803D),
-                    foregroundColor: Colors.white,
-                    elevation: 0,
-                    padding: const EdgeInsets.symmetric(vertical: 14),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-                  ),
                 ),
               ),
             ],

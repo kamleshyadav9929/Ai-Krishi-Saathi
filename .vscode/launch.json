@@ -1,0 +1,22 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "AI Krishi Saathi (Dev)",
+      "request": "launch",
+      "type": "dart",
+      "args": [
+        "--dart-define-from-file=dart_defines.json"
+      ]
+    },
+    {
+      "name": "AI Krishi Saathi (Release)",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "release",
+      "args": [
+        "--dart-define-from-file=dart_defines.json"
+      ]
+    }
+  ]
+}

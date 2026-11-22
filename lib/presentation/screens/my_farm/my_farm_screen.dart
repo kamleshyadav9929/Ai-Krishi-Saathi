@@ -7,7 +7,6 @@ import '../../../core/localization/language_provider.dart';
 import '../../../core/location/location_provider.dart';
 import '../../../core/utils/haptic_helper.dart';
 import '../../widgets/bouncy_tap.dart';
-import '../anti_counterfeit/anti_counterfeit_screen.dart';
 import '../calendar/crop_calendar_screen.dart';
 import '../crop_doctor/crop_doctor_screen.dart';
 import '../farm_manager/farm_manager_screen.dart';
@@ -210,25 +209,7 @@ class _MyFarmScreenState extends State<MyFarmScreen> {
             // ==========================================================
             _buildSectionHeader(isHindi ? 'बायर सेवाएं (BAYER SERVICES)' : 'BAYER SERVICES'),
 
-            // Item 1: Verify Bayer Products (ACF Anti-Counterfeit)
-            _buildFarmRiseMenuItem(
-              icon: LucideIcons.scan_line,
-              iconColor: const Color(0xFF0284C7),
-              iconBgColor: const Color(0xFFE0F2FE),
-              title: isHindi ? 'असली बायर उत्पाद जांच (ACF)' : 'Verify Bayer Products',
-              subtitle: isHindi ? 'QR कोड स्कैन कर असली/नकली जांचें और सिक्के पाएं' : 'Scan QR code to verify authenticity & earn coins',
-              badgeText: 'ACF',
-              badgeColor: const Color(0xFF0284C7),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const AntiCounterfeitScreen()),
-                );
-              },
-            ),
-            const Divider(height: 1, thickness: 1, indent: 68, color: Color(0xFFF1F5F9)),
-
-            // Item 2: Bayer Products Catalog
+            // Item 1: Bayer Products Catalog
             _buildFarmRiseMenuItem(
               icon: LucideIcons.flask_conical,
               iconColor: const Color(0xFF0284C7),
