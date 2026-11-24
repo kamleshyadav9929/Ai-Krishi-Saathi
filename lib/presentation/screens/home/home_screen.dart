@@ -614,23 +614,22 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: [
                         // Real Image of that crop
                         Container(
-                          width: 72,
-                          height: 72,
+                          width: 68,
+                          height: 68,
                           decoration: BoxDecoration(
                             color: const Color(0xFFF8FAFC),
-                            borderRadius: BorderRadius.circular(14),
-                            border: Border.all(color: const Color(0xFFE2E8F0), width: 1),
+                            shape: BoxShape.circle,
+                            border: Border.all(color: const Color(0xFFE2E8F0), width: 1.5),
                           ),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(13),
+                          child: ClipOval(
                             child: Image.asset(
                               cropImage,
-                              width: 72,
-                              height: 72,
+                              width: 68,
+                              height: 68,
                               fit: BoxFit.cover,
                               errorBuilder: (ctx, err, stack) {
                                 return const Center(
-                                  child: Icon(LucideIcons.sprout, color: Color(0xFF15803D), size: 30),
+                                  child: Icon(LucideIcons.sprout, color: Color(0xFF15803D), size: 28),
                                 );
                               },
                             ),

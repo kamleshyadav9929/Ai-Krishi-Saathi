@@ -424,23 +424,24 @@ class _MandiScreenState extends State<MandiScreen> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Container(
-                            width: 52,
-                            height: 52,
+                            width: 54,
+                            height: 54,
                             decoration: BoxDecoration(
-                              color: isSelected ? const Color(0xFFDCFCE7) : const Color(0xFFF1F5F9),
+                              color: isSelected ? const Color(0xFFDCFCE7) : const Color(0xFFF8FAFC),
                               shape: BoxShape.circle,
                               border: Border.all(
                                 color: isSelected ? const Color(0xFF0E8B30) : const Color(0xFFE2E8F0),
-                                width: 2,
+                                width: isSelected ? 2.5 : 1.5,
                               ),
                             ),
                             child: ClipOval(
-                              child: Padding(
-                                padding: const EdgeInsets.all(4),
-                                child: Image.asset(
-                                  crop['image'] as String,
-                                  fit: BoxFit.cover,
-                                  errorBuilder: (ctx, err, stack) => const Icon(
+                              child: Image.asset(
+                                crop['image'] as String,
+                                width: 54,
+                                height: 54,
+                                fit: BoxFit.cover,
+                                errorBuilder: (ctx, err, stack) => const Center(
+                                  child: Icon(
                                     LucideIcons.sprout,
                                     color: Color(0xFF0E8B30),
                                     size: 24,
@@ -544,20 +545,19 @@ class _MandiScreenState extends State<MandiScreen> {
                             children: [
                               // Real Crop PNG Thumbnail
                               Container(
-                                width: 48,
-                                height: 48,
+                                width: 50,
+                                height: 50,
                                 margin: const EdgeInsets.only(right: 12),
                                 decoration: BoxDecoration(
                                   color: const Color(0xFFF8FAFC),
-                                  borderRadius: BorderRadius.circular(12),
-                                  border: Border.all(color: const Color(0xFFE2E8F0), width: 1),
+                                  shape: BoxShape.circle,
+                                  border: Border.all(color: const Color(0xFFE2E8F0), width: 1.2),
                                 ),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(11),
+                                child: ClipOval(
                                   child: Image.asset(
                                     _getCropImage(item.commodity),
-                                    width: 48,
-                                    height: 48,
+                                    width: 50,
+                                    height: 50,
                                     fit: BoxFit.cover,
                                     errorBuilder: (ctx, err, stack) => const Center(
                                       child: Icon(LucideIcons.sprout, color: Color(0xFF0E8B30), size: 24),
