@@ -34,14 +34,52 @@ class _MandiScreenState extends State<MandiScreen> {
   String? _expandedGraphMandiId;
 
   final List<Map<String, dynamic>> _quickCrops = [
-    {'en': 'Wheat', 'hi': 'गेहूं', 'icon': LucideIcons.wheat},
-    {'en': 'Paddy(Dhan)(Common)', 'hi': 'धान', 'icon': LucideIcons.sprout},
-    {'en': 'Mustard', 'hi': 'सरसों', 'icon': LucideIcons.flower_2},
-    {'en': 'Potato', 'hi': 'आलू', 'icon': LucideIcons.circle_dot},
-    {'en': 'Onion', 'hi': 'प्याज', 'icon': LucideIcons.circle},
-    {'en': 'Maize', 'hi': 'मक्का', 'icon': LucideIcons.sparkles},
-    {'en': 'Gram', 'hi': 'चना', 'icon': LucideIcons.dot},
+    {'en': 'Wheat', 'hi': 'गेहूं', 'image': 'assets/images/crop_wheat.png'},
+    {'en': 'Paddy(Dhan)(Common)', 'hi': 'धान', 'image': 'assets/images/crop_paddy.png'},
+    {'en': 'Mustard', 'hi': 'सरसों', 'image': 'assets/images/crop_mustard.png'},
+    {'en': 'Potato', 'hi': 'आलू', 'image': 'assets/images/crop_potato.png'},
+    {'en': 'Onion', 'hi': 'प्याज', 'image': 'assets/images/crop_onion.png'},
+    {'en': 'Tomato', 'hi': 'टमाटर', 'image': 'assets/images/crop_tomato.png'},
+    {'en': 'Maize', 'hi': 'मक्का', 'image': 'assets/images/crop_corn.png'},
+    {'en': 'Bitter Gourd', 'hi': 'करेला', 'image': 'assets/images/crop_bitter_gourd.png'},
+    {'en': 'Bottle Gourd', 'hi': 'लौकी', 'image': 'assets/images/crop_bottle_gourd.png'},
+    {'en': 'Green Chilli', 'hi': 'हरी मिर्च', 'image': 'assets/images/crop_chilli.png'},
   ];
+
+  String _getCropImage(String commodity) {
+    final c = commodity.toLowerCase();
+    if (c.contains('bitter') || c.contains('karela') || c.contains('करेला')) {
+      return 'assets/images/crop_bitter_gourd.png';
+    }
+    if (c.contains('bottle') || c.contains('lauki') || c.contains('लौकी') || c.contains('ghiya')) {
+      return 'assets/images/crop_bottle_gourd.png';
+    }
+    if (c.contains('wheat') || c.contains('gehu') || c.contains('गेहूं')) {
+      return 'assets/images/crop_wheat.png';
+    }
+    if (c.contains('paddy') || c.contains('dhan') || c.contains('धान') || c.contains('rice')) {
+      return 'assets/images/crop_paddy.png';
+    }
+    if (c.contains('mustard') || c.contains('sarson') || c.contains('सरसों') || c.contains('rai')) {
+      return 'assets/images/crop_mustard.png';
+    }
+    if (c.contains('tomato') || c.contains('tamatar') || c.contains('टमाटर')) {
+      return 'assets/images/crop_tomato.png';
+    }
+    if (c.contains('potato') || c.contains('aloo') || c.contains('आलू')) {
+      return 'assets/images/crop_potato.png';
+    }
+    if (c.contains('onion') || c.contains('pyaz') || c.contains('प्याज')) {
+      return 'assets/images/crop_onion.png';
+    }
+    if (c.contains('maize') || c.contains('corn') || c.contains('मक्का')) {
+      return 'assets/images/crop_corn.png';
+    }
+    if (c.contains('chilli') || c.contains('mirch') || c.contains('मिर्च')) {
+      return 'assets/images/crop_chilli.png';
+    }
+    return 'assets/images/crops.webp';
+  }
 
   @override
   void didChangeDependencies() {
@@ -392,15 +430,22 @@ class _MandiScreenState extends State<MandiScreen> {
                               color: isSelected ? const Color(0xFFDCFCE7) : const Color(0xFFF1F5F9),
                               shape: BoxShape.circle,
                               border: Border.all(
-                                color: isSelected ? const Color(0xFF0E8B30) : Colors.transparent,
+                                color: isSelected ? const Color(0xFF0E8B30) : const Color(0xFFE2E8F0),
                                 width: 2,
                               ),
                             ),
-                            child: Center(
-                              child: Icon(
-                                crop['icon'] as IconData,
-                                color: isSelected ? const Color(0xFF0E8B30) : const Color(0xFF475569),
-                                size: 24,
+                            child: ClipOval(
+                              child: Padding(
+                                padding: const EdgeInsets.all(4),
+                                child: Image.asset(
+                                  crop['image'] as String,
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (ctx, err, stack) => const Icon(
+                                    LucideIcons.sprout,
+                                    color: Color(0xFF0E8B30),
+                                    size: 24,
+                                  ),
+                                ),
                               ),
                             ),
                           ),
@@ -494,20 +539,64 @@ class _MandiScreenState extends State<MandiScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          // Mandi Header Row: Market name + Distance + Star
+                          // Mandi Header Row: Real Crop PNG + Market name + Distance + Star
                           Row(
                             children: [
+                              // Real Crop PNG Thumbnail
+                              Container(
+                                width: 48,
+                                height: 48,
+                                margin: const EdgeInsets.only(right: 12),
+                                decoration: BoxDecoration(
+                                  color: const Color(0xFFF8FAFC),
+                                  borderRadius: BorderRadius.circular(12),
+                                  border: Border.all(color: const Color(0xFFE2E8F0), width: 1),
+                                ),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(11),
+                                  child: Image.asset(
+                                    _getCropImage(item.commodity),
+                                    width: 48,
+                                    height: 48,
+                                    fit: BoxFit.cover,
+                                    errorBuilder: (ctx, err, stack) => const Center(
+                                      child: Icon(LucideIcons.sprout, color: Color(0xFF0E8B30), size: 24),
+                                    ),
+                                  ),
+                                ),
+                              ),
                               Expanded(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
-                                      item.market,
-                                      style: const TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w800,
-                                        color: Color(0xFF111827),
-                                      ),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: Text(
+                                            item.market,
+                                            style: const TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w800,
+                                              color: Color(0xFF111827),
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                                          decoration: BoxDecoration(
+                                            color: const Color(0xFFDCFCE7),
+                                            borderRadius: BorderRadius.circular(6),
+                                          ),
+                                          child: Text(
+                                            item.commodityHindi.isNotEmpty ? item.commodityHindi : item.commodity,
+                                            style: const TextStyle(
+                                              fontSize: 11,
+                                              fontWeight: FontWeight.w700,
+                                              color: Color(0xFF15803D),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                     Text(
                                       '${item.district}, ${item.state} • ~${12 + (index * 7)} km',

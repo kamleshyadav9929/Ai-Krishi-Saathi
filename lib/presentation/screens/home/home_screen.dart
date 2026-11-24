@@ -80,34 +80,34 @@ class _HomeScreenState extends State<HomeScreen> {
   static String getCropImage(String commodity) {
     final c = commodity.toLowerCase();
     if (c.contains('bitter') || c.contains('karela') || c.contains('करेला')) {
-      return 'assets/images/crop_bitter_gourd.jpg';
+      return 'assets/images/crop_bitter_gourd.png';
     }
     if (c.contains('bottle') || c.contains('lauki') || c.contains('लौकी') || c.contains('ghiya')) {
-      return 'assets/images/crop_bottle_gourd.jpg';
+      return 'assets/images/crop_bottle_gourd.png';
     }
     if (c.contains('wheat') || c.contains('gehu') || c.contains('गेहूं')) {
-      return 'assets/images/crop_wheat.jpg';
+      return 'assets/images/crop_wheat.png';
     }
     if (c.contains('paddy') || c.contains('dhan') || c.contains('धान') || c.contains('rice')) {
-      return 'assets/images/crop_paddy.jpg';
+      return 'assets/images/crop_paddy.png';
     }
     if (c.contains('mustard') || c.contains('sarson') || c.contains('सरसों') || c.contains('rai')) {
-      return 'assets/images/crop_mustard.jpg';
+      return 'assets/images/crop_mustard.png';
     }
     if (c.contains('tomato') || c.contains('tamatar') || c.contains('टमाटर')) {
-      return 'assets/images/crop_tomato.jpg';
+      return 'assets/images/crop_tomato.png';
     }
     if (c.contains('potato') || c.contains('aloo') || c.contains('आलू')) {
-      return 'assets/images/crop_potato.jpg';
+      return 'assets/images/crop_potato.png';
     }
     if (c.contains('onion') || c.contains('pyaz') || c.contains('प्याज')) {
-      return 'assets/images/crop_onion.jpg';
+      return 'assets/images/crop_onion.png';
     }
     if (c.contains('maize') || c.contains('corn') || c.contains('मक्का')) {
-      return 'assets/images/crop_corn.jpg';
+      return 'assets/images/crop_corn.png';
     }
     if (c.contains('chilli') || c.contains('mirch') || c.contains('मिर्च')) {
-      return 'assets/images/crop_chilli.jpg';
+      return 'assets/images/crop_chilli.png';
     }
     return 'assets/images/crops.webp';
   }
