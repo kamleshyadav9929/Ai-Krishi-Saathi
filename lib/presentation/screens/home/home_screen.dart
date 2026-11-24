@@ -35,6 +35,125 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  String _selectedCropFilter = 'all';
+
+  static const List<Map<String, String>> _cropFilters = [
+    {'id': 'all', 'en': 'All Crops', 'hi': 'सभी फसलें'},
+    {'id': 'bitter_gourd', 'en': 'Bitter Gourd', 'hi': 'करेला'},
+    {'id': 'bottle_gourd', 'en': 'Bottle Gourd', 'hi': 'लौकी'},
+    {'id': 'wheat', 'en': 'Wheat', 'hi': 'गेहूं'},
+    {'id': 'paddy', 'en': 'Paddy', 'hi': 'धान'},
+    {'id': 'mustard', 'en': 'Mustard', 'hi': 'सरसों'},
+    {'id': 'tomato', 'en': 'Tomato', 'hi': 'टमाटर'},
+    {'id': 'potato', 'en': 'Potato', 'hi': 'आलू'},
+    {'id': 'onion', 'en': 'Onion', 'hi': 'प्याज'},
+    {'id': 'corn', 'en': 'Maize', 'hi': 'मक्का'},
+    {'id': 'chilli', 'en': 'Chilli', 'hi': 'मिर्च'},
+  ];
+
+  static const List<_HomeCropMarketItem> _cropMarketItems = [
+    _HomeCropMarketItem(
+      id: 'bitter_gourd',
+      nameEn: 'BITTER GOURD',
+      nameHi: 'करेला',
+      priceRange: '₹320 - ₹350',
+      unit: '/ 10 kg',
+      defaultMarket: 'BHOJPUR',
+      defaultDistanceKm: 43,
+      imageAsset: 'assets/images/crop_bitter_gourd.jpg',
+    ),
+    _HomeCropMarketItem(
+      id: 'bottle_gourd',
+      nameEn: 'BOTTLE GOURD',
+      nameHi: 'लौकी',
+      priceRange: '₹200 - ₹250',
+      unit: '/ 10 kg',
+      defaultMarket: 'BHOJPUR',
+      defaultDistanceKm: 43,
+      imageAsset: 'assets/images/crop_bottle_gourd.jpg',
+    ),
+    _HomeCropMarketItem(
+      id: 'wheat',
+      nameEn: 'WHEAT',
+      nameHi: 'गेहूं (लोकवन/कल्याण)',
+      priceRange: '₹2,275 - ₹2,450',
+      unit: '/ क्विंटल',
+      defaultMarket: 'PATNA APMC',
+      defaultDistanceKm: 12,
+      imageAsset: 'assets/images/crop_wheat.jpg',
+    ),
+    _HomeCropMarketItem(
+      id: 'paddy',
+      nameEn: 'PADDY (DHAN)',
+      nameHi: 'धान (बासमती व कॉमन)',
+      priceRange: '₹2,183 - ₹2,350',
+      unit: '/ क्विंटल',
+      defaultMarket: 'DANAPUR',
+      defaultDistanceKm: 8,
+      imageAsset: 'assets/images/crop_paddy.jpg',
+    ),
+    _HomeCropMarketItem(
+      id: 'mustard',
+      nameEn: 'MUSTARD',
+      nameHi: 'सरसों / राई',
+      priceRange: '₹5,400 - ₹5,850',
+      unit: '/ क्विंटल',
+      defaultMarket: 'BIHAR SHARIF',
+      defaultDistanceKm: 65,
+      imageAsset: 'assets/images/crop_mustard.jpg',
+    ),
+    _HomeCropMarketItem(
+      id: 'tomato',
+      nameEn: 'TOMATO',
+      nameHi: 'टमाटर (देसी/हाइब्रिड)',
+      priceRange: '₹250 - ₹350',
+      unit: '/ 10 kg',
+      defaultMarket: 'PATNA MANDI',
+      defaultDistanceKm: 12,
+      imageAsset: 'assets/images/crop_tomato.jpg',
+    ),
+    _HomeCropMarketItem(
+      id: 'potato',
+      nameEn: 'POTATO',
+      nameHi: 'आलू (चिप्सोना/सफेद)',
+      priceRange: '₹160 - ₹220',
+      unit: '/ 10 kg',
+      defaultMarket: 'BIHTA',
+      defaultDistanceKm: 28,
+      imageAsset: 'assets/images/crop_potato.jpg',
+    ),
+    _HomeCropMarketItem(
+      id: 'onion',
+      nameEn: 'ONION',
+      nameHi: 'प्याज (लाल नासिक)',
+      priceRange: '₹300 - ₹420',
+      unit: '/ 10 kg',
+      defaultMarket: 'FATUHA',
+      defaultDistanceKm: 22,
+      imageAsset: 'assets/images/crop_onion.jpg',
+    ),
+    _HomeCropMarketItem(
+      id: 'corn',
+      nameEn: 'MAIZE (CORN)',
+      nameHi: 'मक्का (पीला दाना)',
+      priceRange: '₹1,950 - ₹2,200',
+      unit: '/ क्विंटल',
+      defaultMarket: 'SAMASTIPUR',
+      defaultDistanceKm: 78,
+      imageAsset: 'assets/images/crop_corn.jpg',
+    ),
+    _HomeCropMarketItem(
+      id: 'chilli',
+      nameEn: 'GREEN CHILLI',
+      nameHi: 'हरी मिर्च',
+      priceRange: '₹650 - ₹850',
+      unit: '/ 10 kg',
+      defaultMarket: 'PATNA APMC',
+      defaultDistanceKm: 12,
+      imageAsset: 'assets/images/crop_chilli.jpg',
+    ),
+  ];
+
   @override
   Widget build(BuildContext context) {
     final lang = Provider.of<LanguageProvider>(context);
@@ -437,11 +556,286 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
 
-              const SizedBox(height: 24),
+              const SizedBox(height: 8),
+
+              // Solid Gray Section Separator Bar
+              Container(height: 8, color: const Color(0xFFF3F4F6)),
+
+              // ==========================================================
+              // 4. MARKET PRICES UPDATE SECTION (Crop Selection & Real Images)
+              // ==========================================================
+              _buildMarketPricesSection(context, isHindi, loc),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  /// Interactive Market Prices Update Section matching exact farmer dashboard design
+  Widget _buildMarketPricesSection(BuildContext context, bool isHindi, LocationProvider loc) {
+    final visibleCrops = _selectedCropFilter == 'all'
+        ? _cropMarketItems.take(3).toList()
+        : _cropMarketItems.where((c) => c.id == _selectedCropFilter).toList();
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Section Header Row
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 10),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                isHindi ? 'ताजा मंडी भाव' : 'Market Prices Update',
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w800,
+                  color: Color(0xFF0F172A),
+                  letterSpacing: -0.2,
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFDCFCE7),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: const Color(0xFFBBF7D0), width: 1),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      width: 6,
+                      height: 6,
+                      decoration: const BoxDecoration(
+                        color: Color(0xFF16A34A),
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                    const SizedBox(width: 5),
+                    Text(
+                      isHindi ? 'लाइव भाव' : 'Live Mandi',
+                      style: const TextStyle(
+                        fontSize: 11,
+                        fontWeight: FontWeight.w700,
+                        color: Color(0xFF15803D),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+
+        // Horizontal Crop Selection Pills
+        SizedBox(
+          height: 38,
+          child: ListView.separated(
+            scrollDirection: Axis.horizontal,
+            physics: const BouncingScrollPhysics(),
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            itemCount: _cropFilters.length,
+            separatorBuilder: (_, __) => const SizedBox(width: 8),
+            itemBuilder: (context, index) {
+              final filter = _cropFilters[index];
+              final isSelected = _selectedCropFilter == filter['id'];
+              final label = isHindi ? filter['hi']! : filter['en']!;
+
+              return BouncyTap(
+                onTap: () {
+                  HapticHelper.lightImpact();
+                  setState(() {
+                    _selectedCropFilter = filter['id']!;
+                  });
+                },
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 180),
+                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                  decoration: BoxDecoration(
+                    color: isSelected ? const Color(0xFF15803D) : const Color(0xFFF8FAFC),
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(
+                      color: isSelected ? const Color(0xFF15803D) : const Color(0xFFE2E8F0),
+                      width: 1.2,
+                    ),
+                    boxShadow: isSelected
+                        ? [
+                            BoxShadow(
+                              color: const Color(0xFF15803D).withValues(alpha: 0.2),
+                              blurRadius: 6,
+                              offset: const Offset(0, 2),
+                            ),
+                          ]
+                        : null,
+                  ),
+                  child: Center(
+                    child: Text(
+                      label,
+                      style: TextStyle(
+                        fontSize: 12.5,
+                        fontWeight: isSelected ? FontWeight.w800 : FontWeight.w600,
+                        color: isSelected ? Colors.white : const Color(0xFF475569),
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+
+        const SizedBox(height: 8),
+
+        // Market Price Rows
+        ...visibleCrops.map((crop) {
+          // Adjust distance display grounded in user's state/district if available
+          final marketText = '${crop.defaultMarket} (${crop.defaultDistanceKm} KM)';
+
+          return Column(
+            children: [
+              BouncyTap(
+                onTap: () {
+                  HapticHelper.lightImpact();
+                  widget.onNavigateTab(1); // Open Mandi Screen
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      // Real Image of that crop
+                      Container(
+                        width: 72,
+                        height: 72,
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFF8FAFC),
+                          borderRadius: BorderRadius.circular(14),
+                          border: Border.all(color: const Color(0xFFE2E8F0), width: 1),
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(13),
+                          child: Image.asset(
+                            crop.imageAsset,
+                            width: 72,
+                            height: 72,
+                            fit: BoxFit.cover,
+                            errorBuilder: (ctx, err, stack) {
+                              return const Center(
+                                child: Icon(LucideIcons.sprout, color: Color(0xFF15803D), size: 30),
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 14),
+
+                      // Crop Name, Price Range & Mandi
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              crop.nameEn,
+                              style: const TextStyle(
+                                fontSize: 14.5,
+                                fontWeight: FontWeight.w800,
+                                color: Color(0xFF1E293B),
+                                letterSpacing: 0.3,
+                              ),
+                            ),
+                            const SizedBox(height: 4),
+                            RichText(
+                              text: TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text: crop.priceRange,
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w800,
+                                      color: Color(0xFF0E8B30),
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text: ' ${crop.unit}',
+                                    style: const TextStyle(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w700,
+                                      color: Color(0xFF0E8B30),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              marketText,
+                              style: const TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                                color: Color(0xFF64748B),
+                                letterSpacing: 0.2,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      // Right Arrow Icon
+                      const Icon(
+                        LucideIcons.chevron_right,
+                        color: Color(0xFF0E8B30),
+                        size: 22,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const Divider(
+                height: 1,
+                thickness: 1,
+                indent: 102,
+                endIndent: 16,
+                color: Color(0xFFF1F5F9),
+              ),
+            ],
+          );
+        }),
+
+        // View All Markets Action Link
+        BouncyTap(
+          onTap: () {
+            HapticHelper.mediumImpact();
+            widget.onNavigateTab(1); // Open Mandi Screen
+          },
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  isHindi ? 'सभी मंडियां देखें' : 'View All Markets',
+                  style: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w700,
+                    color: Color(0xFF0E8B30),
+                  ),
+                ),
+                const SizedBox(width: 4),
+                const Icon(
+                  LucideIcons.chevron_right,
+                  size: 18,
+                  color: Color(0xFF0E8B30),
+                ),
+              ],
+            ),
+          ),
+        ),
+
+        const SizedBox(height: 20),
+      ],
     );
   }
 
@@ -490,4 +884,27 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+}
+
+/// Helper model for Home Screen Market Prices Update
+class _HomeCropMarketItem {
+  final String id;
+  final String nameEn;
+  final String nameHi;
+  final String priceRange;
+  final String unit;
+  final String defaultMarket;
+  final int defaultDistanceKm;
+  final String imageAsset;
+
+  const _HomeCropMarketItem({
+    required this.id,
+    required this.nameEn,
+    required this.nameHi,
+    required this.priceRange,
+    required this.unit,
+    required this.defaultMarket,
+    required this.defaultDistanceKm,
+    required this.imageAsset,
+  });
 }
