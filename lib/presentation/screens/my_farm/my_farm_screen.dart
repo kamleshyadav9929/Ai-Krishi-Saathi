@@ -10,7 +10,6 @@ import '../../widgets/bouncy_tap.dart';
 import '../calendar/crop_calendar_screen.dart';
 import '../crop_doctor/crop_doctor_screen.dart';
 import '../farm_manager/farm_manager_screen.dart';
-import '../products/agri_products_screen.dart';
 import '../retailers/nearby_retailers_screen.dart';
 import '../schemes/govt_schemes_screen.dart';
 import '../settings/settings_screen.dart';
@@ -19,9 +18,9 @@ import '../soil_card/soil_card_screen.dart';
 /// Clean Profile and Services Hub for AI Krishi Saathi.
 /// - Unboxed layout: Pure white canvas, 8px solid gray dividers.
 /// - Top Farmer Profile Header: Avatar, Name, Land size, and Edit button.
-/// - Group 1: Agri Inputs & Centers (Agri Products, Nearby Retailers & PMKSK).
+/// - Group 1: Agricultural Centers (Nearby Retailers & PMKSK).
 /// - Group 2: Smart Farming (Crop Doctor, Crop Calendar, Soil Health Card, Farm Ledger, Govt Schemes).
-/// - Group 3: Settings & Support (Language Toggle, Kisan Call Centre 1800-180-1551).
+/// - Group 3: Settings & Preferences (Language Toggle).
 class MyFarmScreen extends StatefulWidget {
   final Function(int)? onNavigateTab;
   const MyFarmScreen({super.key, this.onNavigateTab});
@@ -34,7 +33,6 @@ class _MyFarmScreenState extends State<MyFarmScreen> {
   String _farmerName = 'Kamlesh Yadav';
   String _farmerLand = '3.5';
   String _farmerCrop = 'Wheat / Paddy (गेहूं व धान)';
-  bool _whatsAppEnabled = true;
 
   @override
   void initState() {
@@ -204,27 +202,11 @@ class _MyFarmScreenState extends State<MyFarmScreen> {
             Container(height: 8, color: const Color(0xFFF3F4F6)),
 
             // ==========================================================
-            // 2. GROUP 1: AGRI INPUTS & RETAILERS
+            // 2. GROUP 1: AGRICULTURAL CENTERS & RETAILERS
             // ==========================================================
-            _buildSectionHeader(isHindi ? 'कृषि इनपुट व केंद्र (AGRI INPUTS)' : 'AGRI INPUT SERVICES'),
+            _buildSectionHeader(isHindi ? 'कृषि केंद्र व विक्रेता (AGRI CENTRES)' : 'AGRI CENTRES & RETAILERS'),
 
-            // Item 1: Agri Products Catalog
-            _buildMenuItem(
-              icon: LucideIcons.flask_conical,
-              iconColor: const Color(0xFF0284C7),
-              iconBgColor: const Color(0xFFE0F2FE),
-              title: isHindi ? 'कृषि उत्पाद कैटलॉग (Agri Products)' : 'Agri Products & Formulations',
-              subtitle: isHindi ? 'प्रमाणित बीज, जैविक उर्वरक, कीटनाशक व सही खुराक' : 'Certified seeds, bio-fertilizers & dosage advice',
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const AgriProductsScreen()),
-                );
-              },
-            ),
-            const Divider(height: 1, thickness: 1, indent: 68, color: Color(0xFFF1F5F9)),
-
-            // Item 2: Nearby Retailers & PMKSK
+            // Item 1: Nearby Retailers & PMKSK
             _buildMenuItem(
               icon: LucideIcons.store,
               iconColor: const Color(0xFFD97706),
@@ -393,87 +375,6 @@ class _MyFarmScreenState extends State<MyFarmScreen> {
                   ),
                 ],
               ),
-            ),
-            const Divider(height: 1, thickness: 1, indent: 68, color: Color(0xFFF1F5F9)),
-
-            // Item 10: WhatsApp Updates Toggle
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              child: Row(
-                children: [
-                  Container(
-                    width: 40,
-                    height: 40,
-                    decoration: const BoxDecoration(
-                      color: Color(0xFFDCFCE7),
-                      shape: BoxShape.circle,
-                    ),
-                    child: const Center(
-                      child: Icon(LucideIcons.message_circle, color: Color(0xFF16A34A), size: 20),
-                    ),
-                  ),
-                  const SizedBox(width: 14),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          isHindi ? 'व्हाट्सएप नोटिफिकेशन' : 'WhatsApp Notifications',
-                          style: const TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w700,
-                            color: Color(0xFF111827),
-                          ),
-                        ),
-                        Text(
-                          isHindi ? 'दैनिक मौसम, मंडी भाव व कृषि सलाह' : 'Daily weather, mandi rates & advisory',
-                          style: const TextStyle(fontSize: 12, color: Color(0xFF6B7280)),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Switch(
-                    value: _whatsAppEnabled,
-                    activeThumbColor: const Color(0xFF0E8B30),
-                    onChanged: (val) {
-                      HapticHelper.lightTap();
-                      setState(() => _whatsAppEnabled = val);
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                            val
-                                ? (isHindi ? 'व्हाट्सएप अपडेट सक्रिय!' : 'WhatsApp updates enabled!')
-                                : (isHindi ? 'व्हाट्सएप अपडेट बंद।' : 'WhatsApp updates paused.'),
-                          ),
-                          backgroundColor: const Color(0xFF0E8B30),
-                          duration: const Duration(seconds: 2),
-                        ),
-                      );
-                    },
-                  ),
-                ],
-              ),
-            ),
-            const Divider(height: 1, thickness: 1, indent: 68, color: Color(0xFFF1F5F9)),
-
-            // Item 11: Kisan Call Centre (Toll-free Government Helpline)
-            _buildMenuItem(
-              icon: LucideIcons.phone_call,
-              iconColor: const Color(0xFF0E8B30),
-              iconBgColor: const Color(0xFFDCFCE7),
-              title: isHindi ? 'किसान कॉल सेंटर (भारत सरकार)' : 'Kisan Call Centre (Govt of India)',
-              subtitle: '1800-180-1551 (Toll-Free • 24x7 कृषि सलाह)',
-              badgeText: 'TOLL-FREE',
-              badgeColor: const Color(0xFF0E8B30),
-              onTap: () {
-                HapticHelper.mediumImpact();
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('📞 Calling Kisan Call Centre: 1800-180-1551...'),
-                    backgroundColor: Color(0xFF0E8B30),
-                  ),
-                );
-              },
             ),
 
             const SizedBox(height: 20),

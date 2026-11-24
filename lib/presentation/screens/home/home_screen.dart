@@ -11,7 +11,6 @@ import '../calendar/crop_calendar_screen.dart';
 import '../crop_doctor/crop_doctor_screen.dart';
 import '../crop_profile/crop_profile_screen.dart';
 import '../farm_manager/farm_manager_screen.dart';
-import '../products/agri_products_screen.dart';
 import '../retailers/nearby_retailers_screen.dart';
 import '../schemes/govt_schemes_screen.dart';
 import '../soil_card/soil_card_screen.dart';
@@ -36,117 +35,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final int _userCoins = 0;
-
-  void _showCoinRewardSheet(BuildContext context, bool isHindi) {
-    HapticHelper.mediumImpact();
-    showModalBottomSheet(
-      context: context,
-      backgroundColor: Colors.transparent,
-      builder: (ctx) {
-        return Container(
-          decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-          ),
-          padding: const EdgeInsets.fromLTRB(20, 12, 20, 28),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Center(
-                child: Container(
-                  width: 44,
-                  height: 4,
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFE2E8F0),
-                    borderRadius: BorderRadius.circular(2),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 16),
-              Row(
-                children: [
-                  Container(
-                    width: 44,
-                    height: 44,
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFFEF3C7),
-                      shape: BoxShape.circle,
-                      border: Border.all(color: const Color(0xFFF59E0B), width: 1.5),
-                    ),
-                    child: const Center(
-                      child: Text(
-                        'K',
-                        style: TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.w900,
-                          color: Color(0xFFD97706),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        isHindi ? 'कृषि साथी रिवार्ड्स (Krishi Points)' : 'Krishi Saathi Points',
-                        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: Color(0xFF0F172A)),
-                      ),
-                      Text(
-                        isHindi ? 'कुल उपलब्ध अंक: $_userCoins' : 'Available Balance: $_userCoins Points',
-                        style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Color(0xFF15803D)),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              const SizedBox(height: 16),
-              Container(
-                padding: const EdgeInsets.all(14),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFF1F5F9),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      isHindi ? 'सिक्के कैसे कमाएं?' : 'How to earn coins?',
-                      style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: Color(0xFF0F172A)),
-                    ),
-                    const SizedBox(height: 6),
-                    Text(
-                      isHindi
-                          ? '• फसल डॉक्टर से रोग पहचान करने पर 20 सिक्के\n• खेत प्रोफाइल पूरा करने पर 100 सिक्के\n• नियमित दैनिक कृषि सलाह देखने पर 10 सिक्के'
-                          : '• Diagnose plant disease via Crop Doctor (+20 coins)\n• Complete your farm profile (+100 coins)\n• Check daily agronomy advisory (+10 coins)',
-                      style: const TextStyle(fontSize: 12, color: Color(0xFF475569), height: 1.5),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 16),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () => Navigator.pop(ctx),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF0E8B30),
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                    padding: const EdgeInsets.symmetric(vertical: 12),
-                  ),
-                  child: Text(isHindi ? 'समझ गया' : 'Got it'),
-                ),
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final lang = Provider.of<LanguageProvider>(context);
@@ -330,59 +218,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                     ),
-
-                    // Krishi Credit Points Pill
-                    BouncyTap(
-                      onTap: () => _showCoinRewardSheet(context, isHindi),
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(20),
-                          border: Border.all(color: const Color(0xFFFDE68A), width: 1.2),
-                          boxShadow: [
-                            BoxShadow(
-                              color: const Color(0xFFF59E0B).withValues(alpha: 0.12),
-                              blurRadius: 4,
-                              offset: const Offset(0, 2),
-                            ),
-                          ],
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Container(
-                              width: 24,
-                              height: 24,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: const Color(0xFFF59E0B),
-                                border: Border.all(color: Colors.white, width: 1.5),
-                              ),
-                              child: const Center(
-                                child: Text(
-                                  'K',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w900,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(width: 6),
-                            Text(
-                              '$_userCoins',
-                              style: const TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w800,
-                                color: Color(0xFF0F172A),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
                   ],
                 ),
               ),
@@ -483,16 +318,16 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
 
-                    // Item 2: Agri Products Catalog
+                    // Item 2: Weather Alerts & Advisory
                     Expanded(
                       child: _buildServiceActionTile(
-                        icon: LucideIcons.flask_conical,
-                        iconColor: const Color(0xFF0284C7), // Blue
-                        label: isHindi ? 'कृषि\nउत्पाद' : 'Agri\nInputs',
+                        icon: LucideIcons.bell_ring,
+                        iconColor: const Color(0xFFDC2626), // Alert Red/Amber
+                        label: isHindi ? 'Weather\nAlerts' : 'Weather\nAlerts',
                         onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (c) => const AgriProductsScreen()),
+                            MaterialPageRoute(builder: (c) => const WeatherAlertScreen()),
                           );
                         },
                       ),

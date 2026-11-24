@@ -12,7 +12,7 @@ class RetailerService {
       district: 'Patna',
       state: 'Bihar',
       distance: '1.2 km',
-      phone: '1800 180 1551',
+      phone: '0612 222 4118',
       licenseNumber: 'PMKSK-BR-PAT-0042',
       centerType: 'PMKSK',
       centerTypeHindi: 'पीएम किसान समृद्धि केंद्र',

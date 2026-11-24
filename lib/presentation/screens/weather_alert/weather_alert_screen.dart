@@ -127,8 +127,8 @@ class _WeatherAlertScreenState extends State<WeatherAlertScreen> with SingleTick
       SnackBar(
         content: Text(
           isHindi
-              ? 'चेतावनी संदेश कॉपी हो गया! अब व्हाट्सएप या मैसेज पर किसान भाइयों को भेजें।'
-              : 'Alert copied! You can now paste and share on WhatsApp.',
+              ? 'चेतावनी संदेश कॉपी हो गया! अब साथी किसानों के साथ साझा करें।'
+              : 'Alert copied! You can now share it with fellow farmers.',
           style: AppTypography.bodySmall(isHindi: isHindi).copyWith(color: Colors.white, height: 1.4),
         ),
         backgroundColor: AppColors.primaryDark,
@@ -645,7 +645,7 @@ class _WeatherAlertScreenState extends State<WeatherAlertScreen> with SingleTick
                     ),
                     const SizedBox(width: 10),
 
-                    // WhatsApp / Farmer Share Button
+                    // Farmer Share Button
                     OutlinedButton.icon(
                       style: OutlinedButton.styleFrom(
                         minimumSize: const Size(0, 48),

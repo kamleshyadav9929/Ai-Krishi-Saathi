@@ -85,7 +85,7 @@ PORTAL_TARGETS = [
         'categoryHindi': 'सस्ता कृषि ऋण',
         'nodalMinistry': 'Ministry of Finance & MoA&FW',
         'portalUrl': 'https://fasalrin.gov.in',
-        'helpline': '1800-180-1551',
+        'helpline': '011-24300606',
         'defaultAnnouncement': 'Kisan Credit Card short-term credit up to ₹3,00,000 at 4% effective interest rate.',
     },
     {
@@ -96,7 +96,7 @@ PORTAL_TARGETS = [
         'categoryHindi': 'कृषि मिशन व यंत्रीकरण',
         'nodalMinistry': 'Department of Agriculture & Farmers Welfare, GoI',
         'portalUrl': 'https://agriwelfare.gov.in',
-        'helpline': '1800-180-1551 (Kisan Call Center)',
+        'helpline': '011-23381012',
         'defaultAnnouncement': 'Central schemes for farm mechanization, micro irrigation, organic clusters.',
     },
 ]
@@ -203,7 +203,7 @@ BASE_SCHEMES = [
         ],
         'portalUrl': 'https://fasalrin.gov.in',
         'nodalMinistry': 'Ministry of Agriculture & Farmers Welfare & MoF',
-        'helpline': '1800-180-1551',
+        'helpline': '011-24300606',
     },
     {
         'id': 'smam',
@@ -231,7 +231,7 @@ BASE_SCHEMES = [
         ],
         'portalUrl': 'https://agrimachinery.nic.in',
         'nodalMinistry': 'Ministry of Agriculture & Farmers Welfare',
-        'helpline': '1800-180-1551',
+        'helpline': '011-23382012',
     },
     {
         'id': 'soil-health-card',
@@ -281,7 +281,7 @@ BASE_SCHEMES = [
         ],
         'portalUrl': 'https://pgsindia-ncof.gov.in',
         'nodalMinistry': 'Ministry of Agriculture & Farmers Welfare',
-        'helpline': '1800-180-1551',
+        'helpline': '0120-2764906',
     },
     {
         'id': 'namo-drone-didi',
@@ -307,7 +307,7 @@ BASE_SCHEMES = [
         ],
         'portalUrl': 'https://agriwelfare.gov.in',
         'nodalMinistry': 'Ministry of Agriculture & Farmers Welfare & MoRD',
-        'helpline': '1800-180-1551',
+        'helpline': '011-23381012',
     },
     {
         'id': 'enam',

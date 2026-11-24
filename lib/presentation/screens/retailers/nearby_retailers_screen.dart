@@ -192,7 +192,7 @@ class _NearbyRetailersScreenState extends State<NearbyRetailersScreen> {
                         );
                       },
                       icon: const Icon(LucideIcons.phone_call, size: 18),
-                      label: Text(isHindi ? 'कॉल करें' : 'Call Center'),
+                      label: Text(isHindi ? 'कॉल करें' : 'Call Kendra'),
                       style: OutlinedButton.styleFrom(
                         foregroundColor: const Color(0xFF15803D),
                         side: const BorderSide(color: Color(0xFF15803D)),
