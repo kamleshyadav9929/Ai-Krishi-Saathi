@@ -1040,6 +1040,30 @@ class IndiaLocations {
       'max': 375.0,
       'states': ['Uttar Pradesh', 'Maharashtra', 'Karnataka', 'Tamil Nadu', 'Bihar', 'Gujarat', 'Haryana', 'Punjab', 'Andhra Pradesh', 'Uttarakhand', 'Madhya Pradesh']
     },
+    {
+      'name': 'Bitter Gourd',
+      'nameHi': 'करेला',
+      'min': 3200.0,
+      'modal': 3500.0,
+      'max': 4100.0,
+      'states': ['Bihar', 'Uttar Pradesh', 'West Bengal', 'Odisha', 'Madhya Pradesh', 'Maharashtra', 'Gujarat', 'Rajasthan', 'Haryana', 'Punjab', 'Karnataka', 'Tamil Nadu', 'Andhra Pradesh']
+    },
+    {
+      'name': 'Bottle Gourd',
+      'nameHi': 'लौकी (घिया)',
+      'min': 1800.0,
+      'modal': 2200.0,
+      'max': 2600.0,
+      'states': ['Bihar', 'Uttar Pradesh', 'Rajasthan', 'Haryana', 'Madhya Pradesh', 'Punjab', 'Gujarat', 'Maharashtra', 'West Bengal', 'Odisha', 'Delhi (NCT)', 'Chhattisgarh']
+    },
+    {
+      'name': 'Green Chilli',
+      'nameHi': 'हरी मिर्च',
+      'min': 4200.0,
+      'modal': 5600.0,
+      'max': 7200.0,
+      'states': ['Andhra Pradesh', 'Telangana', 'Karnataka', 'Madhya Pradesh', 'Gujarat', 'West Bengal', 'Maharashtra', 'Bihar', 'Rajasthan', 'Uttar Pradesh', 'Tamil Nadu']
+    },
   ];
 
   /// Generates authentic, realistic Agmarknet APMC mandi prices for ANY of the 788 districts in India
