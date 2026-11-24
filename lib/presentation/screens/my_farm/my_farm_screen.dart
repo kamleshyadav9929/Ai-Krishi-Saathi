@@ -16,13 +16,12 @@ import '../schemes/govt_schemes_screen.dart';
 import '../settings/settings_screen.dart';
 import '../soil_card/soil_card_screen.dart';
 
-/// Authentic Bayer FarmRise More Screen for AI Krishi Saathi.
-/// Reverse engineered directly from FarmRise APK: `more_menu_fragment.xml`.
-/// - Completely unboxed layout: Pure white canvas, 8px solid gray dividers.
+/// Clean Profile and Services Hub for AI Krishi Saathi.
+/// - Unboxed layout: Pure white canvas, 8px solid gray dividers.
 /// - Top Farmer Profile Header: Avatar, Name, Land size, and Edit button.
-/// - Group 1: Bayer Services (Verify Bayer Products, Bayer Products, Nearby Retailers).
+/// - Group 1: Agri Inputs & Centers (Agri Products, Nearby Retailers & PMKSK).
 /// - Group 2: Smart Farming (Crop Doctor, Crop Calendar, Soil Health Card, Farm Ledger, Govt Schemes).
-/// - Group 3: Settings & Support (Language Toggle, WhatsApp Updates, Hello Bayer Helpline).
+/// - Group 3: Settings & Support (Language Toggle, Kisan Call Centre 1800-180-1551).
 class MyFarmScreen extends StatefulWidget {
   final Function(int)? onNavigateTab;
   const MyFarmScreen({super.key, this.onNavigateTab});
@@ -79,7 +78,7 @@ class _MyFarmScreenState extends State<MyFarmScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // ==========================================================
-            // 1. TOP FARMER PROFILE HEADER (FarmRise Profile Surface)
+            // 1. TOP FARMER PROFILE HEADER
             // ==========================================================
             Padding(
               padding: const EdgeInsets.all(16),
@@ -205,17 +204,17 @@ class _MyFarmScreenState extends State<MyFarmScreen> {
             Container(height: 8, color: const Color(0xFFF3F4F6)),
 
             // ==========================================================
-            // 2. GROUP 1: BAYER SERVICES (Authentic FarmRise Menu)
+            // 2. GROUP 1: AGRI INPUTS & RETAILERS
             // ==========================================================
-            _buildSectionHeader(isHindi ? 'बायर सेवाएं (BAYER SERVICES)' : 'BAYER SERVICES'),
+            _buildSectionHeader(isHindi ? 'कृषि इनपुट व केंद्र (AGRI INPUTS)' : 'AGRI INPUT SERVICES'),
 
-            // Item 1: Bayer Products Catalog
-            _buildFarmRiseMenuItem(
+            // Item 1: Agri Products Catalog
+            _buildMenuItem(
               icon: LucideIcons.flask_conical,
               iconColor: const Color(0xFF0284C7),
               iconBgColor: const Color(0xFFE0F2FE),
-              title: isHindi ? 'बायर उत्पाद कैटलॉग (Bayer Products)' : 'Bayer Products Catalog',
-              subtitle: isHindi ? 'कीटनाशक, फफूंदनाशी, खरपतवारनाशी व सही खुराक' : 'Crop protection, seeds & recommended dosage',
+              title: isHindi ? 'कृषि उत्पाद कैटलॉग (Agri Products)' : 'Agri Products & Formulations',
+              subtitle: isHindi ? 'प्रमाणित बीज, जैविक उर्वरक, कीटनाशक व सही खुराक' : 'Certified seeds, bio-fertilizers & dosage advice',
               onTap: () {
                 Navigator.push(
                   context,
@@ -225,13 +224,13 @@ class _MyFarmScreenState extends State<MyFarmScreen> {
             ),
             const Divider(height: 1, thickness: 1, indent: 68, color: Color(0xFFF1F5F9)),
 
-            // Item 3: Nearby Retailers
-            _buildFarmRiseMenuItem(
+            // Item 2: Nearby Retailers & PMKSK
+            _buildMenuItem(
               icon: LucideIcons.store,
               iconColor: const Color(0xFFD97706),
               iconBgColor: const Color(0xFFFEF3C7),
-              title: isHindi ? 'नजदीकी कृषि विक्रेता (Nearby Retailers)' : 'Nearby Retailers',
-              subtitle: isHindi ? 'प्रमाणित बायर डीलर खोजें, फोन करें व दिशा देखें' : 'Locate authorized Bayer agri-dealers near you',
+              title: isHindi ? 'नजदीकी कृषि विक्रेता (Nearby Retailers)' : 'Nearby Retailers & PMKSK',
+              subtitle: isHindi ? 'पीएम किसान समृद्धि केंद्र, इफको व अधिकृत डीलर खोजें' : 'Locate PMKSK, IFFCO & licensed agri-dealers',
               onTap: () {
                 Navigator.push(
                   context,
@@ -249,7 +248,7 @@ class _MyFarmScreenState extends State<MyFarmScreen> {
             _buildSectionHeader(isHindi ? 'स्मार्ट कृषि उपकरण (SMART FARMING)' : 'SMART FARMING TOOLS'),
 
             // Item 4: AI Crop Doctor
-            _buildFarmRiseMenuItem(
+            _buildMenuItem(
               icon: LucideIcons.stethoscope,
               iconColor: const Color(0xFF0E8B30),
               iconBgColor: const Color(0xFFDCFCE7),
@@ -265,7 +264,7 @@ class _MyFarmScreenState extends State<MyFarmScreen> {
             const Divider(height: 1, thickness: 1, indent: 68, color: Color(0xFFF1F5F9)),
 
             // Item 5: Crop Calendar & Stage Guide
-            _buildFarmRiseMenuItem(
+            _buildMenuItem(
               icon: LucideIcons.calendar_days,
               iconColor: const Color(0xFF0284C7),
               iconBgColor: const Color(0xFFE0F2FE),
@@ -281,7 +280,7 @@ class _MyFarmScreenState extends State<MyFarmScreen> {
             const Divider(height: 1, thickness: 1, indent: 68, color: Color(0xFFF1F5F9)),
 
             // Item 6: Soil Health Card
-            _buildFarmRiseMenuItem(
+            _buildMenuItem(
               icon: LucideIcons.test_tube,
               iconColor: const Color(0xFF7C3AED),
               iconBgColor: const Color(0xFFEDE9FE),
@@ -297,7 +296,7 @@ class _MyFarmScreenState extends State<MyFarmScreen> {
             const Divider(height: 1, thickness: 1, indent: 68, color: Color(0xFFF1F5F9)),
 
             // Item 7: Farm Ledger (खेत का बहीखाता)
-            _buildFarmRiseMenuItem(
+            _buildMenuItem(
               icon: LucideIcons.calculator,
               iconColor: const Color(0xFF0E8B30),
               iconBgColor: const Color(0xFFDCFCE7),
@@ -313,7 +312,7 @@ class _MyFarmScreenState extends State<MyFarmScreen> {
             const Divider(height: 1, thickness: 1, indent: 68, color: Color(0xFFF1F5F9)),
 
             // Item 8: Govt Schemes (सरकारी योजनाएं)
-            _buildFarmRiseMenuItem(
+            _buildMenuItem(
               icon: LucideIcons.landmark,
               iconColor: const Color(0xFFD97706),
               iconBgColor: const Color(0xFFFEF3C7),
@@ -331,7 +330,7 @@ class _MyFarmScreenState extends State<MyFarmScreen> {
             Container(height: 8, color: const Color(0xFFF3F4F6)),
 
             // ==========================================================
-            // 4. GROUP 3: SETTINGS & SUPPORT (FarmRise Support)
+            // 4. GROUP 3: SETTINGS & SUPPORT
             // ==========================================================
             _buildSectionHeader(isHindi ? 'सेटिंग्स व सहायता (SETTINGS & SUPPORT)' : 'SETTINGS & SUPPORT'),
 
@@ -457,20 +456,20 @@ class _MyFarmScreenState extends State<MyFarmScreen> {
             ),
             const Divider(height: 1, thickness: 1, indent: 68, color: Color(0xFFF1F5F9)),
 
-            // Item 11: Hello Bayer Helpline (Toll-free)
-            _buildFarmRiseMenuItem(
+            // Item 11: Kisan Call Centre (Toll-free Government Helpline)
+            _buildMenuItem(
               icon: LucideIcons.phone_call,
               iconColor: const Color(0xFF0E8B30),
               iconBgColor: const Color(0xFFDCFCE7),
-              title: isHindi ? 'हेलो बायर किसान हेल्पलाइन' : 'Hello Bayer Helpline',
-              subtitle: '1800-120-4049 (Toll-Free • 8 AM - 8 PM)',
+              title: isHindi ? 'किसान कॉल सेंटर (भारत सरकार)' : 'Kisan Call Centre (Govt of India)',
+              subtitle: '1800-180-1551 (Toll-Free • 24x7 कृषि सलाह)',
               badgeText: 'TOLL-FREE',
               badgeColor: const Color(0xFF0E8B30),
               onTap: () {
                 HapticHelper.mediumImpact();
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
-                    content: Text('📞 Calling Hello Bayer: 1800-120-4049...'),
+                    content: Text('📞 Calling Kisan Call Centre: 1800-180-1551...'),
                     backgroundColor: Color(0xFF0E8B30),
                   ),
                 );
@@ -484,7 +483,7 @@ class _MyFarmScreenState extends State<MyFarmScreen> {
               child: Column(
                 children: [
                   const Text(
-                    'AI Krishi Saathi • FarmRise Edition',
+                    'AI Krishi Saathi • National Farmer Edition',
                     style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w700,
@@ -493,7 +492,7 @@ class _MyFarmScreenState extends State<MyFarmScreen> {
                   ),
                   const SizedBox(height: 2),
                   Text(
-                    'v3.12.0 • Powered by Bayer & BIT Mesra',
+                    'v1.0.0 • Developed at BIT Mesra, Patna Campus',
                     style: TextStyle(fontSize: 11, color: Colors.grey.shade400),
                   ),
                 ],
@@ -522,7 +521,7 @@ class _MyFarmScreenState extends State<MyFarmScreen> {
     );
   }
 
-  Widget _buildFarmRiseMenuItem({
+  Widget _buildMenuItem({
     required IconData icon,
     required Color iconColor,
     required Color iconBgColor,

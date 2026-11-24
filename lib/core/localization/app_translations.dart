@@ -28,15 +28,13 @@ class AppTranslations {
       'completeProfileSubtitle': 'व्यक्तिगत कृषि अनुभव और सटीक सलाह पाएं',
       'whatsappUpdates': 'Get WhatsApp Updates',
       'turnOn': 'Turn on',
-      'verifyBayerProducts': 'Verify Bayer Products',
-      'bayerProducts': 'Bayer Products',
+      'agriProducts': 'कृषि उत्पाद व दवाएं',
       'cropDoctor': 'Crop Doctor',
       'nearbyRetailers': 'Nearby Retailers',
       'viewMore': 'View More',
       'viewLess': 'View Less',
       'videosForYou': 'Videos for you',
       'searchVideos': 'Search',
-      'bayerCoins': 'Coins',
       
       // Home Screen
       'greeting': 'हार्दिक स्वागत है किसान भाई 🙏',
@@ -165,15 +163,13 @@ class AppTranslations {
       'completeProfileSubtitle': 'Unlock a personalised experience',
       'whatsappUpdates': 'Get WhatsApp Updates',
       'turnOn': 'Turn on',
-      'verifyBayerProducts': 'Verify Bayer Products',
-      'bayerProducts': 'Bayer Products',
+      'agriProducts': 'Agri Inputs & Products',
       'cropDoctor': 'Crop Doctor',
       'nearbyRetailers': 'Nearby Retailers',
       'viewMore': 'View More',
       'viewLess': 'View Less',
       'videosForYou': 'Videos for you',
       'searchVideos': 'Search',
-      'bayerCoins': 'Coins',
 
       // Home Screen
       'greeting': 'Most Welcome Farmer 🙏',

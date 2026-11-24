@@ -712,7 +712,7 @@ class _CropCalendarScreenState extends State<CropCalendarScreen> {
                   fit: StackFit.expand,
                   children: [
                     Image.asset(
-                      'assets/images/crop_calendar_hero.png',
+                      'assets/images/crop_calendar_hero.jpg',
                       fit: BoxFit.cover,
                     ),
                     Container(

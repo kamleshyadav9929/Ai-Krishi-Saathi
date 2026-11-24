@@ -4,38 +4,10 @@ import 'package:provider/provider.dart';
 
 import '../../../core/localization/language_provider.dart';
 import '../../../core/utils/haptic_helper.dart';
+import '../../../data/models/agri_product_model.dart';
+import '../../../data/services/agri_product_service.dart';
 import '../../widgets/bouncy_tap.dart';
 import '../../widgets/custom_app_bar.dart';
-
-class AgriProductItem {
-  final String id;
-  final String name;
-  final String brand;
-  final String chemicalName;
-  final String category;
-  final String categoryHindi;
-  final String targetPests;
-  final String targetCrops;
-  final String dosagePer15LTank;
-  final String dosagePerAcre;
-  final String phiDays;
-  final Color badgeColor;
-
-  const AgriProductItem({
-    required this.id,
-    required this.name,
-    required this.brand,
-    required this.chemicalName,
-    required this.category,
-    required this.categoryHindi,
-    required this.targetPests,
-    required this.targetCrops,
-    required this.dosagePer15LTank,
-    required this.dosagePerAcre,
-    required this.phiDays,
-    required this.badgeColor,
-  });
-}
 
 class AgriProductsScreen extends StatefulWidget {
   const AgriProductsScreen({super.key});
@@ -45,109 +17,15 @@ class AgriProductsScreen extends StatefulWidget {
 }
 
 class _AgriProductsScreenState extends State<AgriProductsScreen> {
+  final AgriProductService _productService = AgriProductService();
   String _selectedCategory = 'All';
   String _searchQuery = '';
 
-  final List<AgriProductItem> _products = const [
-    AgriProductItem(
-      id: 'p1',
-      name: 'Bayer Confidor 200 SL',
-      brand: 'Bayer CropScience',
-      chemicalName: 'Imidacloprid 17.8% SL',
-      category: 'Insecticide',
-      categoryHindi: 'कीटनाशक',
-      targetPests: 'माहू (Aphids), सफेद मक्खी, हरा तेला (Jassids), थ्रिप्स',
-      targetCrops: 'गेहूं, सरसों, कपास, धान, मिर्च, टमाटर',
-      dosagePer15LTank: '5 - 7.5 मिली',
-      dosagePerAcre: '50 - 75 मिली / 150 लीटर पानी',
-      phiDays: '21 दिन',
-      badgeColor: Color(0xFF15803D),
-    ),
-    AgriProductItem(
-      id: 'p2',
-      name: 'Bayer Nativo 75 WG',
-      brand: 'Bayer CropScience',
-      chemicalName: 'Tebuconazole 50% + Trifloxystrobin 25% WG',
-      category: 'Fungicide',
-      categoryHindi: 'फफूंदनाशक',
-      targetPests: 'पीला रतुआ (Yellow Rust), शीथ ब्लाइट, झुलसा रोग (Blight)',
-      targetCrops: 'गेहूं, धान, टमाटर, मिर्च, आम',
-      dosagePer15LTank: '12 - 15 ग्राम',
-      dosagePerAcre: '120 - 150 ग्राम / 150 लीटर पानी',
-      phiDays: '15 दिन',
-      badgeColor: Color(0xFF0284C7),
-    ),
-    AgriProductItem(
-      id: 'p3',
-      name: 'Bayer Regent 0.3 GR',
-      brand: 'Bayer CropScience',
-      chemicalName: 'Fipronil 0.3% GR (Granules)',
-      category: 'Insecticide',
-      categoryHindi: 'दानेदार कीटनाशक',
-      targetPests: 'तना छेदक (Stem Borer), दीमक, पत्ती लपेटक',
-      targetCrops: 'धान, गन्ना, गेहूं, मक्का',
-      dosagePer15LTank: 'खेत में भुरकाव (Broadcasting)',
-      dosagePerAcre: '7.5 - 10 किलोग्राम प्रति एकड़',
-      phiDays: '32 दिन',
-      badgeColor: Color(0xFFD97706),
-    ),
-    AgriProductItem(
-      id: 'p4',
-      name: 'Bayer Decis 2.8 EC',
-      brand: 'Bayer CropScience',
-      chemicalName: 'Deltamethrin 2.8% EC',
-      category: 'Insecticide',
-      categoryHindi: 'कीटनाशक',
-      targetPests: 'इल्ली (Bollworm, Caterpillars), फल छेदक कीट',
-      targetCrops: 'कपास, चना, सरसों, बैंगन, भिंडी',
-      dosagePer15LTank: '15 - 20 मिली',
-      dosagePerAcre: '150 - 200 मिली / 150 लीटर पानी',
-      phiDays: '14 दिन',
-      badgeColor: Color(0xFFDC2626),
-    ),
-    AgriProductItem(
-      id: 'p5',
-      name: 'IFFCO Nano Urea Plus (Liquid)',
-      brand: 'IFFCO',
-      chemicalName: 'Nano Nitrogen (4.0% w/v liquid)',
-      category: 'Fertilizer',
-      categoryHindi: 'तरल नैनो उर्वरक',
-      targetPests: 'पौधों में नाइट्रोजन की कमी, कल्ले व हरियाली विकास',
-      targetCrops: 'सभी खाद्यान्न, दलहन व तिलहन फसलें',
-      dosagePer15LTank: '30 - 40 मिली',
-      dosagePerAcre: '500 मिली (1 बोतल) / एकड़',
-      phiDays: 'सुरक्षित (0 दिन)',
-      badgeColor: Color(0xFF059669),
-    ),
-    AgriProductItem(
-      id: 'p6',
-      name: 'Bayer Ambition (Bio-Stimulant)',
-      brand: 'Bayer CropScience',
-      chemicalName: 'Amino Acids + Fulvic Acid + Microelements',
-      category: 'Growth Booster',
-      categoryHindi: 'फसल वृद्धि वर्धक',
-      targetPests: 'फूल-फल झड़ने से बचाव, तनाव सहनशीलता, पैदावार वृद्धि',
-      targetCrops: 'सब्जियां, फल, गेहूं, धान, दलहन',
-      dosagePer15LTank: '30 - 35 मिली',
-      dosagePerAcre: '300 - 350 मिली / 150 लीटर पानी',
-      phiDays: 'सुरक्षित (जैविक)',
-      badgeColor: Color(0xFF7C3AED),
-    ),
-  ];
-
-  List<AgriProductItem> get _filteredProducts {
-    return _products.where((p) {
-      final matchesCategory = _selectedCategory == 'All' || p.category == _selectedCategory;
-      final matchesQuery = _searchQuery.isEmpty ||
-          p.name.toLowerCase().contains(_searchQuery.toLowerCase()) ||
-          p.chemicalName.toLowerCase().contains(_searchQuery.toLowerCase()) ||
-          p.targetCrops.toLowerCase().contains(_searchQuery.toLowerCase()) ||
-          p.targetPests.toLowerCase().contains(_searchQuery.toLowerCase());
-      return matchesCategory && matchesQuery;
-    }).toList();
+  List<AgriProductModel> get _filteredProducts {
+    return _productService.searchProducts(_searchQuery, category: _selectedCategory);
   }
 
-  void _showProductDetail(AgriProductItem p, bool isHindi) {
+  void _showProductDetail(AgriProductModel p, bool isHindi) {
     HapticHelper.mediumImpact();
     showModalBottomSheet(
       context: context,
@@ -202,7 +80,7 @@ class _AgriProductsScreenState extends State<AgriProductsScreen> {
                           ),
                         ),
                         Text(
-                          p.chemicalName,
+                          '${p.brand} • ${p.chemicalName}',
                           style: const TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w600,
@@ -223,6 +101,8 @@ class _AgriProductsScreenState extends State<AgriProductsScreen> {
                 ),
                 child: Column(
                   children: [
+                    _buildInfoRow(isHindi ? 'निर्माता / ब्रांड' : 'Brand', p.brand, isHighlight: true),
+                    const Divider(height: 16, color: Color(0xFFE2E8F0)),
                     _buildInfoRow(isHindi ? 'श्रेणी' : 'Category', isHindi ? p.categoryHindi : p.category),
                     const Divider(height: 16, color: Color(0xFFE2E8F0)),
                     _buildInfoRow(isHindi ? 'लक्षित कीट/रोग' : 'Target Pests', p.targetPests),
@@ -237,6 +117,55 @@ class _AgriProductsScreenState extends State<AgriProductsScreen> {
                   ],
                 ),
               ),
+              const SizedBox(height: 18),
+              Row(
+                children: [
+                  Expanded(
+                    child: OutlinedButton.icon(
+                      onPressed: () {
+                        HapticHelper.lightTap();
+                        Navigator.pop(ctx);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(isHindi ? 'नजदीकी केंद्र पर उपलब्धता जांची जा रही है' : 'Checking local stock availability...'),
+                            backgroundColor: const Color(0xFF15803D),
+                          ),
+                        );
+                      },
+                      icon: const Icon(LucideIcons.store, size: 18),
+                      label: Text(isHindi ? 'नजदीकी डीलर खोजें' : 'Find Dealer'),
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: const Color(0xFF15803D),
+                        side: const BorderSide(color: Color(0xFF15803D)),
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: ElevatedButton.icon(
+                      onPressed: () {
+                        HapticHelper.lightTap();
+                        Navigator.pop(ctx);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(isHindi ? 'उपयोग विधि व सुरक्षा पुस्तिका सहेजी गई' : 'Dosage safety guidelines saved'),
+                            backgroundColor: const Color(0xFF15803D),
+                          ),
+                        );
+                      },
+                      icon: const Icon(LucideIcons.bookmark_check, size: 18, color: Colors.white),
+                      label: Text(isHindi ? 'सलाह सहेजें' : 'Save Advice', style: const TextStyle(color: Colors.white)),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF15803D),
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
         );
@@ -249,7 +178,7 @@ class _AgriProductsScreenState extends State<AgriProductsScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(
-          width: 120,
+          width: 130,
           child: Text(
             label,
             style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Color(0xFF64748B)),
@@ -276,15 +205,16 @@ class _AgriProductsScreenState extends State<AgriProductsScreen> {
 
     final categories = [
       {'key': 'All', 'label': isHindi ? 'सभी' : 'All'},
-      {'key': 'Insecticide', 'label': isHindi ? 'कीटनाशक' : 'Insecticide'},
-      {'key': 'Fungicide', 'label': isHindi ? 'फफूंदनाशक' : 'Fungicide'},
-      {'key': 'Fertilizer', 'label': isHindi ? 'उर्वरक व खाद' : 'Fertilizer'},
-      {'key': 'Growth Booster', 'label': isHindi ? 'वृद्धि वर्धक' : 'Boosters'},
+      {'key': 'Fertilizer', 'label': isHindi ? 'उर्वरक व खाद' : 'Fertilizers'},
+      {'key': 'Bio-Fertilizer', 'label': isHindi ? 'जैविक खाद' : 'Bio-Fertilizers'},
+      {'key': 'Fungicide', 'label': isHindi ? 'फफूंदनाशक' : 'Fungicides'},
+      {'key': 'Insecticide', 'label': isHindi ? 'कीटनाशक' : 'Insecticides'},
+      {'key': 'Certified Seeds', 'label': isHindi ? 'प्रमाणित बीज' : 'Certified Seeds'},
     ];
 
     return Scaffold(
       backgroundColor: const Color(0xFFF8FAF8),
-      appBar: CustomAppBar(titleKey: isHindi ? 'bayerProducts' : 'bayerProducts'),
+      appBar: const CustomAppBar(titleKey: 'agriProducts'),
       body: Column(
         children: [
           // Search Bar
@@ -298,7 +228,7 @@ class _AgriProductsScreenState extends State<AgriProductsScreen> {
               child: TextField(
                 onChanged: (val) => setState(() => _searchQuery = val),
                 decoration: InputDecoration(
-                  hintText: isHindi ? 'उत्पाद, दवा या कीट का नाम खोजें...' : 'Search chemical, product or pest...',
+                  hintText: isHindi ? 'उत्पाद, ब्रांड या कीट का नाम खोजें...' : 'Search chemical, brand or pest...',
                   hintStyle: const TextStyle(fontSize: 13.5, color: Color(0xFF94A3B8)),
                   prefixIcon: const Icon(LucideIcons.search, size: 20, color: Color(0xFF64748B)),
                   border: InputBorder.none,
@@ -340,11 +270,8 @@ class _AgriProductsScreenState extends State<AgriProductsScreen> {
                       borderRadius: BorderRadius.circular(20),
                       side: BorderSide(
                         color: isSelected ? const Color(0xFF15803D) : const Color(0xFFE2E8F0),
-                        width: 1,
                       ),
                     ),
-                    showCheckmark: false,
-                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                   ),
                 );
               },
@@ -352,106 +279,166 @@ class _AgriProductsScreenState extends State<AgriProductsScreen> {
           ),
           const SizedBox(height: 8),
 
-          // Products List
+          // Product List
           Expanded(
-            child: ListView.separated(
-              physics: const BouncingScrollPhysics(),
-              padding: const EdgeInsets.fromLTRB(16, 4, 16, 20),
-              itemCount: _filteredProducts.length,
-              separatorBuilder: (_, __) => const SizedBox(height: 12),
-              itemBuilder: (ctx, idx) {
-                final product = _filteredProducts[idx];
-                return BouncyTap(
-                  onTap: () => _showProductDetail(product, isHindi),
-                  child: Container(
-                    padding: const EdgeInsets.all(14),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(16),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withValues(alpha: 0.05),
-                          blurRadius: 10,
-                          offset: const Offset(0, 2),
+            child: _filteredProducts.isEmpty
+                ? Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(LucideIcons.package_search, size: 48, color: Color(0xFF94A3B8)),
+                        const SizedBox(height: 12),
+                        Text(
+                          isHindi ? 'कोई उत्पाद नहीं मिला' : 'No products found',
+                          style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Color(0xFF64748B)),
                         ),
                       ],
                     ),
-                    child: Row(
-                      children: [
-                        Container(
-                          width: 48,
-                          height: 48,
-                          decoration: BoxDecoration(
-                            color: product.badgeColor.withValues(alpha: 0.12),
-                            borderRadius: BorderRadius.circular(14),
-                          ),
-                          child: Center(
-                            child: Icon(LucideIcons.flask_conical, color: product.badgeColor, size: 24),
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                product.name,
-                                style: const TextStyle(
-                                  fontSize: 14.5,
-                                  fontWeight: FontWeight.w700,
-                                  color: Color(0xFF0F172A),
+                  )
+                : ListView.builder(
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+                    itemCount: _filteredProducts.length,
+                    itemBuilder: (ctx, idx) {
+                      final p = _filteredProducts[idx];
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 12),
+                        child: BouncyTap(
+                          onTap: () => _showProductDetail(p, isHindi),
+                          child: Container(
+                            padding: const EdgeInsets.all(14),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(16),
+                              border: Border.all(color: const Color(0xFFE2E8F0)),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withValues(alpha: 0.02),
+                                  blurRadius: 6,
+                                  offset: const Offset(0, 2),
                                 ),
-                              ),
-                              const SizedBox(height: 2),
-                              Text(
-                                product.chemicalName,
-                                style: const TextStyle(
-                                  fontSize: 11.5,
-                                  fontWeight: FontWeight.w500,
-                                  color: Color(0xFF64748B),
-                                ),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              const SizedBox(height: 6),
-                              Row(
-                                children: [
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xFFDCFCE7),
-                                      borderRadius: BorderRadius.circular(6),
-                                    ),
-                                    child: Text(
-                                      isHindi ? product.categoryHindi : product.category,
-                                      style: const TextStyle(
-                                        fontSize: 10.5,
-                                        fontWeight: FontWeight.w700,
-                                        color: Color(0xFF15803D),
+                              ],
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                                      decoration: BoxDecoration(
+                                        color: p.badgeColor.withValues(alpha: 0.12),
+                                        borderRadius: BorderRadius.circular(6),
+                                      ),
+                                      child: Text(
+                                        isHindi ? p.categoryHindi : p.category,
+                                        style: TextStyle(
+                                          fontSize: 11,
+                                          fontWeight: FontWeight.w700,
+                                          color: p.badgeColor,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  const SizedBox(width: 8),
-                                  Text(
-                                    '15L डोज: ${product.dosagePer15LTank}',
-                                    style: const TextStyle(
-                                      fontSize: 11,
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(0xFF0F172A),
+                                    const Spacer(),
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                                      decoration: BoxDecoration(
+                                        color: const Color(0xFFF1F5F9),
+                                        borderRadius: BorderRadius.circular(6),
+                                      ),
+                                      child: Text(
+                                        p.brand,
+                                        style: const TextStyle(
+                                          fontSize: 11,
+                                          fontWeight: FontWeight.w700,
+                                          color: Color(0xFF475569),
+                                        ),
+                                      ),
                                     ),
+                                    const SizedBox(width: 4),
+                                    const Icon(LucideIcons.chevron_right, size: 16, color: Color(0xFF94A3B8)),
+                                  ],
+                                ),
+                                const SizedBox(height: 8),
+                                Text(
+                                  p.name,
+                                  style: const TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w800,
+                                    color: Color(0xFF0F172A),
                                   ),
-                                ],
-                              ),
-                            ],
+                                ),
+                                const SizedBox(height: 2),
+                                Text(
+                                  p.chemicalName,
+                                  style: const TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w500,
+                                    color: Color(0xFF64748B),
+                                  ),
+                                ),
+                                const SizedBox(height: 10),
+                                Container(
+                                  padding: const EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xFFF8FAFC),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              isHindi ? '15L पंप डोज' : '15L Pump Dose',
+                                              style: const TextStyle(fontSize: 10.5, color: Color(0xFF94A3B8)),
+                                            ),
+                                            const SizedBox(height: 2),
+                                            Text(
+                                              p.dosagePer15LTank,
+                                              style: const TextStyle(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w700,
+                                                color: Color(0xFF15803D),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Container(width: 1, height: 26, color: const Color(0xFFE2E8F0)),
+                                      const SizedBox(width: 10),
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              isHindi ? 'लक्षित फसलें' : 'Target Crops',
+                                              style: const TextStyle(fontSize: 10.5, color: Color(0xFF94A3B8)),
+                                            ),
+                                            const SizedBox(height: 2),
+                                            Text(
+                                              p.targetCrops,
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: const TextStyle(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w600,
+                                                color: Color(0xFF0F172A),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                        const Icon(LucideIcons.chevron_right, size: 18, color: Color(0xFF94A3B8)),
-                      ],
-                    ),
+                      );
+                    },
                   ),
-                );
-              },
-            ),
           ),
         ],
       ),

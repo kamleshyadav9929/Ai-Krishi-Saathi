@@ -279,7 +279,7 @@ class _VoiceAssistantSheetState extends State<VoiceAssistantSheet> {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(24),
                 child: Image.asset(
-                  'assets/images/voice_assistant_hero.png',
+                  'assets/images/voice_assistant_hero.jpg',
                   width: 112,
                   height: 112,
                   fit: BoxFit.cover,

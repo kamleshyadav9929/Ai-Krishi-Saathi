@@ -110,7 +110,7 @@ class _GovtSchemesScreenState extends State<GovtSchemesScreen> {
                       fit: StackFit.expand,
                       children: [
                         Image.asset(
-                          'assets/images/govt_schemes_hero.png',
+                          'assets/images/govt_schemes_hero.jpg',
                           fit: BoxFit.cover,
                         ),
                         Container(

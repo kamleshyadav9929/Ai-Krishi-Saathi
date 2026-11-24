@@ -11,12 +11,8 @@ import '../../../data/services/mandi_service.dart';
 import '../../widgets/bouncy_tap.dart';
 import '../../widgets/custom_app_bar.dart';
 
-/// FarmRise 1:1 Pixel-Perfect Authentic Mandi Screen.
-/// Decompiled from FarmRise's:
-/// - layout_mandi_search_with_filter.xml
-/// - crop_item_mandi.xml
-/// - layout_mandi_listings.xml
-/// - crop_detail_price_graph.xml
+/// Real-time Mandi Price Intelligence Screen for AI Krishi Saathi.
+/// Features Agmarknet & e-NAM market price trends and modal price insights.
 class MandiScreen extends StatefulWidget {
   const MandiScreen({super.key});
 
@@ -265,13 +261,13 @@ class _MandiScreenState extends State<MandiScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // ==========================================================
-              // 1. TOP SEARCH BAR (FarmRise layout_mandi_search_with_filter.xml)
+              // 1. TOP COMMODITY SEARCH BAR
               // ==========================================================
               Padding(
                 padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
                 child: Container(
                   decoration: BoxDecoration(
-                    color: const Color(0xFFF1F5F9), // Clean soft light gray from FarmRise
+                    color: const Color(0xFFF1F5F9),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: TextField(
@@ -366,7 +362,7 @@ class _MandiScreenState extends State<MandiScreen> {
               const SizedBox(height: 8),
 
               // ==========================================================
-              // 3. HORIZONTAL CROP SELECTOR (FarmRise crop_item_mandi.xml)
+              // 3. HORIZONTAL COMMODITY SELECTOR
               // ==========================================================
               SizedBox(
                 height: 88,
@@ -428,7 +424,7 @@ class _MandiScreenState extends State<MandiScreen> {
               Container(height: 8, color: const Color(0xFFF3F4F6)),
 
               // ==========================================================
-              // 4. MANDI LISTINGS (FarmRise layout_mandi_listings.xml)
+              // 4. MANDI LISTINGS
               // ==========================================================
               Padding(
                 padding: const EdgeInsets.fromLTRB(16, 12, 16, 6),

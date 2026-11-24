@@ -63,7 +63,7 @@ class WeatherScreen extends StatelessWidget {
                           fit: StackFit.expand,
                           children: [
                             Image.asset(
-                              'assets/images/weather_advisory_hero.png',
+                              'assets/images/weather_advisory_hero.jpg',
                               fit: BoxFit.cover,
                             ),
                             Container(

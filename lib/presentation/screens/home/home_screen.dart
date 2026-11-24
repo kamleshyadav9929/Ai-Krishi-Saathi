@@ -19,13 +19,13 @@ import '../sowing/sowing_advisor_screen.dart';
 import '../voice_assistant/voice_assistant_sheet.dart';
 import '../weather_alert/weather_alert_screen.dart';
 
-/// FarmRise 1:1 Pixel-Perfect Authentic Home Screen for AI Krishi Saathi.
-/// Matches Bayer FarmRise's exact decompiled layout, flat surfaces, and spacing:
-/// - Pure white canvas with flat full-width 8px section dividers (NO boxy cards!)
-/// - Header: Circular emblem logo + "Namaskar 🙏" + Gold Coin reward pill
-/// - Weather: Pure flat row directly on white background
-/// - Quick Action Grid: All 8 services directly visible (2 rows of 4)
-/// - Floating mascot chatbot button at bottom-right
+/// Modern Biophilic Agricultural Dashboard for AI Krishi Saathi.
+/// Features:
+/// - Pure clean canvas with flat full-width 8px section dividers
+/// - Header: Circular emblem logo + "Namaskar 🙏" + Farmer profile
+/// - Weather: Real-time weather and agronomy advisory row
+/// - Quick Action Grid: All 8 core farmer services directly accessible (2 rows of 4)
+/// - Floating mascot voice assistant at bottom-right
 class HomeScreen extends StatefulWidget {
   final Function(int) onNavigateTab;
 
@@ -77,7 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     child: const Center(
                       child: Text(
-                        'B',
+                        'K',
                         style: TextStyle(
                           fontSize: 22,
                           fontWeight: FontWeight.w900,
@@ -91,11 +91,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        isHindi ? 'बायरा किसान सिक्के (Rewards)' : 'Bayer Farmer Coins',
+                        isHindi ? 'कृषि साथी रिवार्ड्स (Krishi Points)' : 'Krishi Saathi Points',
                         style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: Color(0xFF0F172A)),
                       ),
                       Text(
-                        isHindi ? 'कुल उपलब्ध सिक्के: $_userCoins' : 'Available Balance: $_userCoins Coins',
+                        isHindi ? 'कुल उपलब्ध अंक: $_userCoins' : 'Available Balance: $_userCoins Points',
                         style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Color(0xFF15803D)),
                       ),
                     ],
@@ -161,7 +161,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      // FarmRise Floating Green Mascot Chatbot at bottom-right
+      // Floating Green Voice Mascot at bottom-right
       floatingActionButton: BouncyTap(
         onTap: () {
           HapticHelper.mediumImpact();
@@ -228,7 +228,7 @@ class _HomeScreenState extends State<HomeScreen> {
           width: 58,
           height: 58,
           decoration: BoxDecoration(
-            color: const Color(0xFF047857), // Deep emerald green matching FarmRise mascot
+            color: const Color(0xFF047857), // Deep emerald green mascot
             borderRadius: BorderRadius.circular(18),
             boxShadow: [
               BoxShadow(
@@ -283,20 +283,20 @@ class _HomeScreenState extends State<HomeScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // ==========================================================
-              // 1. TOP HEADER (FarmRise Signature Clean Header)
+              // 1. TOP HEADER (Biophilic Brand Header)
               // ==========================================================
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                 child: Row(
                   children: [
-                    // Bayer Circular Cross Logo Emblem
+                    // Krishi Saathi Circular Emblem
                     Container(
                       width: 40,
                       height: 40,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: Colors.white,
-                        border: Border.all(color: const Color(0xFF0284C7), width: 2),
+                        border: Border.all(color: const Color(0xFF15803D), width: 2),
                       ),
                       child: Center(
                         child: Container(
@@ -304,7 +304,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           height: 30,
                           decoration: const BoxDecoration(
                             shape: BoxShape.circle,
-                            color: Color(0xFF0284C7),
+                            color: Color(0xFF15803D),
                           ),
                           child: const Center(
                             child: Icon(
@@ -331,7 +331,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
 
-                    // Bayer Gold Coin Capsule Pill (bayerCoinsLayout)
+                    // Krishi Credit Points Pill
                     BouncyTap(
                       onTap: () => _showCoinRewardSheet(context, isHindi),
                       child: Container(
@@ -361,7 +361,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                               child: const Center(
                                 child: Text(
-                                  'B',
+                                  'K',
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 12,
@@ -461,8 +461,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Container(height: 8, color: const Color(0xFFF3F4F6)),
 
               // ==========================================================
-              // 3. 4 QUICK ACTION TILES (Authentic FarmRise Layout)
-              // (Icons in rounded squircle, labels BELOW icons - NO BOXES!)
+              // 3. QUICK ACTION SERVICE GRID (8 Core Services)
               // ==========================================================
               Padding(
                 padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
@@ -471,7 +470,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     // Item 1: Farm Ledger (Farm Income & Expense)
                     Expanded(
-                      child: _buildFarmRiseActionTile(
+                      child: _buildServiceActionTile(
                         icon: LucideIcons.calculator,
                         iconColor: const Color(0xFF0284C7), // Blue
                         label: isHindi ? 'Farm\nLedger' : 'Farm\nLedger',
@@ -484,12 +483,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
 
-                    // Item 2: Bayer Products Catalog
+                    // Item 2: Agri Products Catalog
                     Expanded(
-                      child: _buildFarmRiseActionTile(
+                      child: _buildServiceActionTile(
                         icon: LucideIcons.flask_conical,
                         iconColor: const Color(0xFF0284C7), // Blue
-                        label: isHindi ? 'Bayer\nProducts' : 'Bayer\nProducts',
+                        label: isHindi ? 'कृषि\nउत्पाद' : 'Agri\nInputs',
                         onTap: () {
                           Navigator.push(
                             context,
@@ -501,7 +500,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                     // Item 3: Crop Doctor
                     Expanded(
-                      child: _buildFarmRiseActionTile(
+                      child: _buildServiceActionTile(
                         icon: LucideIcons.stethoscope,
                         iconColor: const Color(0xFF0E8B30), // Green
                         label: isHindi ? 'Crop\nDoctor' : 'Crop\nDoctor',
@@ -516,7 +515,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                     // Item 4: Nearby Retailers
                     Expanded(
-                      child: _buildFarmRiseActionTile(
+                      child: _buildServiceActionTile(
                         icon: LucideIcons.store,
                         iconColor: const Color(0xFFD97706), // Amber
                         label: isHindi ? 'Nearby\nRetailers' : 'Nearby\nRetailers',
@@ -542,7 +541,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     // Item 5: Sowing Advisor
                     Expanded(
-                      child: _buildFarmRiseActionTile(
+                      child: _buildServiceActionTile(
                         icon: LucideIcons.sprout,
                         iconColor: const Color(0xFF0E8B30),
                         label: isHindi ? 'Sowing\nAdvisor' : 'Sowing\nAdvisor',
@@ -557,7 +556,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                     // Item 6: Crop Calendar
                     Expanded(
-                      child: _buildFarmRiseActionTile(
+                      child: _buildServiceActionTile(
                         icon: LucideIcons.calendar_days,
                         iconColor: const Color(0xFF0284C7),
                         label: isHindi ? 'Crop\nCalendar' : 'Crop\nCalendar',
@@ -572,7 +571,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                     // Item 7: Soil Health Card
                     Expanded(
-                      child: _buildFarmRiseActionTile(
+                      child: _buildServiceActionTile(
                         icon: LucideIcons.test_tube,
                         iconColor: const Color(0xFF7C3AED),
                         label: isHindi ? 'Soil Health\nCard' : 'Soil Health\nCard',
@@ -587,7 +586,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                     // Item 8: Govt Schemes
                     Expanded(
-                      child: _buildFarmRiseActionTile(
+                      child: _buildServiceActionTile(
                         icon: LucideIcons.landmark,
                         iconColor: const Color(0xFFD97706),
                         label: isHindi ? 'Govt\nSchemes' : 'Govt\nSchemes',
@@ -611,8 +610,8 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  /// Authentic FarmRise Unboxed Action Tile (Icon in light squircle + label below)
-  Widget _buildFarmRiseActionTile({
+  /// Clean Unboxed Action Tile (Icon in light squircle + label below)
+  Widget _buildServiceActionTile({
     required IconData icon,
     required Color iconColor,
     required String label,
@@ -631,7 +630,7 @@ class _HomeScreenState extends State<HomeScreen> {
             width: 64,
             height: 64,
             decoration: BoxDecoration(
-              color: const Color(0xFFF1F5F9), // Light clean background from FarmRise
+              color: const Color(0xFFF1F5F9), // Light clean background
               borderRadius: BorderRadius.circular(18),
             ),
             child: Center(

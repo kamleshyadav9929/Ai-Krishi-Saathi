@@ -139,7 +139,7 @@ class _CropAdvisoryScreenState extends State<CropAdvisoryScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // 1. Crop Selector Ribbon (FarmRise Top Strip)
+            // 1. Crop Selector Ribbon
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               physics: const BouncingScrollPhysics(),
@@ -172,7 +172,7 @@ class _CropAdvisoryScreenState extends State<CropAdvisoryScreen> {
             ),
             const SizedBox(height: 14),
 
-            // 2. FarmRise Growth Stage Stepper (Horizontal Timeline - UNBOXED!)
+            // 2. Crop Growth Stage Stepper (Horizontal Timeline)
             Container(
               padding: const EdgeInsets.all(14),
               decoration: BoxDecoration(
@@ -279,7 +279,7 @@ class _CropAdvisoryScreenState extends State<CropAdvisoryScreen> {
             ),
             const SizedBox(height: 14),
 
-            // 3. FarmRise Active Stage Practice Card + Audio Button
+            // 3. Active Stage Practice Card + Audio Button
             Container(
               width: double.infinity,
               padding: const EdgeInsets.all(18),
@@ -297,7 +297,7 @@ class _CropAdvisoryScreenState extends State<CropAdvisoryScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Title Row with FarmRise Audio Speaker Button
+                  // Title Row with Audio Speaker Button
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -321,7 +321,7 @@ class _CropAdvisoryScreenState extends State<CropAdvisoryScreen> {
                         ),
                       ),
 
-                      // FarmRise Signature Audio Play Button
+                      // Audio Play Button
                       BouncyTap(
                         onTap: () => _toggleAudio(stage.audioScriptHindi),
                         child: Container(
@@ -391,7 +391,7 @@ class _CropAdvisoryScreenState extends State<CropAdvisoryScreen> {
             ),
             const SizedBox(height: 16),
 
-            // 4. FarmRise AI Crop Doctor Direct Launch Card
+            // 4. AI Crop Doctor Direct Diagnostic Card
             Container(
               width: double.infinity,
               padding: const EdgeInsets.all(18),

@@ -5,32 +5,10 @@ import 'package:provider/provider.dart';
 import '../../../core/localization/language_provider.dart';
 import '../../../core/location/location_provider.dart';
 import '../../../core/utils/haptic_helper.dart';
+import '../../../data/models/retailer_model.dart';
+import '../../../data/services/retailer_service.dart';
 import '../../widgets/bouncy_tap.dart';
 import '../../widgets/custom_app_bar.dart';
-
-class RetailerItem {
-  final String id;
-  final String name;
-  final String ownerName;
-  final String address;
-  final String distance;
-  final String phone;
-  final String licenseNumber;
-  final bool isBayerAuthorized;
-  final List<String> inventory;
-
-  const RetailerItem({
-    required this.id,
-    required this.name,
-    required this.ownerName,
-    required this.address,
-    required this.distance,
-    required this.phone,
-    required this.licenseNumber,
-    required this.isBayerAuthorized,
-    required this.inventory,
-  });
-}
 
 class NearbyRetailersScreen extends StatefulWidget {
   const NearbyRetailersScreen({super.key});
@@ -40,70 +18,15 @@ class NearbyRetailersScreen extends StatefulWidget {
 }
 
 class _NearbyRetailersScreenState extends State<NearbyRetailersScreen> {
+  final RetailerService _retailerService = RetailerService();
   String _selectedFilter = 'All';
   String _searchQuery = '';
 
-  final List<RetailerItem> _retailers = const [
-    RetailerItem(
-      id: 'r1',
-      name: 'Kisan Krishi Seva Kendra (किसान कृषि सेवा केंद्र)',
-      ownerName: 'Shri Rameshwar Singh',
-      address: 'Main Road, Near Anaj Mandi, Patna Rural',
-      distance: '1.4 km',
-      phone: '+91 98765 43210',
-      licenseNumber: 'BR-PAT-AGR-2024-8841',
-      isBayerAuthorized: true,
-      inventory: ['Bayer Confidor', 'Bayer Nativo', 'IFFCO Nano Urea', 'Wheat PBW-502'],
-    ),
-    RetailerItem(
-      id: 'r2',
-      name: 'Bayer Crop Protection Center (बायर अधिकृत डीलर)',
-      ownerName: 'Manoj Kumar Agrotech',
-      address: 'Shop No. 12, Krishi Upaj Mandi Samiti, Patna',
-      distance: '2.8 km',
-      phone: '+91 94310 11223',
-      licenseNumber: 'BR-PAT-BAYER-1092',
-      isBayerAuthorized: true,
-      inventory: ['Bayer Regent', 'Bayer Decis', 'Bayer Ambition', 'Sprayers & Knapsacks'],
-    ),
-    RetailerItem(
-      id: 'r3',
-      name: 'IFFCO Kisan Samridhi Kendra (इफको किसान केंद्र)',
-      ownerName: 'IFFCO Cooperative Society',
-      address: 'Near Block Development Office, Danapur, Patna',
-      distance: '4.1 km',
-      phone: '1800 103 1967',
-      licenseNumber: 'BR-COOP-IFFCO-551',
-      isBayerAuthorized: false,
-      inventory: ['IFFCO Nano DAP', 'IFFCO Urea', 'Bio-Fertilizers', 'Zinc Sulphate'],
-    ),
-    RetailerItem(
-      id: 'r4',
-      name: 'Maa Durga Khad & Beej Bhandar',
-      ownerName: 'Vinod Prasad Gupta',
-      address: 'Station Road, Phulwari Sharif, Patna',
-      distance: '5.6 km',
-      phone: '+91 91234 56789',
-      licenseNumber: 'BR-PAT-AGR-2023-4019',
-      isBayerAuthorized: true,
-      inventory: ['Certified Mustard Seeds', 'Bayer Confidor', 'NPK 12:32:16', 'Pesticides'],
-    ),
-  ];
-
-  List<RetailerItem> get _filteredRetailers {
-    return _retailers.where((r) {
-      final matchesFilter = _selectedFilter == 'All' ||
-          (_selectedFilter == 'Bayer' && r.isBayerAuthorized) ||
-          (_selectedFilter == 'IFFCO' && r.name.contains('IFFCO'));
-      final matchesQuery = _searchQuery.isEmpty ||
-          r.name.toLowerCase().contains(_searchQuery.toLowerCase()) ||
-          r.address.toLowerCase().contains(_searchQuery.toLowerCase()) ||
-          r.ownerName.toLowerCase().contains(_searchQuery.toLowerCase());
-      return matchesFilter && matchesQuery;
-    }).toList();
+  List<RetailerModel> get _filteredRetailers {
+    return _retailerService.getRetailersByFilter(_selectedFilter, searchQuery: _searchQuery);
   }
 
-  void _showRetailerDetails(RetailerItem r, bool isHindi) {
+  void _showRetailerDetails(RetailerModel r, bool isHindi) {
     HapticHelper.mediumImpact();
     showModalBottomSheet(
       context: context,
@@ -159,7 +82,7 @@ class _NearbyRetailersScreenState extends State<NearbyRetailersScreen> {
                           ),
                         ),
                         Text(
-                          'संचालक: ${r.ownerName}',
+                          'प्रबंधन: ${r.ownerName}',
                           style: const TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w600,
@@ -206,13 +129,29 @@ class _NearbyRetailersScreenState extends State<NearbyRetailersScreen> {
                       ],
                     ),
                     const Divider(height: 16, color: Color(0xFFE2E8F0)),
-                    Text(
-                      'लाइसेंस नंबर: ${r.licenseNumber}',
-                      style: const TextStyle(fontSize: 11.5, color: Color(0xFF64748B), fontWeight: FontWeight.w500),
+                    Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFDCFCE7),
+                            borderRadius: BorderRadius.circular(6),
+                          ),
+                          child: Text(
+                            isHindi ? r.centerTypeHindi : r.centerType,
+                            style: const TextStyle(fontSize: 10.5, fontWeight: FontWeight.w700, color: Color(0xFF15803D)),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          'लाइसेंस: ${r.licenseNumber}',
+                          style: const TextStyle(fontSize: 11.5, color: Color(0xFF64748B), fontWeight: FontWeight.w500),
+                        ),
+                      ],
                     ),
                     const SizedBox(height: 10),
                     Text(
-                      isHindi ? 'उपलब्ध स्टॉक (Verified Stock):' : 'Available Inventory:',
+                      isHindi ? 'उपलब्ध खाद, बीज व कीटनाशक (स्टॉक):' : 'Available Inventory:',
                       style: const TextStyle(fontSize: 12.5, fontWeight: FontWeight.w700, color: Color(0xFF0F172A)),
                     ),
                     const SizedBox(height: 6),
@@ -247,18 +186,18 @@ class _NearbyRetailersScreenState extends State<NearbyRetailersScreen> {
                         Navigator.pop(ctx);
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content: Text(isHindi ? 'दुकानदार से कॉल कनेक्ट की जा रही है: ${r.phone}' : 'Calling ${r.phone}'),
+                            content: Text(isHindi ? 'केंद्र से कॉल कनेक्ट की जा रही है: ${r.phone}' : 'Calling ${r.phone}'),
                             backgroundColor: const Color(0xFF15803D),
                           ),
                         );
                       },
                       icon: const Icon(LucideIcons.phone_call, size: 18),
-                      label: Text(isHindi ? 'कॉल करें' : 'Call Dealer'),
+                      label: Text(isHindi ? 'कॉल करें' : 'Call Center'),
                       style: OutlinedButton.styleFrom(
                         foregroundColor: const Color(0xFF15803D),
-                        side: const BorderSide(color: Color(0xFFBBF7D0)),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                        side: const BorderSide(color: Color(0xFF15803D)),
                         padding: const EdgeInsets.symmetric(vertical: 12),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                       ),
                     ),
                   ),
@@ -270,19 +209,17 @@ class _NearbyRetailersScreenState extends State<NearbyRetailersScreen> {
                         Navigator.pop(ctx);
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content: Text(isHindi ? 'गूगल मैप्स नेविगेशन शुरू हो रहा है...' : 'Opening Navigation Map...'),
+                            content: Text(isHindi ? 'नक्शा व दिशा-निर्देश लोड हो रहा है...' : 'Opening navigation map...'),
                             backgroundColor: const Color(0xFF15803D),
                           ),
                         );
                       },
-                      icon: const Icon(LucideIcons.navigation, size: 18),
-                      label: Text(isHindi ? 'रास्ता देखें' : 'Directions'),
+                      icon: const Icon(LucideIcons.navigation, size: 18, color: Colors.white),
+                      label: Text(isHindi ? 'रास्ता देखें' : 'Directions', style: const TextStyle(color: Colors.white)),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF15803D),
-                        foregroundColor: Colors.white,
-                        elevation: 0,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                         padding: const EdgeInsets.symmetric(vertical: 12),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                       ),
                     ),
                   ),
@@ -302,15 +239,16 @@ class _NearbyRetailersScreenState extends State<NearbyRetailersScreen> {
     final isHindi = lang.isHindi;
 
     final filters = [
-      {'key': 'All', 'label': isHindi ? 'सभी' : 'All'},
-      {'key': 'Bayer', 'label': isHindi ? 'बायर अधिकृत' : 'Bayer Authorized'},
-      {'key': 'IFFCO', 'label': isHindi ? 'इफको केंद्र' : 'IFFCO Centers'},
+      {'key': 'All', 'label': isHindi ? 'सभी केंद्र' : 'All'},
+      {'key': 'PMKSK', 'label': isHindi ? 'पीएम किसान समृद्धि केंद्र' : 'PMKSK Hubs'},
+      {'key': 'Cooperative', 'label': isHindi ? 'सहकारी केंद्र (IFFCO/KRIBHCO)' : 'Cooperative Societies'},
+      {'key': 'Licensed Agrotech', 'label': isHindi ? 'अधिकृत निजी डीलर' : 'Licensed Dealers'},
     ];
 
     return Scaffold(
       backgroundColor: const Color(0xFFF8FAF8),
       appBar: CustomAppBar(
-        titleKey: isHindi ? 'nearbyRetailers' : 'nearbyRetailers',
+        titleKey: 'nearbyRetailers',
         subtitle: '${loc.locationTitle}, ${loc.currentState}',
       ),
       body: Column(
@@ -326,7 +264,7 @@ class _NearbyRetailersScreenState extends State<NearbyRetailersScreen> {
               child: TextField(
                 onChanged: (val) => setState(() => _searchQuery = val),
                 decoration: InputDecoration(
-                  hintText: isHindi ? 'नजदीकी खाद-बीज दुकान या डीलर खोजें...' : 'Search agro retailers or dealers...',
+                  hintText: isHindi ? 'नजदीकी पीएमकेएसके, इफको या खाद-बीज दुकान खोजें...' : 'Search PMKSK, IFFCO or certified dealers...',
                   hintStyle: const TextStyle(fontSize: 13.5, color: Color(0xFF94A3B8)),
                   prefixIcon: const Icon(LucideIcons.search, size: 20, color: Color(0xFF64748B)),
                   border: InputBorder.none,
@@ -382,122 +320,141 @@ class _NearbyRetailersScreenState extends State<NearbyRetailersScreen> {
 
           // Retailers List
           Expanded(
-            child: ListView.separated(
-              physics: const BouncingScrollPhysics(),
-              padding: const EdgeInsets.fromLTRB(16, 4, 16, 20),
-              itemCount: _filteredRetailers.length,
-              separatorBuilder: (_, __) => const SizedBox(height: 12),
-              itemBuilder: (ctx, idx) {
-                final r = _filteredRetailers[idx];
-                return BouncyTap(
-                  onTap: () => _showRetailerDetails(r, isHindi),
-                  child: Container(
-                    padding: const EdgeInsets.all(14),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(16),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withValues(alpha: 0.05),
-                          blurRadius: 10,
-                          offset: const Offset(0, 2),
+            child: _filteredRetailers.isEmpty
+                ? Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(LucideIcons.store, size: 48, color: Color(0xFF94A3B8)),
+                        const SizedBox(height: 12),
+                        Text(
+                          isHindi ? 'कोई केंद्र नहीं मिला' : 'No retailers found',
+                          style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Color(0xFF64748B)),
                         ),
                       ],
                     ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.all(10),
-                              decoration: BoxDecoration(
-                                color: const Color(0xFFF0FDF4),
-                                borderRadius: BorderRadius.circular(12),
+                  )
+                : ListView.separated(
+                    physics: const BouncingScrollPhysics(),
+                    padding: const EdgeInsets.fromLTRB(16, 4, 16, 20),
+                    itemCount: _filteredRetailers.length,
+                    separatorBuilder: (_, __) => const SizedBox(height: 12),
+                    itemBuilder: (ctx, idx) {
+                      final r = _filteredRetailers[idx];
+                      return BouncyTap(
+                        onTap: () => _showRetailerDetails(r, isHindi),
+                        child: Container(
+                          padding: const EdgeInsets.all(14),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(16),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withValues(alpha: 0.05),
+                                blurRadius: 10,
+                                offset: const Offset(0, 2),
                               ),
-                              child: const Icon(LucideIcons.store, color: Color(0xFF15803D), size: 22),
-                            ),
-                            const SizedBox(width: 12),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                            ],
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
                                 children: [
-                                  Text(
-                                    r.name,
-                                    style: const TextStyle(
-                                      fontSize: 14.5,
-                                      fontWeight: FontWeight.w700,
-                                      color: Color(0xFF0F172A),
+                                  Container(
+                                    padding: const EdgeInsets.all(10),
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFFF0FDF4),
+                                      borderRadius: BorderRadius.circular(12),
                                     ),
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
+                                    child: const Icon(LucideIcons.store, color: Color(0xFF15803D), size: 22),
                                   ),
-                                  const SizedBox(height: 2),
-                                  Text(
-                                    r.address,
-                                    style: const TextStyle(
-                                      fontSize: 11.5,
-                                      fontWeight: FontWeight.w500,
-                                      color: Color(0xFF64748B),
+                                  const SizedBox(width: 12),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          r.name,
+                                          style: const TextStyle(
+                                            fontSize: 14.5,
+                                            fontWeight: FontWeight.w700,
+                                            color: Color(0xFF0F172A),
+                                          ),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                        const SizedBox(height: 2),
+                                        Text(
+                                          r.address,
+                                          style: const TextStyle(
+                                            fontSize: 11.5,
+                                            fontWeight: FontWeight.w500,
+                                            color: Color(0xFF64748B),
+                                          ),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ],
                                     ),
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFFF1F5F9),
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: Text(
+                                      r.distance,
+                                      style: const TextStyle(
+                                        fontSize: 11,
+                                        fontWeight: FontWeight.w700,
+                                        color: Color(0xFF475569),
+                                      ),
+                                    ),
                                   ),
                                 ],
                               ),
-                            ),
-                            Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                              decoration: BoxDecoration(
-                                color: const Color(0xFFF0FDF4),
-                                borderRadius: BorderRadius.circular(8),
-                                border: Border.all(color: const Color(0xFFBBF7D0)),
-                              ),
-                              child: Text(
-                                r.distance,
-                                style: const TextStyle(
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.w800,
-                                  color: Color(0xFF15803D),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 10),
-                        Row(
-                          children: [
-                            if (r.isBayerAuthorized)
-                              Container(
-                                margin: const EdgeInsets.only(right: 8),
-                                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                                decoration: BoxDecoration(
-                                  color: const Color(0xFFEFF6FF),
-                                  borderRadius: BorderRadius.circular(6),
-                                  border: Border.all(color: const Color(0xFFBFDBFE)),
-                                ),
-                                child: const Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Icon(LucideIcons.badge_check, size: 12, color: Color(0xFF2563EB)),
-                                    SizedBox(width: 4),
-                                    Text(
-                                      'Bayer Authorized',
-                                      style: TextStyle(fontSize: 10.5, fontWeight: FontWeight.bold, color: Color(0xFF2563EB)),
+                              const SizedBox(height: 10),
+                              Row(
+                                children: [
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFFDCFCE7),
+                                      borderRadius: BorderRadius.circular(6),
                                     ),
-                                  ],
-                                ),
+                                    child: Text(
+                                      isHindi ? r.centerTypeHindi : r.centerType,
+                                      style: const TextStyle(
+                                        fontSize: 10.5,
+                                        fontWeight: FontWeight.w700,
+                                        color: Color(0xFF15803D),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 8),
+                                  Expanded(
+                                    child: Text(
+                                      'प्रबंधन: ${r.ownerName}',
+                                      style: const TextStyle(
+                                        fontSize: 11,
+                                        fontWeight: FontWeight.w500,
+                                        color: Color(0xFF64748B),
+                                      ),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                  const Icon(LucideIcons.chevron_right, size: 16, color: Color(0xFF94A3B8)),
+                                ],
                               ),
-                            const Spacer(),
-                            const Icon(LucideIcons.chevron_right, size: 18, color: Color(0xFF94A3B8)),
-                          ],
+                            ],
+                          ),
                         ),
-                      ],
-                    ),
+                      );
+                    },
                   ),
-                );
-              },
-            ),
           ),
         ],
       ),

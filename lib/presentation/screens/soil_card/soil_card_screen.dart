@@ -196,7 +196,7 @@ class _SoilCardScreenState extends State<SoilCardScreen> {
                           alignment: Alignment.center,
                           children: [
                             Image.asset(
-                              'assets/images/soil_test_hero.png',
+                              'assets/images/soil_test_hero.jpg',
                               height: 140,
                               width: double.infinity,
                               fit: BoxFit.cover,
