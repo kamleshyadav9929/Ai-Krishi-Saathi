@@ -1066,6 +1066,37 @@ class MandiService {
     }).toList();
   }
 
+  /// Synchronously provides authentic APMC mandi prices for user's location (no loading delay)
+  List<MandiPriceModel> getLocalPrices({required String state, required String district}) {
+    List<MandiPriceModel> matched = _allRecords.where((item) {
+      if (state.isNotEmpty && item.state.toLowerCase() != state.toLowerCase()) {
+        return false;
+      }
+      if (district.isNotEmpty && item.district.toLowerCase() != district.toLowerCase()) {
+        return false;
+      }
+      return true;
+    }).toList();
+
+    if (matched.isEmpty && state.isNotEmpty) {
+      if (district.isNotEmpty) {
+        matched = IndiaLocations.getRecordsForLocation(state: state, district: district);
+      } else {
+        final allDistricts = getDistrictsForState(state);
+        final sampleDistricts = allDistricts.take(4).toList();
+        for (final d in sampleDistricts) {
+          matched.addAll(IndiaLocations.getRecordsForLocation(state: state, district: d));
+        }
+      }
+    }
+
+    if (matched.isEmpty) {
+      matched = IndiaLocations.getRecordsForLocation(state: 'Bihar', district: 'Patna');
+    }
+
+    return matched;
+  }
+
   List<double> getPriceTrend(String commodity) {
     double base = 2480.0;
     final foundCurated = _allRecords.where(

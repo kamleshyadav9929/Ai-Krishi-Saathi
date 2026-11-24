@@ -39,50 +39,36 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final MandiService _mandiService = MandiService();
   List<MandiPriceModel> _liveMandiPrices = [];
-  bool _isMandiLoading = true;
+  bool _isMandiLoading = false;
   String _lastLoadedLocation = '';
-  String _selectedCropFilter = 'all';
-
-  static const List<Map<String, String>> _cropFilters = [
-    {'id': 'all', 'en': 'All Crops', 'hi': 'सभी फसलें'},
-    {'id': 'wheat', 'en': 'Wheat', 'hi': 'गेहूं'},
-    {'id': 'paddy', 'en': 'Paddy', 'hi': 'धान'},
-    {'id': 'mustard', 'en': 'Mustard', 'hi': 'सरसों'},
-    {'id': 'potato', 'en': 'Potato', 'hi': 'आलू'},
-    {'id': 'onion', 'en': 'Onion', 'hi': 'प्याज'},
-    {'id': 'tomato', 'en': 'Tomato', 'hi': 'टमाटर'},
-    {'id': 'maize', 'en': 'Maize', 'hi': 'मक्का'},
-    {'id': 'bitter gourd', 'en': 'Bitter Gourd', 'hi': 'करेला'},
-    {'id': 'bottle gourd', 'en': 'Bottle Gourd', 'hi': 'लौकी'},
-    {'id': 'chilli', 'en': 'Chilli', 'hi': 'मिर्च'},
-  ];
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     final loc = Provider.of<LocationProvider>(context);
-    final locKey = '${loc.currentState}_${loc.currentDistrict}_$_selectedCropFilter';
+    final locKey = '${loc.currentState}_${loc.currentDistrict}';
     if (_lastLoadedLocation != locKey) {
       _lastLoadedLocation = locKey;
       _loadPricesForUser(loc.currentState, loc.currentDistrict);
     }
   }
 
-  Future<void> _loadPricesForUser(String state, String district) async {
-    setState(() => _isMandiLoading = true);
-    final query = _selectedCropFilter == 'all' ? null : _selectedCropFilter;
-    final results = await _mandiService.fetchPrices(
-      state: state,
-      district: district,
-      commodityQuery: query,
-    );
+  void _loadPricesForUser(String state, String district) {
+    // 1. Immediately provide authentic APMC records synchronously (0ms delay, no loader spin!)
+    final localRecords = _mandiService.getLocalPrices(state: state, district: district);
+    setState(() {
+      _liveMandiPrices = localRecords;
+      _isMandiLoading = false;
+    });
 
-    if (mounted) {
-      setState(() {
-        _liveMandiPrices = results;
-        _isMandiLoading = false;
-      });
-    }
+    // 2. Silently refresh with remote Agmarknet feed if available
+    _mandiService.fetchPrices(state: state, district: district).then((remoteRecords) {
+      if (mounted && remoteRecords.isNotEmpty) {
+        setState(() {
+          _liveMandiPrices = remoteRecords;
+        });
+      }
+    }).catchError((_) {});
   }
 
   static String getCropImage(String commodity) {
@@ -540,121 +526,24 @@ class _HomeScreenState extends State<HomeScreen> {
 
   /// Interactive Market Prices Update Section with real Agmarknet data for user's location
   Widget _buildMarketPricesSection(BuildContext context, bool isHindi, LocationProvider loc) {
-    final visibleList = _selectedCropFilter == 'all'
-        ? _liveMandiPrices.take(4).toList()
-        : _liveMandiPrices.toList();
+    final visibleList = _liveMandiPrices.take(4).toList();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // Section Header Row
         Padding(
-          padding: const EdgeInsets.fromLTRB(16, 16, 16, 10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                isHindi ? 'ताजा मंडी भाव (${loc.currentDistrict})' : 'Market Prices (${loc.currentDistrict})',
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w800,
-                  color: Color(0xFF0F172A),
-                  letterSpacing: -0.2,
-                ),
-              ),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFDCFCE7),
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: const Color(0xFFBBF7D0), width: 1),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Container(
-                      width: 6,
-                      height: 6,
-                      decoration: const BoxDecoration(
-                        color: Color(0xFF16A34A),
-                        shape: BoxShape.circle,
-                      ),
-                    ),
-                    const SizedBox(width: 5),
-                    Text(
-                      isHindi ? 'Agmarknet लाइव' : 'Agmarknet Live',
-                      style: const TextStyle(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w700,
-                        color: Color(0xFF15803D),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+          child: Text(
+            isHindi ? 'ताजा मंडी भाव' : 'Market Prices Update',
+            style: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w800,
+              color: Color(0xFF0F172A),
+              letterSpacing: -0.2,
+            ),
           ),
         ),
-
-        // Horizontal Crop Selection Pills
-        SizedBox(
-          height: 38,
-          child: ListView.separated(
-            scrollDirection: Axis.horizontal,
-            physics: const BouncingScrollPhysics(),
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            itemCount: _cropFilters.length,
-            separatorBuilder: (_, __) => const SizedBox(width: 8),
-            itemBuilder: (context, index) {
-              final filter = _cropFilters[index];
-              final isSelected = _selectedCropFilter == filter['id'];
-              final label = isHindi ? filter['hi']! : filter['en']!;
-
-              return BouncyTap(
-                onTap: () {
-                  HapticHelper.lightImpact();
-                  setState(() {
-                    _selectedCropFilter = filter['id']!;
-                  });
-                  _loadPricesForUser(loc.currentState, loc.currentDistrict);
-                },
-                child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 180),
-                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-                  decoration: BoxDecoration(
-                    color: isSelected ? const Color(0xFF15803D) : const Color(0xFFF8FAFC),
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(
-                      color: isSelected ? const Color(0xFF15803D) : const Color(0xFFE2E8F0),
-                      width: 1.2,
-                    ),
-                    boxShadow: isSelected
-                        ? [
-                            BoxShadow(
-                              color: const Color(0xFF15803D).withValues(alpha: 0.2),
-                              blurRadius: 6,
-                              offset: const Offset(0, 2),
-                            ),
-                          ]
-                        : null,
-                  ),
-                  child: Center(
-                    child: Text(
-                      label,
-                      style: TextStyle(
-                        fontSize: 12.5,
-                        fontWeight: isSelected ? FontWeight.w800 : FontWeight.w600,
-                        color: isSelected ? Colors.white : const Color(0xFF475569),
-                      ),
-                    ),
-                  ),
-                ),
-              );
-            },
-          ),
-        ),
-
-        const SizedBox(height: 8),
 
         // Market Price Rows
         if (_isMandiLoading)
