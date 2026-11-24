@@ -38,9 +38,14 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final MandiService _mandiService = MandiService();
-  List<MandiPriceModel> _liveMandiPrices = [];
-  bool _isMandiLoading = false;
+  late List<MandiPriceModel> _liveMandiPrices;
   String _lastLoadedLocation = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _liveMandiPrices = _mandiService.getLocalPrices(state: 'Bihar', district: 'Patna');
+  }
 
   @override
   void didChangeDependencies() {
@@ -56,10 +61,11 @@ class _HomeScreenState extends State<HomeScreen> {
   void _loadPricesForUser(String state, String district) {
     // 1. Immediately provide authentic APMC records synchronously (0ms delay, no loader spin!)
     final localRecords = _mandiService.getLocalPrices(state: state, district: district);
-    setState(() {
-      _liveMandiPrices = localRecords;
-      _isMandiLoading = false;
-    });
+    if (mounted) {
+      setState(() {
+        _liveMandiPrices = localRecords;
+      });
+    }
 
     // 2. Silently refresh with remote Agmarknet feed if available
     _mandiService.fetchPrices(state: state, district: district).then((remoteRecords) {
@@ -524,9 +530,11 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  /// Interactive Market Prices Update Section with real Agmarknet data for user's location
+  /// Market Prices Update Section with real Agmarknet data for user's location
   Widget _buildMarketPricesSection(BuildContext context, bool isHindi, LocationProvider loc) {
-    final visibleList = _liveMandiPrices.take(4).toList();
+    final visibleList = _liveMandiPrices.isNotEmpty
+        ? _liveMandiPrices.take(4).toList()
+        : _mandiService.getLocalPrices(state: loc.currentState, district: loc.currentDistrict).take(4).toList();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -545,19 +553,8 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
 
-        // Market Price Rows
-        if (_isMandiLoading)
-          const Padding(
-            padding: EdgeInsets.symmetric(vertical: 36),
-            child: Center(
-              child: SizedBox(
-                width: 26,
-                height: 26,
-                child: CircularProgressIndicator(strokeWidth: 2.5, color: Color(0xFF15803D)),
-              ),
-            ),
-          )
-        else if (visibleList.isEmpty)
+        // Market Price Rows (Instant rendering, NO SPINNER!)
+        if (visibleList.isEmpty)
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
             child: Center(
